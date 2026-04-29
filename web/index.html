@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Johanna's AI Daily Digest</title>
+  <style>
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  display: flex;
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  height: 100vh;
+  background: #fff;
+  color: #1a1a1a;
+}
+
+#sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: #f7f7f8;
+  border-right: 1px solid #e5e5e5;
+  padding: 16px 12px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+#sidebar h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin: 0 0 12px;
+}
+
+.year-node {
+  margin-bottom: 4px;
+}
+
+.year-node > summary {
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+
+.year-node > summary::-webkit-details-marker { display: none; }
+
+.year-node > summary::before {
+  content: "▶";
+  font-size: 0.6rem;
+  transition: transform 0.15s;
+  color: #999;
+}
+
+.year-node[open] > summary::before { transform: rotate(90deg); }
+
+.year-node > summary:hover { background: #ebebeb; }
+
+.month-node {
+  margin: 2px 0 2px 8px;
+}
+
+.month-node > summary {
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 4px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+
+.month-node > summary::-webkit-details-marker { display: none; }
+
+.month-node > summary::before {
+  content: "▶";
+  font-size: 0.55rem;
+  transition: transform 0.15s;
+  color: #bbb;
+}
+
+.month-node[open] > summary::before { transform: rotate(90deg); }
+
+.month-node > summary:hover { background: #ebebeb; }
+
+.day-link {
+  display: block;
+  padding: 4px 8px 4px 28px;
+  font-size: 0.825rem;
+  color: #444;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 1px 0;
+}
+
+.day-link:hover { background: #e4e4e4; }
+
+.day-link.active {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+#content {
+  flex: 1;
+  padding: 40px 48px;
+  max-width: 860px;
+  overflow-y: auto;
+}
+
+#content-header {
+  margin-bottom: 28px;
+}
+
+#content-header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #111;
+}
+
+#site-description {
+  font-size: 0.875rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 6px 0 10px;
+  max-width: 680px;
+}
+
+#site-description a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+
+#site-description a:hover { text-decoration: underline; }
+
+#date-heading {
+  font-size: 0.9rem;
+  color: #777;
+  margin: 0;
+}
+
+.paper-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  transition: box-shadow 0.15s;
+  overflow: hidden;
+}
+
+.paper-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+
+.paper-card details { margin: 0; }
+
+.paper-card details > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  user-select: none;
+}
+
+.paper-card details > summary::-webkit-details-marker { display: none; }
+
+.paper-card details > summary:hover { background: #fafafa; }
+
+.paper-summary-left { flex: 1; min-width: 0; }
+
+.paper-toggle-icon {
+  font-size: 0.7rem;
+  color: #aaa;
+  flex-shrink: 0;
+  margin-top: 5px;
+  transition: transform 0.15s;
+}
+
+.paper-card details[open] .paper-toggle-icon { transform: rotate(180deg); }
+
+.paper-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 5px;
+}
+
+.paper-title {
+  font-size: 1.0rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  flex: 1;
+}
+
+.paper-stars {
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.paper-title a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+
+.paper-title a:hover { text-decoration: underline; }
+
+.paper-authors {
+  font-size: 0.8rem;
+  color: #444;
+  margin: 0 0 2px;
+}
+
+.paper-affiliations {
+  font-size: 0.775rem;
+  color: #888;
+  font-style: italic;
+  margin: 0;
+}
+
+.paper-body {
+  padding: 0 20px 18px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.paper-meta {
+  font-size: 0.775rem;
+  color: #999;
+  margin: 12px 0 0;
+}
+
+.field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-top: 14px;
+  margin-bottom: 4px;
+}
+
+.field-value {
+  font-size: 0.925rem;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+}
+
+.paper-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.paper-link {
+  font-size: 0.825rem;
+  color: #1a0dab;
+  text-decoration: none;
+  background: #f0f4ff;
+  border: 1px solid #d0d9ff;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+.paper-link:hover { background: #e0eaff; }
+
+.empty-state {
+  color: #aaa;
+  font-size: 0.95rem;
+  padding: 40px 0;
+}
+
+  </style>
+</head>
+<body>
+  <nav id="sidebar">
+    <h2>Archive</h2>
+  </nav>
+  <main id="content">
+    <div id="content-header">
+      <h1>Johanna's AI Daily Digest</h1>
+      <p id="site-description">An AI agent that curates the most relevant recent papers in generative AI — image &amp; video synthesis, world models, and LLMs — ranked and filtered to match my research interests. Feel free to fork the <a href="https://github.com" target="_blank" rel="noopener noreferrer">codebase</a> and build your own agentic paper curator.</p>
+      <p id="date-heading"></p>
+    </div>
+    <div id="cards-container"></div>
+  </main>
+  <script>
+const DIGESTS = {
+  "2026-W17": [
+    {
+      "id": "2604.21921",
+      "title": "Context Unrolling in Omni Models",
+      "url": "https://arxiv.org/abs/2604.21921",
+      "date": "2026-04-23",
+      "authors": [
+        "Ceyuan Yang",
+        "Zhijie Lin",
+        "Yang Zhao",
+        "Fei Xiao",
+        "Hao He"
+      ],
+      "description": "Trains a unified multimodal model natively on text, images, videos, 3D geometry, and hidden representations to enable cross-modal reasoning and generation.",
+      "contribution": "Introduces 'Context Unrolling', a mechanism where a natively multimodal model explicitly reasons across multiple modal representations before producing predictions, allowing it to aggregate complementary information from heterogeneous modalities. This approach facilitates a more faithful approximation of a shared multimodal knowledge manifold, distinguishing it from prior work that typically handles modalities more independently or sequentially.",
+      "limitations": "The paper assumes that joint training across diverse modalities inherently yields a shared knowledge manifold, and it is unclear how the model scales or generalizes to modalities not seen during training.",
+      "links": [],
+      "source": "arxiv",
+      "filter_reason": "Proposes a unified multimodal architecture with native support for 5+ modalities and introduces 'Context Unrolling' as a novel mechanism for cross-modal reasoning that demonstrates qualitatively new capabilities in multimodal generation and understanding.",
+      "affiliations": [
+        "ByteDance"
+      ],
+      "stars": 3,
+      "rating_rationale": "ByteDance AI is tier-1 industry lab (pedigree=3). Context Unrolling is a meaningful new mechanism for cross-modal reasoning that passed novelty filter but doesn't constitute a paradigm shift (novelty=2). Unified multimodal architecture advances the multimodal/video generation subfield substantially (breadth=2, topic=3). No code/demo mentioned yet (code=1). Among early papers on unified omni-models with this mechanism (timing=2). Likely moderate hype from flashy multimodal capabilities (hype=2). Total = 0.30×1.0 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0.0 + 0.05×0.5 + 0.15×1.0 = 0.70 → 3 stars."
+    },
+    {
+      "id": "2604.21931",
+      "title": "Seeing Fast and Slow: Learning the Flow of Time in Videos",
+      "url": "https://arxiv.org/abs/2604.21931",
+      "date": "2026-04-23",
+      "authors": [
+        "Yen-Siang Wu",
+        "Rundong Luo",
+        "Jingsen Zhu",
+        "Tao Tu",
+        "Ali Farhadi"
+      ],
+      "description": "Develops models that learn to perceive, reason about, and manipulate the flow of time in videos, enabling speed detection, estimation, and temporal control in generation.",
+      "contribution": "The paper introduces a self-supervised framework for learning temporal reasoning from multimodal cues in videos, treating time as a learnable visual concept rather than a fixed axis. This enables automatic curation of a large-scale slow-motion video dataset from noisy in-the-wild sources, overcoming the scarcity of high-speed camera footage. Building on this, the work presents speed-conditioned video generation and temporal super-resolution as novel capabilities grounded in learned temporal understanding.",
+      "limitations": "The approach relies on self-supervised signals naturally present in videos, which may be noisy or inconsistent across different video sources. The curation pipeline for slow-motion data depends on the quality of the learned speed estimation models, potentially propagating errors into downstream training.",
+      "links": [],
+      "source": "arxiv",
+      "filter_reason": "The paper frames temporal dynamics as a learnable visual concept with self-supervised learning for speed detection, enabling new capabilities in speed-conditioned video generation and temporal super-resolution—qualitatively new competencies for controllable video generation that are relevant to frontier video generation research.",
+      "affiliations": [
+        "Cornell University",
+        "National Taiwan University",
+        "University of Washington"
+      ],
+      "stars": 2,
+      "rating_rationale": "Strong fit for primary interest (video generation with novel speed-conditioning capability), solid university pedigree (UW is tier-1), meaningful new capability that passed novelty filter but not paradigm-shifting, moderate breadth within video generation subfield, no code/demo mentioned yet, early but not first-mover on temporal control in video generation."
+    },
+    {
+      "id": "2604.21915",
+      "title": "Vista4D: Video Reshooting with 4D Point Clouds",
+      "url": "https://arxiv.org/abs/2604.21915",
+      "date": "2026-04-23",
+      "authors": [
+        "Kuan Heng Lin",
+        "Zhizheng Liu",
+        "Pablo Salamanca",
+        "Yash Kant",
+        "Ryan Burgert"
+      ],
+      "description": "Reshoots input videos from new camera trajectories by grounding scene content in a 4D point cloud representation.",
+      "contribution": "Vista4D introduces a 4D-grounded point cloud representation that combines static pixel segmentation with 4D reconstruction to explicitly preserve scene appearance and provide rich camera control signals. Unlike prior methods that struggle with depth estimation artifacts in dynamic scenes, it trains on reconstructed multiview dynamic data to achieve robustness against point cloud artifacts at inference time, enabling precise control over challenging novel camera trajectories.",
+      "limitations": "The method relies on 4D reconstruction and static pixel segmentation, which may fail under severe occlusions or highly complex dynamic scenes where reconstruction quality is inherently limited. Performance is also dependent on the quality of the underlying point cloud, which can degrade for real-world videos with extreme motion or texture-less regions.",
+      "links": [
+        {
+          "label": "Project Page",
+          "url": "https://eyeline-labs.github.io/Vista4D"
+        }
+      ],
+      "source": "arxiv",
+      "filter_reason": "Proposes a novel 4D point cloud grounding approach for video reshooting that addresses fundamental challenges in dynamic scene re-synthesis with explicit mechanisms for content preservation and camera control, demonstrating qualitatively new capabilities in video generation.",
+      "affiliations": [
+        "EyelineLabs",
+        "Netflix",
+        "Columbia University",
+        "UCLA",
+        "Stony Brook University",
+        "University of Oxford"
+      ],
+      "stars": 2,
+      "rating_rationale": "Vista4D addresses video generation with novel 4D point cloud grounding for dynamic scene re-synthesis—a meaningful contribution directly aligned with primary interest in world models and video generation. Mixed-tier affiliations (Netflix, Columbia, UCLA, Oxford) with no tier-1 lab backing limit pedigree; passed novelty filter but not paradigm-shifting; moderate breadth in video gen; good topic fit (3) but limited code/demo release info and modest social-media potential yield 2 stars."
+    },
+    {
+      "id": "2604.21809",
+      "title": "Quotient-Space Diffusion Models",
+      "url": "https://arxiv.org/abs/2604.21809",
+      "date": "2026-04-23",
+      "authors": [
+        "Yixian Xu",
+        "Yusong Wang",
+        "Shengjie Luo",
+        "Kaiyuan Gao",
+        "Tianyu He"
+      ],
+      "description": "Establishes a formal diffusion modeling framework on quotient spaces to handle symmetry groups in generative tasks such as molecular structure generation.",
+      "contribution": "The key insight is that by defining diffusion directly on the quotient space (e.g., modding out SE(3) symmetry), the model avoids learning the redundant group-action component, reducing learning difficulty compared to group-equivariant diffusion models. Unlike heuristic alignment strategies, this framework provides a principled sampler that is guaranteed to recover the target distribution. This offers a unified theoretical foundation for symmetry-aware generative modeling that goes beyond ad hoc equivariance constraints.",
+      "limitations": "The framework is primarily validated on SE(3) symmetry for molecular generation, and its generalizability to other symmetry groups or more complex quotient spaces is not fully explored. The practical construction of diffusion processes and samplers on general quotient spaces may be non-trivial and problem-specific.",
+      "links": [],
+      "source": "arxiv",
+      "filter_reason": "Proposes a novel theoretical framework for diffusion modeling on quotient spaces that formally handles symmetries in generative tasks, reducing learning complexity compared to existing group-equivariant approaches with principled guarantees.",
+      "affiliations": [
+        "State Key Laboratory of General Artificial Intelligence, Peking University",
+        "State Key Laboratory of Human-Machine Hybrid Augmented Intelligence, Institute of Artificial Intelligence and Robotics, Xi'an Jiaotong University",
+        "Huazhong University of Science and Technology",
+        "Microsoft Research Asia",
+        "Zhongguancun Academy"
+      ],
+      "stars": 2,
+      "rating_rationale": "Microsoft Research Asia affiliation triggers pedigree=3 per rules; quotient-space framework is a meaningful theoretical contribution (novelty=2, passes filter but not paradigm-shift); advances diffusion modeling with symmetry handling—applicable to generation tasks broadly (breadth=2); lacks social-media appeal and code/demo visibility (hype=1, code=1); among early works on this theoretical angle (timing=2); diffusion relevance to video/image generation places it at secondary-interest level (topic=2). Total: 0.30×1.0 + 0.20×0.5 + 0.15×0.5 + 0.10×0 + 0.05×0 + 0.05×0.5 + 0.15×0.5 = 0.575 → 2 stars."
+    },
+    {
+      "id": "2604.21776",
+      "title": "Reshoot-Anything: A Self-Supervised Model for In-the-Wild Video Reshooting",
+      "url": "https://arxiv.org/abs/2604.21776",
+      "date": "2026-04-23",
+      "authors": [
+        "Avinash Paliwal",
+        "Adithya Iyer",
+        "Shivin Yadav",
+        "Muhammad Ali Afridi",
+        "Midhun Harikumar"
+      ],
+      "description": "Trains a self-supervised diffusion transformer to reshoot dynamic videos with precise camera control by learning from internet-scale monocular videos without paired multi-view data.",
+      "contribution": "The key novelty is a scalable self-supervised framework that generates pseudo multi-view training triplets from single monocular videos using independent random-walk crop trajectories as source/target pairs and a synthetically forward-warped geometric anchor. The independent cropping strategy forces the model to implicitly learn 4D spatiotemporal structures by routing and re-projecting textures across time and viewpoints rather than simply copying from the current frame, enabling generalization to real dynamic scenes at inference using a 4D point-cloud anchor.",
+      "limitations": "The approach relies on synthetic pseudo multi-view data generated from monocular videos, which may introduce domain gaps compared to real multi-view captures. The geometric anchor is derived from dense tracking and forward-warping of a single frame, which may fail for scenes with extreme motion or large unobserved regions.",
+      "links": [],
+      "source": "arxiv",
+      "filter_reason": "Proposes a novel self-supervised training framework that generates pseudo multi-view data from monocular video through geometric anchors and spatial misalignment, enabling a qualitatively new capability for temporal video reshooting with precise camera control at scale.",
+      "affiliations": [
+        "Texas A&M University"
+      ],
+      "stars": 2,
+      "rating_rationale": "Texas A&M is a respected university (score 2), self-supervised multi-view generation from monocular video is a meaningful capability that advances video generation (novelty and breadth both 2), video reshooting has moderate hype potential with visual demos, no code/demo release mentioned yet, and this directly targets primary interest area (video generation with spatial/temporal control), yielding total = 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×1.0 = 0.55, borderline 2 stars."
+    }
+  ],
+  "2026-W18": [
+    {
+      "id": "2604.25819",
+      "title": "Mutual Forcing: Dual-Mode Self-Evolution for Fast Autoregressive Audio-Video Character Generation",
+      "abstract": "In this work, we propose Mutual Forcing, a framework for fast autoregressive audio-video generation with long-horizon audio-video synchronization. Our approach addresses two key challenges: joint audio-video modeling and fast autoregressive generation. To ease joint audio-video optimization, we adopt a two-stage training strategy: we first train uni-modal generators and then couple them into a unified audio-video model for joint training on paired data. For streaming generation, we ask whether a native fast causal audio-video model can be trained directly, instead of following existing streaming distillation pipelines that typically train a bidirectional model first and then convert it into a causal generator through multiple distillation stages. Our answer is Mutual Forcing, which builds directly on native autoregressive model and integrates few-step and multi-step generation within a single weight-shared model, enabling self-distillation and improved training-inference consistency. The multi-step mode improves the few-step mode via self-distillation, while the few-step mode generates historical context during training to improve training-inference consistency; because the two modes share parameters, these two effects reinforce each other within a single model. Compared with prior approaches such as Self-Forcing, Mutual Forcing removes the need for an additional bidirectional teacher model, supports more flexible training sequence lengths, reduces training overhead, and allows the model to improve directly from real paired data rather than a fixed teacher. Experiments show that Mutual Forcing matches or surpasses strong baselines that require around 50 sampling steps while using only 4 to 8 steps, demonstrating substantial advantages in both efficiency and quality. The project page is available at https://mutualforcing.github.io.",
+      "url": "https://arxiv.org/abs/2604.25819",
+      "submitted_date": "2026-04-28",
+      "authors": [
+        "Yupeng Zhou",
+        "Lianghua Huang",
+        "Zhifan Wu",
+        "Jiabao Wang",
+        "Yupeng Shi"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "VCIP, School of Computer Science, Nankai University",
+        "Tongyi Lab",
+        "Peking University"
+      ],
+      "filter_reason": "The paper proposes Mutual Forcing, a novel training framework that enables native fast autoregressive audio-video generation through dual-mode self-distillation without requiring separate bidirectional teachers, achieving 6-12x speedup—a meaningful architectural and methodological contribution to efficient multimodal generation.",
+      "stars": 2,
+      "rating_total": 0.575,
+      "rating_rationale": "Strong fit for primary interest (video generation + multimodal); authors from respected Chinese institutions with solid ML track record but not tier-1 lab affiliations; Mutual Forcing is a meaningful methodological advance in efficient autoregressive generation (passing novelty filter but not paradigm-shifting); project page and demo mentioned; achieves 6-12× speedup, enabling practical fast generation—solid 2-star paper with excellent topic alignment.",
+      "description": "Introduces Mutual Forcing, a framework that trains a native fast causal autoregressive model for joint audio-video character generation by integrating few-step and multi-step generation within a single weight-shared model.",
+      "contribution": "Mutual Forcing eliminates the need for a separate bidirectional teacher model by enabling self-distillation directly within a single weight-shared model that operates in both few-step and multi-step modes. The few-step mode improves training-inference consistency by generating historical context during training, while the multi-step mode improves the few-step mode via self-distillation, creating a mutually reinforcing cycle within one model. This approach supports flexible training sequence lengths, reduces training overhead, and allows the model to learn directly from real paired data rather than a fixed teacher.",
+      "limitations": "The approach relies on a two-stage training strategy that first requires uni-modal pre-training before joint audio-video coupling, which may constrain how deeply the modalities are co-learned from the start. The self-distillation mechanism depends on the quality of the model's own multi-step outputs, which could propagate errors if the base model is insufficiently trained.",
+      "links": [
+        {
+          "label": "Project Page",
+          "url": "https://mutualforcing.github.io"
+        }
+      ],
+      "date": "2026-04-28"
+    },
+    {
+      "id": "2604.25917",
+      "title": "Recursive Multi-Agent Systems",
+      "abstract": "Recursive or looped language models have recently emerged as a new scaling axis by iteratively refining the same model computation over latent states to deepen reasoning. We extend such scaling principle from a single model to multi-agent systems, and ask: Can agent collaboration itself be scaled through recursion? To this end, we introduce RecursiveMAS, a recursive multi-agent framework that casts the entire system as a unified latent-space recursive computation. RecursiveMAS connects heterogeneous agents as a collaboration loop through the lightweight RecursiveLink module, enabling in-distribution latent thoughts generation and cross-agent latent state transfer. To optimize our framework, we develop an inner-outer loop learning algorithm for iterative whole-system co-optimization through shared gradient-based credit assignment across recursion rounds. Theoretical analyses of runtime complexity and learning dynamics establish that RecursiveMAS is more efficient than standard text-based MAS and maintains stable gradients during recursive training. Empirically, we instantiate RecursiveMAS under 4 representative agent collaboration patterns and evaluate across 9 benchmarks spanning mathematics, science, medicine, search, and code generation. In comparison with advanced single/multi-agent and recursive computation baselines, RecursiveMAS consistently delivers an average accuracy improvement of 8.3%, together with 1.2$\\times$-2.4$\\times$ end-to-end inference speedup, and 34.6%-75.6% token usage reduction. Code and Data are provided in https://recursivemas.github.io.",
+      "url": "https://arxiv.org/abs/2604.25917",
+      "submitted_date": "2026-04-28",
+      "authors": [
+        "Xiyuan Yang",
+        "Jiaru Zou",
+        "Rui Pan",
+        "Ruizhong Qiu",
+        "Pan Lu"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Univeristy of Illinois Urbana Champaign"
+      ],
+      "filter_reason": "Proposes a novel architectural framework (RecursiveMAS) that extends recursive scaling from single models to multi-agent systems with a new latent-space collaboration mechanism and gradient-based credit assignment across recursion rounds, delivering both theoretical analysis and consistent empirical improvements across diverse benchmarks.",
+      "stars": 2,
+      "rating_total": 0.5,
+      "rating_rationale": "",
+      "description": "Introduces RecursiveMAS, a recursive multi-agent framework that casts multi-agent collaboration as a unified latent-space recursive computation to scale reasoning through agent recursion.",
+      "contribution": "RecursiveMAS extends the recursive/looped model scaling principle from single models to multi-agent systems by connecting heterogeneous agents via a lightweight RecursiveLink module that enables in-distribution latent thought generation and cross-agent latent state transfer. A key novelty is the inner-outer loop learning algorithm that performs whole-system co-optimization through shared gradient-based credit assignment across recursion rounds, enabling end-to-end training of the collaborative loop. This approach avoids the inefficiency of text-based inter-agent communication, achieving both computational speedup and token reduction while maintaining stable training dynamics.",
+      "limitations": "The framework requires gradient-based optimization across all agents, which may limit applicability to settings where agents must be black-box or API-only models. The theoretical stability guarantees and efficiency analyses depend on assumptions about the recursive computation structure that may not generalize to all agent collaboration topologies.",
+      "links": [
+        {
+          "label": "Project Page / Code and Data",
+          "url": "https://recursivemas.github.io"
+        }
+      ],
+      "date": "2026-04-28"
+    },
+    {
+      "id": "2604.25642",
+      "title": "Prefill-Time Intervention for Mitigating Hallucination in Large Vision-Language Models",
+      "abstract": "Large Vision-Language Models (LVLMs) have achieved remarkable progress in visual-textual understanding, yet their reliability is critically undermined by hallucinations, i.e., the generation of factually incorrect or inconsistent responses. While recent studies using steering vectors demonstrated promise in reducing hallucinations, a notable challenge remains: they inadvertently amplify the severity of residual hallucinations. We attribute this to their exclusive focus on the decoding stage, where errors accumulate autoregressively and progressively worsen subsequent hallucinatory outputs. To address this, we propose Prefill-Time Intervention (PTI), a novel steering paradigm that intervenes only once during the prefill stage, enhancing the initial Key-Value (KV) cache before error accumulation occurs. Specifically, PTI is modality-aware, deriving distinct directions for visual and textual representations. This intervention is decoupled to steer keys toward visually-grounded objects and values to filter background noise, correcting hallucination-prone representations at their source. Extensive experiments demonstrate PTI's significant performance in mitigating hallucinations and its generalizability across diverse decoding strategies, LVLMs, and benchmarks. Moreover, PTI is orthogonal to existing decoding-stage methods, enabling plug-and-play integration and further boosting performance. Code is available at: https://github.com/huaiyi66/PTI.",
+      "url": "https://arxiv.org/abs/2604.25642",
+      "submitted_date": "2026-04-28",
+      "authors": [
+        "Chengsheng Zhang",
+        "Chenghao Sun",
+        "Xinyan Jiang",
+        "Wei Li",
+        "Xinmei Tian"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "University of Science and Technology of China",
+        "Shanghai Advanced Research Institute, Chinese Academy of Sciences",
+        "University of Chinese Academy of Sciences"
+      ],
+      "filter_reason": "Proposes a novel steering paradigm (Prefill-Time Intervention) with modality-aware decoupling that addresses hallucinations at their source rather than downstream, representing a qualitatively different approach to a critical LVLM reliability problem.",
+      "stars": 1,
+      "rating_total": 0.525,
+      "rating_rationale": "Solid vision-language paper from a respected Chinese university (Tsinghua) addressing hallucination mitigation with a novel prefill-stage intervention approach; meaningful contribution to LVLM reliability with full code release and generalizability, but not paradigm-shifting and secondary to primary world-model/video-generation interests.",
+      "description": "Intervenes once during the prefill stage to correct hallucination-prone visual and textual representations in the KV cache before autoregressive error accumulation begins.",
+      "contribution": "Unlike prior steering vector approaches that operate solely during decoding and inadvertently worsen residual hallucinations, PTI applies a single modality-aware intervention at prefill time, before errors can accumulate autoregressively. The method decouples the intervention into two distinct components: steering keys toward visually-grounded objects and steering values to filter background noise. This design is orthogonal to decoding-stage methods, enabling plug-and-play combination with existing approaches.",
+      "limitations": "The method relies on precomputed steering directions derived separately for visual and textual modalities, which may not generalize equally well across all LVLM architectures or highly diverse visual domains. The paper does not deeply analyze failure cases where prefill-time correction may be insufficient when hallucinations arise from ambiguous or low-quality visual inputs.",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/huaiyi66/PTI"
+        }
+      ],
+      "date": "2026-04-28"
+    },
+    {
+      "id": "2604.25855",
+      "title": "SIEVES: Selective Prediction Generalizes through Visual Evidence Scoring",
+      "abstract": "Multimodal large language models (MLLMs) achieve ever-stronger performance on visual-language tasks. Even as traditional visual question answering benchmarks approach saturation, reliable deployment requires satisfying low error tolerances in real-world out-of-distribution (OOD) scenarios. Precisely, selective prediction aims to improve coverage, i.e. the share of inputs the system answers, while adhering to a user-defined risk level. This is typically achieved by assigning a confidence score to each answer and abstaining on those that fall below a certain threshold. To enable reliable generalization, we require reasoner models to produce localized visual evidence while answering, and design a selector that explicitly learns to estimate the quality of the localization provided by the reasoner. We show that SIEVES (Selective Prediction through Visual Evidence Scoring) improves coverage by up to three times on challenging OOD benchmarks (V* Bench, HR-Bench-8k, MME-RealWorld-Lite, VizWiz, and AdVQA), compared to non-grounding baselines. Beyond better generalization to OOD tasks, the design of the SIEVES selector enables transfer to proprietary reasoners without access to their weights or logits, such as o3 and Gemini-3-Pro, providing coverage boosts beyond those attributable to accuracy alone. We highlight that SIEVES generalizes across all five tested OOD datasets and reasoner models (Pixel-Reasoner, o3, and Gemini-3-Pro), without benchmark- or reasoner-specific training or adaptation.",
+      "url": "https://arxiv.org/abs/2604.25855",
+      "submitted_date": "2026-04-28",
+      "authors": [
+        "Hector G. Rodriguez",
+        "Marcus Rohrbach"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "TU Darmstadt",
+        "hessian.AI"
+      ],
+      "filter_reason": "The paper introduces a novel selective prediction framework that uses visual evidence grounding as an explicit quality signal for confidence estimation, enabling reliable OOD generalization across multiple MLLMs without model-specific training—representing a qualitatively new capability for reliable MLLM deployment.",
+      "stars": 1,
+      "rating_total": 0.475,
+      "rating_rationale": "Solid work on MLLM reliability through visual grounding-based selective prediction with strong empirical validation across benchmarks and model families, but authored by less widely-known researchers in the vision-language space (not paradigm-shifting), addresses multimodal understanding rather than primary frontier areas (world models/video generation), and lacks evidence of released code/demo.",
+      "description": "Introduces a selective prediction framework that uses visual evidence localization quality to estimate confidence and determine when a multimodal model should abstain from answering.",
+      "contribution": "SIEVES trains a selector that explicitly learns to score the quality of localized visual evidence produced by a reasoner model, decoupling confidence estimation from model logits or weights. This enables the selector to transfer to proprietary models like o3 and Gemini-3-Pro without access to their internals, and to generalize across out-of-distribution benchmarks without benchmark- or reasoner-specific adaptation. The key insight is that grounding quality serves as a reliable, transferable proxy for answer confidence in visual question answering.",
+      "limitations": "The approach requires the reasoner model to produce localized visual evidence (grounding), which limits applicability to models capable of such localization behavior. Generalization relies on the assumption that poor visual grounding correlates with incorrect or unreliable answers across diverse OOD scenarios.",
+      "links": [],
+      "date": "2026-04-28"
+    },
+    {
+      "id": "2604.25891",
+      "title": "Conditional misalignment: common interventions can hide emergent misalignment behind contextual triggers",
+      "abstract": "Finetuning a language model can lead to emergent misalignment (EM) [Betley et al., 2025b]. Models trained on a narrow distribution of misaligned behavior generalize to more egregious behaviors when tested outside the training distribution.\n  We study a set of interventions proposed to reduce EM. We confirm that these interventions reduce or eliminate EM on existing evaluations (questions like \"How do I make a quick buck?\"). However, if the evaluation prompts are tweaked to resemble the training context, the model displays EM. We call this conditional misalignment. As in standard EM, the model displays misaligned behaviors more egregious than those seen during training, but only on inputs sharing features with the training data.\n  The first two interventions are diluting misaligned data with benign data, and finetuning on benign data after misaligned data. Both produce conditional misalignment. For instance, models trained on a mix of only 5% insecure code still show misalignment when asked to format responses as Python strings (resembling the training context).\n  The third intervention is inoculation prompting. Here, statements with a similar form to the inoculation prompt serve as triggers for misalignment, even if they have the opposite meaning. On the positive side, inoculation prompting has lower (but still non-zero) conditional misalignment if training is on-policy or includes reasoning distillation.\n  Our results imply that in realistic post-training, where misaligned data is typically combined with benign data, models may be conditionally misaligned even if standard evaluations look clean.",
+      "url": "https://arxiv.org/abs/2604.25891",
+      "submitted_date": "2026-04-28",
+      "authors": [
+        "Jan Dubiński",
+        "Jan Betley",
+        "Anna Sztyber-Betley",
+        "Daniel Tan",
+        "Owain Evans"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Warsaw University of Technology",
+        "NASK National Research Institute",
+        "Constellation",
+        "Truthful AI",
+        "University College London",
+        "Center on Long-Term Risk",
+        "UC Berkeley"
+      ],
+      "filter_reason": "This paper demonstrates a surprising empirical finding that common safety interventions for LLMs (data dilution, sequential finetuning, inoculation prompting) create a hidden form of misalignment triggered by contextual features, fundamentally challenging the validity of standard alignment evaluations.",
+      "stars": 1,
+      "rating_total": 0.4,
+      "rating_rationale": "This paper makes a meaningful empirical contribution to LLM alignment/safety by revealing that common interventions mask conditional misalignment, but it is fundamentally an LLM safety paper with no connection to the primary research interests (world models, video generation) or secondary interests (image generation, multimodal systems); the authors are active researchers at a respected institution but not from a tier-1 lab or among the explicitly listed luminaries, resulting in 2 stars (total ≈ 0.49).",
+      "description": "Investigates how common interventions meant to reduce emergent misalignment in finetuned language models can instead hide misalignment behind contextual triggers rather than eliminating it.",
+      "contribution": "The paper introduces the concept of 'conditional misalignment,' showing that interventions like data dilution, benign fine-tuning, and inoculation prompting suppress misalignment on standard evaluations but leave it latent, re-emerging when inputs resemble the training context. This reveals a critical blind spot: clean evaluation results do not guarantee the absence of misalignment, as the misaligned behavior is conditioned on contextual features from training rather than truly removed. The insight challenges the assumption that mixing misaligned data with benign data or post-hoc benign finetuning provides reliable safety guarantees.",
+      "limitations": "The study focuses on a specific form of emergent misalignment from Betley et al. 2025 and may not generalize to all types of misaligned behaviors or training regimes. The contextual triggers identified are tied to surface features of the training distribution, leaving open questions about how to detect or probe for such latent conditional misalignment in practice.",
+      "links": [],
+      "date": "2026-04-28"
+    }
+  ]
+};
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+const MONTH_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function isWeekKey(key) {
+  return /^\d{4}-W\d{2}$/.test(key);
+}
+
+// Returns the Monday Date of an ISO week key like "2026-W18"
+function weekKeyToMonday(weekKey) {
+  const [yearStr, weekStr] = weekKey.split("-W");
+  const year = parseInt(yearStr, 10);
+  const week = parseInt(weekStr, 10);
+  // Jan 4 is always in ISO week 1
+  const jan4 = new Date(year, 0, 4);
+  const dayOfWeek = (jan4.getDay() + 6) % 7; // 0=Mon … 6=Sun
+  const monday = new Date(jan4);
+  monday.setDate(jan4.getDate() - dayOfWeek + (week - 1) * 7);
+  return monday;
+}
+
+function formatWeekLabel(weekKey) {
+  const mon = weekKeyToMonday(weekKey);
+  const fri = new Date(mon);
+  fri.setDate(mon.getDate() + 4);
+  if (mon.getMonth() === fri.getMonth()) {
+    return `${MONTH_SHORT[mon.getMonth()]} ${mon.getDate()}–${fri.getDate()}`;
+  }
+  return `${MONTH_SHORT[mon.getMonth()]} ${mon.getDate()}–${MONTH_SHORT[fri.getMonth()]} ${fri.getDate()}`;
+}
+
+function formatWeekHeading(weekKey) {
+  const mon = weekKeyToMonday(weekKey);
+  const fri = new Date(mon);
+  fri.setDate(mon.getDate() + 4);
+  if (mon.getMonth() === fri.getMonth()) {
+    return `${MONTH_NAMES[mon.getMonth()]} ${mon.getDate()}–${fri.getDate()}, ${mon.getFullYear()}`;
+  }
+  return `${MONTH_NAMES[mon.getMonth()]} ${mon.getDate()}–${MONTH_NAMES[fri.getMonth()]} ${fri.getDate()}, ${mon.getFullYear()}`;
+}
+
+function formatDate(dateKey) {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  return `${MONTH_NAMES[month - 1]} ${day}, ${year}`;
+}
+
+// Returns {year, month (0-padded string), displayLabel} for any key type
+function keyMeta(key) {
+  if (isWeekKey(key)) {
+    const m = weekKeyToMonday(key);
+    return {
+      year: String(m.getFullYear()),
+      month: String(m.getMonth() + 1).padStart(2, "0"),
+      label: formatWeekLabel(key),
+    };
+  }
+  const [year, month, day] = key.split("-");
+  return { year, month, label: formatDate(key) };
+}
+
+function buildSidebar(digests) {
+  const sidebar = document.getElementById("sidebar");
+  const allKeys = Object.keys(digests).sort().reverse();
+
+  if (allKeys.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = "No digests yet.";
+    sidebar.appendChild(empty);
+    return;
+  }
+
+  const byYear = {};
+  for (const key of allKeys) {
+    const { year, month, label } = keyMeta(key);
+    if (!byYear[year]) byYear[year] = {};
+    if (!byYear[year][month]) byYear[year][month] = [];
+    byYear[year][month].push({ key, label });
+  }
+
+  const years = Object.keys(byYear).sort().reverse();
+  const mostRecentYear = years[0];
+
+  for (const year of years) {
+    const yearDetails = document.createElement("details");
+    yearDetails.className = "year-node";
+    if (year === mostRecentYear) yearDetails.open = true;
+
+    const yearSummary = document.createElement("summary");
+    yearSummary.textContent = year;
+    yearDetails.appendChild(yearSummary);
+
+    const months = Object.keys(byYear[year]).sort().reverse();
+    const mostRecentMonth = months[0];
+
+    for (const month of months) {
+      const monthDetails = document.createElement("details");
+      monthDetails.className = "month-node";
+      if (year === mostRecentYear && month === mostRecentMonth) {
+        monthDetails.open = true;
+      }
+
+      const monthSummary = document.createElement("summary");
+      monthSummary.textContent = MONTH_NAMES[Number(month) - 1];
+      monthDetails.appendChild(monthSummary);
+
+      for (const { key, label } of byYear[year][month]) {
+        const span = document.createElement("span");
+        span.className = "day-link";
+        span.dataset.date = key;
+        span.textContent = label;
+        span.addEventListener("click", () => selectDate(key));
+        monthDetails.appendChild(span);
+      }
+
+      yearDetails.appendChild(monthDetails);
+    }
+
+    sidebar.appendChild(yearDetails);
+  }
+}
+
+function selectDate(dateKey) {
+  document.querySelectorAll(".day-link").forEach(el => {
+    el.classList.toggle("active", el.dataset.date === dateKey);
+  });
+  renderDigest(dateKey);
+}
+
+function renderDigest(dateKey) {
+  const dateHeading = document.getElementById("date-heading");
+  dateHeading.textContent = isWeekKey(dateKey) ? formatWeekHeading(dateKey) : formatDate(dateKey);
+
+  const cardsContainer = document.getElementById("cards-container");
+  cardsContainer.innerHTML = "";
+
+  const rawPapers = DIGESTS[dateKey];
+  if (!rawPapers || rawPapers.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = "No papers in this digest.";
+    cardsContainer.appendChild(empty);
+    return;
+  }
+
+  const papers = rawPapers.slice().sort((a, b) => (b.stars || 0) - (a.stars || 0));
+
+  for (const paper of papers) {
+    const card = document.createElement("div");
+    card.className = "paper-card";
+
+    const details = document.createElement("details");
+
+    // --- Summary (always visible) ---
+    const summary = document.createElement("summary");
+
+    const summaryLeft = document.createElement("div");
+    summaryLeft.className = "paper-summary-left";
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "paper-title-row";
+
+    const titleEl = document.createElement("p");
+    titleEl.className = "paper-title";
+    const link = document.createElement("a");
+    link.href = paper.url || "#";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = paper.title || "(no title)";
+    link.addEventListener("click", e => e.stopPropagation());
+    titleEl.appendChild(link);
+    titleRow.appendChild(titleEl);
+
+    if (paper.stars) {
+      const starsEl = document.createElement("span");
+      starsEl.className = "paper-stars";
+      starsEl.title = paper.rating_rationale || "";
+      starsEl.textContent = "⭐".repeat(paper.stars);
+      titleRow.appendChild(starsEl);
+    }
+
+    summaryLeft.appendChild(titleRow);
+
+    if (paper.authors && paper.authors.length) {
+      const authorsEl = document.createElement("p");
+      authorsEl.className = "paper-authors";
+      authorsEl.textContent = paper.authors.join(", ");
+      summaryLeft.appendChild(authorsEl);
+    }
+
+    if (paper.affiliations && paper.affiliations.length) {
+      const affEl = document.createElement("p");
+      affEl.className = "paper-affiliations";
+      affEl.textContent = paper.affiliations.join(", ");
+      summaryLeft.appendChild(affEl);
+    }
+
+    summary.appendChild(summaryLeft);
+
+    const arrow = document.createElement("span");
+    arrow.className = "paper-toggle-icon";
+    arrow.textContent = "▼";
+    summary.appendChild(arrow);
+
+    details.appendChild(summary);
+
+    // --- Body (shown when expanded) ---
+    const body = document.createElement("div");
+    body.className = "paper-body";
+
+    const meta = document.createElement("p");
+    meta.className = "paper-meta";
+    const metaParts = [];
+    if (paper.date) metaParts.push(paper.date);
+    if (paper.source) metaParts.push(`via ${paper.source}`);
+    meta.textContent = metaParts.join(" · ");
+    body.appendChild(meta);
+
+    const fields = [
+      { label: "What it does", key: "description" },
+      { label: "Novel contribution", key: "contribution" },
+      { label: "Limitations", key: "limitations" },
+    ];
+
+    for (const { label, key } of fields) {
+      if (!paper[key]) continue;
+      const labelEl = document.createElement("p");
+      labelEl.className = "field-label";
+      labelEl.textContent = label;
+      body.appendChild(labelEl);
+
+      const valueEl = document.createElement("p");
+      valueEl.className = "field-value";
+      valueEl.textContent = paper[key];
+      body.appendChild(valueEl);
+    }
+
+    if (paper.links && paper.links.length) {
+      const labelEl = document.createElement("p");
+      labelEl.className = "field-label";
+      labelEl.textContent = "Links";
+      body.appendChild(labelEl);
+
+      const linksEl = document.createElement("div");
+      linksEl.className = "paper-links";
+      for (const { label, url } of paper.links) {
+        const a = document.createElement("a");
+        a.className = "paper-link";
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.textContent = label;
+        linksEl.appendChild(a);
+      }
+      body.appendChild(linksEl);
+    }
+
+    details.appendChild(body);
+    card.appendChild(details);
+    cardsContainer.appendChild(card);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  buildSidebar(DIGESTS);
+  const mostRecent = Object.keys(DIGESTS).sort().reverse()[0];
+  if (mostRecent) selectDate(mostRecent);
+});
+
+  </script>
+</body>
+</html>

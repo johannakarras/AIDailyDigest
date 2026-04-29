@@ -1,0 +1,13 @@
+.env
+.claude/
+credentials.json
+token.json
+data/*.tmp
+rejected/
+logs/
+__pycache__/
+*.pyc
+.DS_Store
+*.egg-info/
+dist/
+build/
