@@ -117,6 +117,7 @@ def main(dry_run: bool = False) -> None:
         if migrated and not dry_run:
             _save_digests(digests, DIGESTS_PATH)
             generate_html(digests, output_path=HTML_PATH)
+        _notify("No new candidates found.")
         return
 
     print("[main] Fetching author affiliations...")
@@ -137,6 +138,7 @@ def main(dry_run: bool = False) -> None:
         if migrated and not dry_run:
             _save_digests(digests, DIGESTS_PATH)
             generate_html(digests, output_path=HTML_PATH)
+        _notify("No novel papers found this run.")
         return
 
     # Rate ALL passing papers cheaply (haiku) — used to rank against existing week papers
@@ -166,6 +168,7 @@ def main(dry_run: bool = False) -> None:
         if migrated and not dry_run:
             _save_digests(digests, DIGESTS_PATH)
             generate_html(digests, output_path=HTML_PATH)
+        _notify(f"Week {week_key}: digest already up to date.")
         return
 
     # Format only new papers that made the cut (existing week papers already have description etc.)
@@ -202,6 +205,9 @@ def main(dry_run: bool = False) -> None:
     print(f"[main] Done. Open {HTML_PATH} in a browser.")
 
     _git_commit_and_push(week_key, len(top_n))
+
+    added_titles = ", ".join(p["title"][:40] for p in added)
+    _notify(f"Week {week_key}: +{len(added)} paper(s) — {added_titles}")
 
 
 def _load_digests(path: str) -> dict:
@@ -267,6 +273,17 @@ def _save_rejected_csv(rejected: list[dict], date: str) -> None:
 
     xlsx_path = f"rejected/{date}.xlsx"
     wb.save(xlsx_path)
+
+
+def _notify(message: str) -> None:
+    try:
+        subprocess.run(
+            ["osascript", "-e",
+             f'display notification "{message}" with title "AI Daily Digest"'],
+            check=False, capture_output=True,
+        )
+    except Exception:
+        pass
 
 
 def _git_commit_and_push(week_key: str, num_papers: int) -> None:
