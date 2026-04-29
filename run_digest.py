@@ -278,7 +278,7 @@ def _git_commit_and_push(week_key: str, num_papers: int) -> None:
             print("[git] Nothing new to commit.")
             return
         subprocess.run(["git", "commit", "-m", msg], check=True)
-        subprocess.run(["git", "push"], check=True)
+        subprocess.run(["git", "push", "--set-upstream", "origin", "main"], check=True)
         print(f"[git] Pushed: {msg}")
     except subprocess.CalledProcessError as e:
         print(f"[git] Push failed: {e}")
