@@ -122,11 +122,17 @@ function buildSidebar(digests) {
   }
 }
 
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebar-overlay").classList.remove("visible");
+}
+
 function selectDate(dateKey) {
   document.querySelectorAll(".day-link").forEach(el => {
     el.classList.toggle("active", el.dataset.date === dateKey);
   });
   renderDigest(dateKey);
+  if (window.innerWidth <= 640) closeSidebar();
 }
 
 function renderDigest(dateKey) {
@@ -267,4 +273,15 @@ document.addEventListener("DOMContentLoaded", () => {
   buildSidebar(DIGESTS);
   const mostRecent = Object.keys(DIGESTS).sort().reverse()[0];
   if (mostRecent) selectDate(mostRecent);
+
+  const toggle = document.getElementById("sidebar-toggle");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+
+  toggle.addEventListener("click", () => {
+    const isOpen = sidebar.classList.toggle("open");
+    overlay.classList.toggle("visible", isOpen);
+  });
+
+  overlay.addEventListener("click", closeSidebar);
 });

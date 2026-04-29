@@ -35,6 +35,8 @@ def _build_html(css: str, js: str, digests_json: str) -> str:
   </style>
 </head>
 <body>
+  <button id="sidebar-toggle" aria-label="Open archive">☰ Archive</button>
+  <div id="sidebar-overlay"></div>
   <nav id="sidebar">
     <h2>Archive</h2>
   </nav>
