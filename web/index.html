@@ -519,16 +519,16 @@ const DIGESTS = {
       ],
       "source": "arxiv",
       "affiliations": [
-        "Zhipu.ai",
+        "Zhipu AI",
         "Tsinghua University"
       ],
-      "filter_reason": "Presents a native multimodal foundation model architecture that integrates perception as a core reasoning component rather than auxiliary, with systematic improvements across multimodal training, RL, and agent integration that enable qualitatively new capabilities in multimodal agent tasks.",
+      "filter_reason": "This paper presents a native multimodal foundation model that integrates perception as a core reasoning component rather than auxiliary, with systematic improvements across model design, multimodal training, and RL—demonstrating qualitatively new agentic capabilities across heterogeneous contexts (images, videos, webpages, GUIs).",
       "stars": 3,
       "rating_total": 0.7,
-      "rating_rationale": "GLM-5V-Turbo from Tsinghua/ByteDance (tier-1 institution) presents a meaningful multimodal agent foundation model with strong relevance to video generation and multimodal systems (primary/secondary interests); the native architecture integrating perception as core reasoning is a solid advance rather than paradigm-shift; strong pedigree and topic fit compensate for incremental novelty and lack of released code. Total: 0.30×1.0 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×1.0 = 0.70 → 3 stars.",
+      "rating_rationale": "GLM-5V-Turbo from Tsinghua/ByteDance (tier-1 lab) advances multimodal agent capabilities with native integration of perception into reasoning—a meaningful step for your world models/video/multimodal focus—but represents engineering-driven improvement (novelty=2) rather than paradigm-shift, with no released code yet; total score ≈0.70 = 3 stars.",
       "description": "Integrates multimodal perception as a core component of reasoning, planning, tool use, and execution in a foundation model designed natively for agentic tasks.",
-      "contribution": "Rather than treating vision as an auxiliary interface bolted onto a language model, GLM-5V-Turbo treats multimodal perception as a first-class citizen within the model's reasoning and planning pipeline. The work introduces a unified development approach combining multimodal training, reinforcement learning, toolchain expansion, and agent framework integration to build a natively multimodal agentic foundation model. It also surfaces practical insights around hierarchical optimization and reliable end-to-end verification for multimodal agents.",
-      "limitations": "The paper is a technical report rather than a peer-reviewed study, so some methodological details and ablations may be limited; the approach is also evaluated primarily within specific agent frameworks, which may constrain generalizability to arbitrary deployment environments.",
+      "contribution": "Rather than treating vision as an auxiliary interface bolted onto a language model, GLM-5V-Turbo treats multimodal perception as a first-class citizen in the model architecture and training pipeline. The work combines multimodal training, reinforcement learning, toolchain expansion, and agent framework integration to support heterogeneous contexts such as images, videos, webpages, documents, and GUIs. It also offers practical insights around hierarchical optimization and reliable end-to-end verification for building multimodal agents.",
+      "limitations": "The paper is primarily a technical report describing engineering and design choices rather than proposing a rigorously evaluated novel algorithm, so claims about architectural novelty are not formally ablated. The approach is evaluated within specific agentic frameworks, which may limit generalizability to other deployment environments.",
       "links": [],
       "date": "2026-04-29"
     },
@@ -567,6 +567,61 @@ const DIGESTS = {
       "date": "2026-04-28"
     },
     {
+      "id": "2604.26917",
+      "title": "AnimateAnyMesh++: A Flexible 4D Foundation Model for High-Fidelity Text-Driven Mesh Animation",
+      "abstract": "Recent advances in 4D content generation have attracted increasing attention, yet creating high-quality animated 3D models remains challenging due to the complexity of modeling spatio-temporal distributions and the scarcity of 4D training data. We present AnimateAnyMesh++, a feed-forward framework for text-driven animation of arbitrary 3D meshes with substantial upgrades in data, architecture, and generative capability. First, we expand the DyMesh-XL dataset by mining dynamic content from Objaverse-XL, increasing the number of unique identities from 60K to 300K and substantially broadening category and motion diversity. Second, we redesign DyMeshVAE-Flex with power-law topology-aware attention and vertex-normal enhanced features, which significantly improves trajectory reconstruction, local geometry preservation, and mitigates trajectory-sticking artifacts. Third, we introduce architectural changes to both DyMeshVAE-Flex and the rectified-flow (RF) generator to support variable-length sequence training and generation, enabling longer animations while preserving reconstruction fidelity. Extensive experiments demonstrate that AnimateAnyMesh++ generates semantically accurate and temporally coherent mesh animations within seconds, surpassing prior approaches in quality and efficiency. The enlarged DyMesh-XL, the upgraded DyMeshVAE-Flex, and variable-length RF together deliver consistent gains across benchmarks and in-the-wild meshes. We will release code, models, and the expanded DyMesh-XL upon acceptance of this manuscript to facilitate research in 4D content creation.",
+      "url": "https://arxiv.org/abs/2604.26917",
+      "submitted_date": "2026-04-29",
+      "authors": [
+        "Zijie Wu",
+        "Chaohui Yu",
+        "Fan Wang",
+        "Xiang Bai"
+      ],
+      "source": "arxiv",
+      "affiliations": [],
+      "filter_reason": "The paper introduces several novel architectural components (power-law topology-aware attention, vertex-normal enhanced features, variable-length sequence training for rectified flow) that enable a qualitatively new capability in 4D generation—high-fidelity text-driven mesh animation with longer sequences—supported by a substantially expanded dataset.",
+      "stars": 2,
+      "rating_total": 0.575,
+      "rating_rationale": "AnimateAnyMesh++ makes solid incremental advances (enlarged dataset, improved VAE architecture, variable-length generation) in 4D mesh animation with promising results and stated code release, authored by active researchers at a respected institution (Huazhong University of Science and Technology); it directly targets world models/video generation (primary interest, topic=3) but lacks the paradigm-shift novelty or author prestige of top-tier labs needed for higher impact.",
+      "description": "Introduces a feed-forward framework for text-driven animation of arbitrary 3D meshes using an improved VAE and rectified-flow generator to produce temporally coherent 4D content.",
+      "contribution": "The work introduces three key innovations: a topology-aware attention mechanism with power-law weighting and vertex-normal enhanced features in DyMeshVAE-Flex that improves local geometry preservation and eliminates trajectory-sticking artifacts; variable-length sequence support in both the VAE and rectified-flow generator enabling longer animations; and a massively expanded 4D training dataset (DyMesh-XL) scaled from 60K to 300K unique identities mined from Objaverse-XL, broadening category and motion diversity for 4D generation.",
+      "limitations": "The approach depends on the availability and quality of dynamic mesh data mined from Objaverse-XL, which may still underrepresent certain motion types or object categories. The method is a feed-forward model that may struggle with highly complex or physically precise motions not well-covered by the training distribution.",
+      "links": [],
+      "date": "2026-04-29"
+    },
+    {
+      "id": "2604.26934",
+      "title": "World2VLM: Distilling World Model Imagination into VLMs for Dynamic Spatial Reasoning",
+      "abstract": "Vision-language models (VLMs) have shown strong performance on static visual understanding, yet they still struggle with dynamic spatial reasoning that requires imagining how scenes evolve under egocentric motion. Recent efforts address this limitation either by scaling spatial supervision with synthetic data or by coupling VLMs with world models at inference time. However, the former often lacks explicit modeling of motion-conditioned state transitions, while the latter incurs substantial computational overhead. In this work, we propose World2VLM, a training framework that distills spatial imagination from a generative world model into a vision-language model. Given an initial observation and a parameterized camera trajectory, we use a view-consistent world model to synthesize geometrically aligned future views and derive structured supervision for both forward (action-to-outcome) and inverse (outcome-to-action) spatial reasoning. We post-train the VLM with a two-stage recipe on a compact dataset generated by this pipeline and evaluate it on multiple spatial reasoning benchmarks. World2VLM delivers consistent improvements over the base model across diverse benchmarks, including SAT-Real, SAT-Synthesized, VSI-Bench, and MindCube. It also outperforms the test-time world-model-coupled methods while eliminating the need for expensive inference-time generation. Our results suggest that world models can serve not only as inference-time tools, but also as effective training-time teachers, enabling VLMs to internalize spatial imagination in a scalable and efficient manner.",
+      "url": "https://arxiv.org/abs/2604.26934",
+      "submitted_date": "2026-04-29",
+      "authors": [
+        "Wanyue Zhang",
+        "Wenxiang Wu",
+        "Wang Xu",
+        "Jiaxin Luo",
+        "Helu Zhi"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Institute of Automation, Chinese Academy of Sciences",
+        "School of Artificial Intelligence, University of Chinese Academy of Sciences",
+        "Tsinghua University",
+        "Harbin Institute of Technology",
+        "Wuhan AI Research"
+      ],
+      "filter_reason": "The paper proposes a novel training framework that bridges world models and VLMs through knowledge distillation, enabling VLMs to internalize spatial imagination capabilities without inference-time overhead—a non-obvious connection between previously separate subfields with clear architectural and methodological contributions.",
+      "stars": 2,
+      "rating_total": 0.55,
+      "rating_rationale": "World2VLM presents a meaningful but not paradigm-shifting contribution (knowledge distillation of world models into VLMs) from active researchers at a respected institution; it directly addresses primary interest in world models and video generation with solid experimental validation across multiple benchmarks, though author recognition and institutional prestige are moderate, code release is unconfirmed, and the core idea—while novel—represents incremental progress rather than a research direction opener.",
+      "description": "Distills spatial imagination from a generative world model into a vision-language model to enable dynamic spatial reasoning without inference-time generation overhead.",
+      "contribution": "World2VLM introduces a training framework that uses a view-consistent world model to synthesize geometrically aligned future views from parameterized camera trajectories, generating structured supervision for both forward (action-to-outcome) and inverse (outcome-to-action) spatial reasoning. Unlike prior work that either lacks explicit motion-conditioned state transition modeling or couples world models at inference time with high computational cost, this approach treats the world model as a training-time teacher, allowing the VLM to internalize spatial imagination. This enables the VLM to perform dynamic spatial reasoning at inference time without requiring the world model at all.",
+      "limitations": "The approach relies on a compact synthetically generated dataset, which may not fully capture the diversity of real-world egocentric motion scenarios. The quality of distilled spatial reasoning is also bounded by the fidelity of the underlying generative world model used as the teacher.",
+      "links": [],
+      "date": "2026-04-29"
+    },
+    {
       "id": "2604.26694",
       "title": "Unified 4D World Action Modeling from Video Priors with Asynchronous Denoising",
       "abstract": "We propose X-WAM, a Unified 4D World Model that unifies real-time robotic action execution and high-fidelity 4D world synthesis (video + 3D reconstruction) in a single framework, addressing the critical limitations of prior unified world models (e.g., UWM) that only model 2D pixel-space and fail to balance action efficiency and world modeling quality. To leverage the strong visual priors of pretrained video diffusion models, X-WAM imagines the future world by predicting multi-view RGB-D videos, and obtains spatial information efficiently through a lightweight structural adaptation: replicating the final few blocks of the pretrained Diffusion Transformer into a dedicated depth prediction branch for the reconstruction of future spatial information. Moreover, we propose Asynchronous Noise Sampling (ANS) to jointly optimize generation quality and action decoding efficiency. ANS applies a specialized asynchronous denoising schedule during inference, which rapidly decodes actions with fewer steps to enable efficient real-time execution, while dedicating the full sequence of steps to generate high-fidelity video. Rather than entirely decoupling the timesteps during training, ANS samples from their joint distribution to align with the inference distribution. Pretrained on over 5,800 hours of robotic data, X-WAM achieves 79.2% and 90.7% average success rate on RoboCasa and RoboTwin 2.0 benchmarks, while producing high-fidelity 4D reconstruction and generation surpassing existing methods in both visual and geometric metrics.",
@@ -586,76 +641,15 @@ const DIGESTS = {
         "Peking University",
         "CASIA"
       ],
-      "filter_reason": "Proposes a novel unified framework (X-WAM) that bridges world modeling and robotic control through asynchronous denoising of video diffusion models, enabling a qualitatively new capability of simultaneous real-time action execution and high-fidelity 4D synthesis that prior unified models couldn't achieve.",
+      "filter_reason": "The paper proposes Asynchronous Noise Sampling (ANS), a novel training and inference technique that jointly optimizes action decoding efficiency and world modeling quality by sampling from the joint distribution of denoising timesteps, bridging real-time robotic control with high-fidelity 4D world synthesis in a principled way.",
       "stars": 2,
       "rating_total": 0.55,
-      "rating_rationale": "X-WAM meaningfully advances unified world modeling by combining real-time robotic control with high-fidelity 4D synthesis via asynchronous denoising of video diffusion models—a novel capability that directly addresses frontier research in world models and video generation, though from an active but not tier-1 lab (Tsinghua), without released code, and achieving strong but not paradigm-shifting results. Total score: 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×1.0 = 0.65 → 3 stars",
-      "description": "Unifies robotic action execution and 4D world synthesis (multi-view RGB-D video generation plus 3D reconstruction) within a single diffusion-based framework.",
-      "contribution": "X-WAM introduces a lightweight structural adaptation that replicates the final blocks of a pretrained Diffusion Transformer into a dedicated depth branch, enabling efficient future spatial reconstruction without full model duplication. It also proposes Asynchronous Noise Sampling (ANS), a training and inference strategy that samples from the joint timestep distribution of actions and video, allowing actions to be decoded rapidly with fewer denoising steps while video generation uses the full schedule—directly addressing the tension between action efficiency and world modeling quality that prior unified models could not resolve.",
-      "limitations": "The approach relies heavily on pretrained video diffusion priors and multi-view RGB-D data, which may limit generalization to settings where such data or pretrained models are unavailable. The asynchronous denoising schedule introduces a distributional gap between training and inference that is mitigated but not fully eliminated by joint distribution sampling.",
+      "rating_rationale": "X-WAM unifies 4D world modeling with robotic action in a single framework using novel Asynchronous Noise Sampling, advancing world models and video generation (primary interests) with strong empirical results on robotics benchmarks; authors are from Tsinghua (respected but not tier-1 lab), novelty is meaningful but not paradigm-shifting, and impact is primarily on robotics simulation rather than foundational. Total = 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×1.0 = 0.625 → 2 stars.",
+      "description": "Unifies real-time robotic action execution and high-fidelity 4D world synthesis (multi-view RGB-D video plus 3D reconstruction) within a single diffusion-based framework.",
+      "contribution": "X-WAM introduces a lightweight structural adaptation that replicates the final blocks of a pretrained Diffusion Transformer into a dedicated depth prediction branch, enabling 4D spatial modeling without full retraining. It proposes Asynchronous Noise Sampling (ANS), which applies different denoising schedules to actions and video during inference—rapidly decoding actions in fewer steps while using the full denoising sequence for high-fidelity video—while training on their joint timestep distribution to keep inference and training distributions aligned. This jointly addresses the limitations of prior unified world models that operate only in 2D pixel space and cannot simultaneously achieve action efficiency and world modeling quality.",
+      "limitations": "The approach relies on strong pretrained video diffusion priors and requires over 5,800 hours of robotic data for pretraining, which may limit accessibility and generalization to data-scarce settings. The asynchronous denoising schedule introduces a mismatch between training and inference that is mitigated but not fully eliminated by joint distribution sampling.",
       "links": [],
       "date": "2026-04-29"
-    },
-    {
-      "id": "2604.26503",
-      "title": "Delta Score Matters! Spatial Adaptive Multi Guidance in Diffusion Models",
-      "abstract": "Diffusion models have achieved remarkable success in synthesizing complex static and temporal visuals, a breakthrough largely driven by Classifier-Free Guidance (CFG). However, despite its pivotal role in aligning generated content with textual prompts, standard CFG relies on a globally uniform scalar. This homogeneous amplification traps models in a well-documented \"detail-artifact dilemma\": low guidance scales fail to inject intricate semantics, while high scales inevitably cause structural degradation, color over-saturation, and temporal inconsistencies in videos. In this paper, we expose the physical root of this flaw through the lens of differential geometry. By analyzing Tweedie's Formula, we reveal that CFG intrinsically performs a tangential linear extrapolation. Because the natural data manifold is highly curved, this uniform linear step introduces a severe orthogonal deviation. To keep the generation trajectory safely bounded, we formulate a theoretical upper bound for spatial and adaptive guidance. Based on these geometric insights, we propose Spatial Adaptive Multi Guidance (SAMG), a training-free and virtually zero-cost sampling algorithm. SAMG dynamically computes point-wise conditional guidance energy, applying a conservative minimum scale to high-energy boundary regions to preserve delicate micro-textures, while deploying an aggressive maximum scale in low-energy regions to maximize semantic injection. Extensive experiments across diverse image (SD 1.5, SDXL, SD3.5 Medium) and video (CogVideoX, ModelScope) architectures demonstrate that SAMG effectively resolves the detail-artifact dilemma, achieving superior semantic alignment, structural integrity, and temporal smoothness without any computational overhead.",
-      "url": "https://arxiv.org/abs/2604.26503",
-      "submitted_date": "2026-04-29",
-      "authors": [
-        "Haosen Li",
-        "Wenshuo Chen",
-        "Lei Wang",
-        "Shaofeng Liang",
-        "Bowen Tian"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "The Hong Kong University of Science and Technology (Guangzhou)",
-        "Griffith University",
-        "Data61/CSIRO"
-      ],
-      "filter_reason": "Provides novel theoretical insights into CFG via differential geometry and proposes a principled, training-free method that addresses a fundamental quality-artifact tradeoff across multiple image/video generation architectures.",
-      "stars": 2,
-      "rating_total": 0.55,
-      "rating_rationale": "Strong match for primary interest (video generation + diffusion improvements across multiple architectures) with solid theoretical contribution via differential geometry analysis of CFG, but from unknown authors at non-elite institutions with no code release yet—yields ~2 stars overall.",
-      "description": "Introduces a training-free spatial adaptive guidance algorithm for diffusion models that dynamically adjusts guidance scales point-wise based on conditional energy maps rather than applying a globally uniform scalar.",
-      "contribution": "The paper reveals through differential geometry and Tweedie's Formula that standard CFG performs a tangential linear extrapolation on a curved data manifold, causing orthogonal deviation and the detail-artifact dilemma. It derives a theoretical upper bound for spatially adaptive guidance, leading to SAMG, which applies conservative (minimum) guidance scales to high-energy boundary regions to preserve micro-textures and aggressive (maximum) scales to low-energy regions to enhance semantic injection. This spatial decomposition of guidance is a novel geometric insight that distinguishes SAMG from prior uniform or heuristic CFG modifications.",
-      "limitations": "The method inherits assumptions about the geometry of the data manifold being locally approximable, and the theoretical upper bound derivation may not generalize perfectly to all architectures or highly out-of-distribution prompts. The approach relies on the conditional score energy as a proxy for region importance, which may not always align with perceptual notions of detail.",
-      "links": [],
-      "date": "2026-04-29"
-    },
-    {
-      "id": "2604.25917",
-      "title": "Recursive Multi-Agent Systems",
-      "abstract": "Recursive or looped language models have recently emerged as a new scaling axis by iteratively refining the same model computation over latent states to deepen reasoning. We extend such scaling principle from a single model to multi-agent systems, and ask: Can agent collaboration itself be scaled through recursion? To this end, we introduce RecursiveMAS, a recursive multi-agent framework that casts the entire system as a unified latent-space recursive computation. RecursiveMAS connects heterogeneous agents as a collaboration loop through the lightweight RecursiveLink module, enabling in-distribution latent thoughts generation and cross-agent latent state transfer. To optimize our framework, we develop an inner-outer loop learning algorithm for iterative whole-system co-optimization through shared gradient-based credit assignment across recursion rounds. Theoretical analyses of runtime complexity and learning dynamics establish that RecursiveMAS is more efficient than standard text-based MAS and maintains stable gradients during recursive training. Empirically, we instantiate RecursiveMAS under 4 representative agent collaboration patterns and evaluate across 9 benchmarks spanning mathematics, science, medicine, search, and code generation. In comparison with advanced single/multi-agent and recursive computation baselines, RecursiveMAS consistently delivers an average accuracy improvement of 8.3%, together with 1.2$\\times$-2.4$\\times$ end-to-end inference speedup, and 34.6%-75.6% token usage reduction. Code and Data are provided in https://recursivemas.github.io.",
-      "url": "https://arxiv.org/abs/2604.25917",
-      "submitted_date": "2026-04-28",
-      "authors": [
-        "Xiyuan Yang",
-        "Jiaru Zou",
-        "Rui Pan",
-        "Ruizhong Qiu",
-        "Pan Lu"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "Univeristy of Illinois Urbana Champaign"
-      ],
-      "filter_reason": "Proposes a novel architectural framework (RecursiveMAS) that extends recursive scaling from single models to multi-agent systems with a new latent-space collaboration mechanism and gradient-based credit assignment across recursion rounds, delivering both theoretical analysis and consistent empirical improvements across diverse benchmarks.",
-      "stars": 2,
-      "rating_total": 0.5,
-      "rating_rationale": "",
-      "description": "Introduces RecursiveMAS, a recursive multi-agent framework that casts multi-agent collaboration as a unified latent-space recursive computation to scale reasoning through agent recursion.",
-      "contribution": "RecursiveMAS extends the recursive/looped model scaling principle from single models to multi-agent systems by connecting heterogeneous agents via a lightweight RecursiveLink module that enables in-distribution latent thought generation and cross-agent latent state transfer. A key novelty is the inner-outer loop learning algorithm that performs whole-system co-optimization through shared gradient-based credit assignment across recursion rounds, enabling end-to-end training of the collaborative loop. This approach avoids the inefficiency of text-based inter-agent communication, achieving both computational speedup and token reduction while maintaining stable training dynamics.",
-      "limitations": "The framework requires gradient-based optimization across all agents, which may limit applicability to settings where agents must be black-box or API-only models. The theoretical stability guarantees and efficiency analyses depend on assumptions about the recursive computation structure that may not generalize to all agent collaboration topologies.",
-      "links": [
-        {
-          "label": "Project Page / Code and Data",
-          "url": "https://recursivemas.github.io"
-        }
-      ],
-      "date": "2026-04-28"
     }
   ]
 };
