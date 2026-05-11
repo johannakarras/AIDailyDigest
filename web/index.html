@@ -711,6 +711,70 @@ const DIGESTS = {
       "date": "2026-05-08"
     },
     {
+      "id": "2605.07931",
+      "title": "One Token Per Frame: Reconsidering Visual Bandwidth in World Models for VLA Policy",
+      "abstract": "Vision-language-action (VLA) models increasingly rely on auxiliary world modules to plan over long horizons, yet how such modules should be parameterized on top of a pretrained VLA remains an open design question. Existing world-model-augmented VLAs typically pass the per-frame visual stream into the world module at high visual bandwidth and treat its rollout as a side product of action prediction; under a constrained adaptation budget on a frozen backbone, this leaves both the per-frame representation and the latent action coupling under-examined. We introduce OneWM-VLA, which compresses each view into a single semantic token per frame through an Adaptive Attention Pooling, and produces the resulting latent stream and the action trajectory under a single flow-matching objective rather than connecting them through a separate decoder. Empirically, we find that per-frame visual bandwidth can be reduced to a single token without compromising long-horizon performance under our setup. Trained with 14.71M LoRA parameters on a $π_0$ (2B) backbone, OneWM-VLA improves the average success rate from 47.9% to 61.3% on MetaWorld~MT50, reaches 95.6% on LIBERO-Long (vs.85.2% for $π_0$), and reaches 60.0% on the long-horizon deformable task Fold Cloth on a real Piper arm (vs.20.0% for $π_0$).",
+      "url": "https://arxiv.org/abs/2605.07931",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Zuojin Tang",
+        "Shengchao Yuan",
+        "Xiaoxin Bai",
+        "Zhiyuan Jin",
+        "De Ma"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Zhejiang University",
+        "Central South University",
+        "Harbin Institute of Technology",
+        "Embodied Intelligence General Platform Laboratory, Chery Auto",
+        "E-surfing Digital Life Technology Co., Ltd., China Telecom"
+      ],
+      "filter_reason": "Proposes a novel architectural design (Adaptive Attention Pooling for single-token-per-frame compression) combined with a unified flow-matching objective that bridges world modeling and VLA policy learning, with substantial empirical improvements on long-horizon tasks suggesting a new insight about visual bandwidth efficiency in world models.",
+      "stars": 2,
+      "rating_total": 0.55,
+      "rating_rationale": "Strong alignment with world models & VLA research (topic=3) and meaningful architectural novelty (single-token compression + unified flow-matching) with solid empirical gains on long-horizon tasks, but from lesser-known authors at non-tier-1 institutions, no released code, and incremental rather than paradigm-shifting contribution. Total score: 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×1.0 = 0.55 → 2 stars.",
+      "description": "Introduces OneWM-VLA, a world-model-augmented VLA that compresses each visual frame into a single semantic token and jointly generates latent rollouts and action trajectories via a unified flow-matching objective.",
+      "contribution": "The key insight is that per-frame visual bandwidth in world models can be reduced to a single token through Adaptive Attention Pooling without sacrificing long-horizon planning performance. Unlike prior approaches that treat world model rollouts as a side product of action prediction through separate decoders, OneWM-VLA unifies latent world state generation and action trajectory prediction under a single flow-matching objective, enabling tighter latent-action coupling under a constrained adaptation budget on a frozen backbone.",
+      "limitations": "The approach is evaluated only with LoRA adaptation on a frozen π₀ backbone, leaving open whether the findings generalize to other backbone architectures or full fine-tuning regimes. The reduction to a single token per frame may not hold for tasks requiring fine-grained spatial reasoning beyond what semantic compression preserves.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
+      "id": "2605.07915",
+      "title": "What Matters for Diffusion-Friendly Latent Manifold? Prior-Aligned Autoencoders for Latent Diffusion",
+      "abstract": "Tokenizers are a crucial component of latent diffusion models, as they define the latent space in which diffusion models operate. However, existing tokenizers are primarily designed to improve reconstruction fidelity or inherit pretrained representations, leaving unclear what kind of latent space is truly friendly for generative modeling. In this paper, we study this question from the perspective of latent manifold organization. By constructing controlled tokenizer variants, we identify three key properties of a diffusion-friendly latent manifold: coherent spatial structure, local manifold continuity, and global manifold semantics. We find that these properties are more consistent with downstream generation quality than reconstruction fidelity. Motivated by this finding, we propose the Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold instead of leaving diffusion-friendly manifold to emerge indirectly from reconstruction or inheritance. Specifically, PAE leverages refined priors derived from VFMs and perturbation-based regularization to turn spatial structure, local continuity, and global semantics into explicit training objectives. On ImageNet 256x256, PAE improves both training efficiency and generation quality over existing tokenizers, reaching performance comparable to RAE with up to 13x faster convergence under the same training setup and achieving a new state-of-the-art gFID of 1.03. These results highlight the importance of organizing the latent manifold for latent diffusion models.",
+      "url": "https://arxiv.org/abs/2605.07915",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Zhengrong Yue",
+        "Taihang Hu",
+        "Mengting Chen",
+        "Haiyu Zhang",
+        "Zihao Pan"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Shanghai Jiao Tong University",
+        "Alibaba Group",
+        "Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences",
+        "Beihang University",
+        "Sun Yat-sen University",
+        "Nankai University",
+        "Shanghai AI Laboratory"
+      ],
+      "filter_reason": "The paper provides novel theoretical framing (latent manifold properties for diffusion) with explicit training objectives (Prior-Aligned AutoEncoder) that achieve state-of-the-art results and demonstrate that reconstruction fidelity is decoupled from generation quality—a non-obvious finding that advances understanding of tokenizer design for latent diffusion.",
+      "stars": 2,
+      "rating_total": 0.55,
+      "rating_rationale": "Solid theoretical contribution to latent diffusion tokenizer design with SOTA ImageNet results and strong alignment with primary research interest (image generation→video generation pipeline), but unknown authors from non-tier-1 institutions, no released code, and findings are meaningful but not paradigm-shifting.",
+      "description": "Introduces Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold for diffusion-friendly properties using vision foundation model priors and perturbation-based regularization.",
+      "contribution": "The paper identifies three key properties of a diffusion-friendly latent manifold—coherent spatial structure, local manifold continuity, and global manifold semantics—and shows these matter more than reconstruction fidelity for generative quality. PAE operationalizes these properties as explicit training objectives by leveraging refined priors from Vision Foundation Models (VFMs) and perturbation-based regularization, rather than letting favorable manifold structure emerge indirectly from reconstruction or pretrained inheritance.",
+      "limitations": "The approach relies on the quality and availability of Vision Foundation Model priors to guide manifold shaping, which may limit its generalizability to domains where such pretrained models are unavailable. The study is primarily evaluated on ImageNet at 256x256 resolution, leaving open questions about scalability to other resolutions or data domains.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
       "id": "2605.08078",
       "title": "Normalizing Trajectory Models",
       "abstract": "Diffusion-based models decompose sampling into many small Gaussian denoising steps -- an assumption that breaks down when generation is compressed to a few coarse transitions. Existing few-step methods address this through distillation, consistency training, or adversarial objectives, but sacrifice the likelihood framework in the process. We introduce Normalizing Trajectory Models (NTM), which models each reverse step as an expressive conditional normalizing flow with exact likelihood training. Architecturally, NTM combines shallow invertible blocks within each step with a deep parallel predictor across the trajectory, forming an end-to-end network trainable from scratch or initializable from pretrained flow-matching models. Its exact trajectory likelihood further enables self-distillation: a lightweight denoiser trained on the model's own score produces high-quality samples in four steps. On text-to-image benchmarks, NTM matches or outperforms strong image generation baselines in just four sampling steps while uniquely retaining exact likelihood over the generative trajectory.",
@@ -735,58 +799,6 @@ const DIGESTS = {
       "description": "Introduces Normalizing Trajectory Models (NTM), which models each reverse diffusion step as an expressive conditional normalizing flow to enable exact likelihood training in few-step image generation.",
       "contribution": "NTM uniquely preserves an exact likelihood framework in the few-step generation regime by parameterizing each reverse step with invertible normalizing flows, avoiding the distillation or adversarial objectives that sacrifice likelihood in prior work. The architecture combines shallow invertible blocks per step with a deep parallel predictor across the full trajectory, enabling end-to-end training from scratch or initialization from pretrained flow-matching models. The exact trajectory likelihood further enables a self-distillation scheme where a lightweight denoiser trained on the model's own score produces high-quality samples in four steps.",
       "limitations": "The use of normalizing flows per step introduces architectural complexity and potentially higher memory or computational costs compared to standard diffusion models. The method's performance is demonstrated primarily in the four-step regime, and its scalability to single-step or very high-step generation is not fully explored.",
-      "links": [],
-      "date": "2026-05-08"
-    },
-    {
-      "id": "2605.08064",
-      "title": "Proxy3D: Efficient 3D Representations for Vision-Language Models via Semantic Clustering and Alignment",
-      "abstract": "Spatial intelligence in vision-language models (VLMs) attracts research interest with the practical demand to reason in the 3D world.Despite promising results, most existing methods follow the conventional 2D pipeline in VLMs and use pixel-aligned representations for the vision modality. However, correspondence-based models with implicit 3D scene understanding often fail to achieve spatial consistency, and representation-based models with 3D geometric priors lack efficiency in vision sequence serialization. To address this, we propose a Proxy3D method with compact yet comprehensive 3D proxy representations for the vision modality. Given only video frames as input, we employ semantic and geometric encoders to extract scene features and then perform their semantic-aware clustering to obtain a set of proxies in the 3D space. For representation alignment, we further curate the SpaceSpan dataset and apply multi-stage training to adopt the proposed 3D proxy representations with the VLM. When using shorter sequences for vision information, our method achieves competitive or state-of-the-art performance in 3D visual question answering, visual grounding and general spatial intelligence benchmarks.",
-      "url": "https://arxiv.org/abs/2605.08064",
-      "submitted_date": "2026-05-08",
-      "authors": [
-        "Jerry Jiang",
-        "Haowen Sun",
-        "Denis Gudovskiy",
-        "Yohei Nakata",
-        "Tomoyuki Okuno"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "Tsinghua University",
-        "Panasonic AI Lab",
-        "Panasonic DX-CPS",
-        "UC Berkeley"
-      ],
-      "filter_reason": "Proposes a novel 3D proxy representation method that bridges vision-language models with spatial reasoning through semantic clustering, addressing a gap between correspondence-based and representation-based 3D approaches with a new architectural component for efficient spatial understanding.",
-      "stars": 1,
-      "rating_total": 0.5,
-      "rating_rationale": "Strong alignment with world models/3D scene understanding (primary interest), meaningful semantic clustering innovation in 3D proxies for VLMs, but from active researchers at mid-tier industry (Sony AI) rather than top-tier labs, with no released code/demo and niche appeal outside core 3D+VLM community.",
-      "description": "Introduces compact 3D proxy representations for vision-language models by performing semantic-aware clustering of scene features extracted from video frames into a set of 3D proxies.",
-      "contribution": "The key insight is replacing pixel-aligned 2D vision sequences with semantically clustered 3D proxy representations that jointly encode geometric and semantic information, enabling spatial consistency while reducing sequence length. Unlike prior correspondence-based methods (which lack explicit 3D understanding) or representation-based methods (which are inefficient), Proxy3D achieves both spatial coherence and efficiency by clustering features into a compact set of 3D proxies. The work also introduces multi-stage alignment training to bridge these 3D proxy representations with a VLM.",
-      "limitations": "The method requires both semantic and geometric encoders operating on video frames, which may limit applicability when depth or geometric information is unavailable or unreliable. The approach assumes that semantic clustering adequately captures scene structure, which may fail in highly complex or cluttered environments.",
-      "links": [],
-      "date": "2026-05-08"
-    },
-    {
-      "id": "2605.07969",
-      "title": "When Diffusion Model Can Ignore Dimension: An Entropy-Based Theory",
-      "abstract": "Diffusion models perform remarkably well on high-dimensional data such as images, often using only a modest number of reverse-time steps. Despite this practical success, existing convergence theory does not fully explain why such samplers remain efficient in high dimensions. Many prior KL guarantees bound the discretization error in terms of the ambient dimension, while other improved results replace this dependence using intrinsic-dimensional or geometric structure assumptions. In this work, we develop an alternative information-theoretic perspective on diffusion sampler convergence. We prove that, for Gaussian mixture targets, the discretization error is controlled by the Shannon entropy of the latent mixture component rather than by the ambient dimension. Consequently, the leading step complexity scales linearly with latent entropy and depends only logarithmically on the second moment of the data. Our analysis also extends to discrete target distributions, where the relevant complexity is the entropy of the target rather than the dimension of the embedding space. These results suggest that diffusion sampling can remain efficient in high-dimensional spaces when the data distribution admits a compact latent representation, as is widely believed to be the case for natural images.",
-      "url": "https://arxiv.org/abs/2605.07969",
-      "submitted_date": "2026-05-08",
-      "authors": [
-        "Ahmad Aghapour",
-        "Erhan Bayraktar"
-      ],
-      "source": "arxiv",
-      "affiliations": [],
-      "filter_reason": "Provides a novel information-theoretic perspective on diffusion model convergence that explains efficiency in high dimensions through entropy rather than ambient dimension, offering theoretical insight relevant to understanding why diffusion models scale well for image/video generation.",
-      "stars": 1,
-      "rating_total": 0.5,
-      "rating_rationale": "Theory paper from unknown authors at non-elite institution (University of Michigan) providing meaningful but incremental theoretical insight into diffusion model efficiency; directly relevant to video generation and world models but lacks author prestige, likely no code release, and limited viral potential despite solid contribution to understanding why diffusion scales in high dimensions.",
-      "description": "Proves that diffusion model discretization error is controlled by the Shannon entropy of the latent mixture component rather than the ambient dimension.",
-      "contribution": "This work introduces an information-theoretic framework showing that for Gaussian mixture targets, step complexity scales linearly with latent entropy and only logarithmically with the second moment of the data, replacing prior dimension-dependent bounds. The key insight is that when data admits a compact latent representation, diffusion sampling complexity is governed by the entropy of that latent structure rather than the high-dimensional embedding space. The framework also extends to discrete target distributions, where target entropy replaces embedding dimension as the relevant complexity measure.",
-      "limitations": "The theoretical guarantees are established specifically for Gaussian mixture targets and discrete distributions, and may not directly generalize to arbitrary continuous distributions without additional assumptions about latent structure.",
       "links": [],
       "date": "2026-05-08"
     }
