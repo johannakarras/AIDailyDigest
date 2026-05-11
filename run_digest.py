@@ -37,6 +37,103 @@ def _get_week_key(d) -> str:
     return f"{iso[0]}-W{iso[1]:02d}"
 
 
+def _week_key_to_monday(week_key: str):
+    """Return the Monday date for an ISO week key like '2026-W18'."""
+    year, week = week_key.split("-W")
+    return datetime.strptime(f"{year}-W{int(week):02d}-1", "%G-W%V-%u").date()
+
+
+def _get_missing_weeks(digests: dict, today, max_backfill: int = 8) -> list[str]:
+    """Return ISO week keys that are absent from digests, between the most recent
+    week with data and the current week (exclusive), up to max_backfill weeks."""
+    week_keys = {k for k in digests if re.match(r'^\d{4}-W\d{2}$', k)}
+    if not week_keys:
+        return []
+
+    current_week_key = _get_week_key(today)
+    prior_weeks = sorted(w for w in week_keys if w < current_week_key)
+    if not prior_weeks:
+        return []
+
+    missing = []
+    check = _week_key_to_monday(prior_weeks[-1]) + timedelta(weeks=1)
+    current_monday = _week_key_to_monday(current_week_key)
+
+    while check < current_monday and len(missing) < max_backfill:
+        wk = _get_week_key(check)
+        if wk not in digests:
+            missing.append(wk)
+        check += timedelta(weeks=1)
+
+    return missing
+
+
+def _backfill_week(week_key: str, client, digests: dict, dry_run: bool = False) -> None:
+    """Run the full digest pipeline for a single past week and save results."""
+    monday = _week_key_to_monday(week_key)
+    sunday = monday + timedelta(days=6)
+    print(f"\n[backfill] Processing {week_key} ({monday} to {sunday})...")
+
+    seen_ids = load_seen_ids(digests)
+
+    # Fetch more results for backfill since we're scanning a full week
+    candidates = fetch_arxiv_papers(max_results=500, after=monday, before=sunday)
+    print(f"[backfill] arxiv={len(candidates)}")
+
+    if not candidates:
+        print(f"[backfill] No candidates found for {week_key}.")
+        return
+
+    candidates = deduplicate_candidates(candidates, seen_ids)
+    candidates = fetch_missing_abstracts(candidates)
+    candidates = [p for p in candidates if p.get("abstract")]
+    print(f"[backfill] {len(candidates)} unique candidates with abstracts")
+
+    if not candidates:
+        print(f"[backfill] No candidates after dedup for {week_key}.")
+        return
+
+    aff_map = fetch_affiliations([p["id"] for p in candidates])
+    for p in candidates:
+        p["affiliations"] = aff_map.get(p["id"], [])
+
+    passing, _ = filter_for_novelty(candidates, client)
+    print(f"[backfill] {len(passing)}/{len(candidates)} passed novelty filter")
+
+    if not passing:
+        print(f"[backfill] No novel papers for {week_key}.")
+        return
+
+    rate_papers(passing, client)
+
+    passing.sort(key=lambda p: (p.get("stars", 0), p.get("rating_total", 0.0)), reverse=True)
+    top_n = passing[:MAX_WEEKLY]
+
+    need_format = [p for p in top_n if not p.get("description")]
+    if need_format:
+        print(f"[backfill] Fetching PDF affiliations for {len(need_format)} paper(s)...")
+        for p in need_format:
+            if not p.get("affiliations"):
+                affs = fetch_affiliations_from_pdf(p["id"], client)
+                if affs:
+                    p["affiliations"] = affs
+                    print(f"[affiliations] PDF: {p['id']} → {affs}")
+        print(f"[backfill] Formatting {len(need_format)} paper(s)...")
+        format_papers(need_format, client, max_papers=len(need_format))
+        top_n = [p for p in top_n if p.get("description")]
+
+    print(f"\n--- Backfill {week_key} ({len(top_n)} papers) ---")
+    for p in sorted(top_n, key=lambda p: p.get("stars", 0), reverse=True):
+        print(f"  {'⭐' * p.get('stars', 0)} {p['title']}")
+    print()
+
+    if not dry_run:
+        digests[week_key] = top_n
+        _save_digests(digests, DIGESTS_PATH)
+        generate_html(digests, output_path=HTML_PATH)
+        _git_commit_and_push(f"backfill {week_key}", len(top_n))
+
+
 def _migrate_to_weekly(digests: dict) -> tuple[dict, bool]:
     """Convert any per-day entries (YYYY-MM-DD) to per-week entries (YYYY-Www).
     Returns (migrated_dict, changed)."""
@@ -91,6 +188,13 @@ def main(dry_run: bool = False) -> None:
     digests, migrated = _migrate_to_weekly(digests)
     if migrated:
         print("[main] Migrated daily entries to weekly format")
+
+    # Backfill any weeks that were missed between the last saved week and today
+    missing_weeks = _get_missing_weeks(digests, today)
+    if missing_weeks:
+        print(f"[main] Detected {len(missing_weeks)} missing week(s): {missing_weeks}")
+        for wk in missing_weeks:
+            _backfill_week(wk, client, digests, dry_run)
 
     week_papers = digests.get(week_key, [])
     seen_ids = load_seen_ids(digests)

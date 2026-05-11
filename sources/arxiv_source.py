@@ -5,8 +5,20 @@ from datetime import datetime, timedelta, timezone
 import arxiv
 
 
-def fetch_arxiv_papers(days_back: int = 7, max_results: int = 100) -> list[dict]:
-    cutoff = datetime.now(timezone.utc) - timedelta(days=days_back)
+def fetch_arxiv_papers(days_back: int = 7, max_results: int = 100,
+                       after=None, before=None) -> list[dict]:
+    """Fetch papers from arxiv.
+
+    after  — datetime.date: only include papers submitted on or after this date.
+             If None, defaults to `days_back` days ago.
+    before — datetime.date: only include papers submitted on or before this date.
+             If None, no upper bound.
+    """
+    if after is not None:
+        cutoff = datetime(after.year, after.month, after.day, tzinfo=timezone.utc)
+    else:
+        cutoff = datetime.now(timezone.utc) - timedelta(days=days_back)
+
     query = "cat:cs.CV OR cat:cs.LG OR cat:cs.AI"
 
     client = arxiv.Client()
@@ -23,6 +35,9 @@ def fetch_arxiv_papers(days_back: int = 7, max_results: int = 100) -> list[dict]
             for result in client.results(search):
                 if result.published < cutoff:
                     break
+
+                if before is not None and result.published.date() > before:
+                    continue
 
                 raw_id = result.get_short_id()
                 normalized = re.sub(r"v\d+$", "", raw_id)
