@@ -289,5 +289,140 @@
       ],
       "date": "2026-04-30"
     }
+  ],
+  "2026-W20": [
+    {
+      "id": "2605.08050",
+      "title": "MoCoTalk: Multi-Conditional Diffusion with Adaptive Router for Controllable Talking Head Generation",
+      "abstract": "Talking-head generation requires joint modeling of identity, head pose, facial expression, and mouth dynamics. Existing methods typically address only a subset of these factors, and rely on fixed-weight or heuristic fusion when multiple conditions are involved. We present MoCoTalk, a multi-conditional video diffusion framework that unifies four complementary control signals: a reference image, facial keypoints, 3DMM-rendered shading meshes, and the corresponding speech audio. To resolve destructive interference among heterogeneous conditions, we introduce an Adaptive Multi-Condition Router that computes channel-wise, timestep-aware gating over the four condition streams, allowing the fusion strategy to vary with both feature subspace and noise level. To better capture speech-related facial dynamics, we design a Mouth-Augmented Shading Mesh, a 3DMM-based representation that decouples head motion, mouth motion, expression, and lighting. This design provides a temporally consistent geometric prior and allows flexible recombination of these attributes at inference. We further introduce a lip consistency loss to tighten audio-visual alignment. Extensive experiments show that MoCoTalk achieves state-of-the-art performance on the majority of structural, motion, and perceptual metrics, while offering attribute-level controllability that single-condition methods do not provide.",
+      "url": "https://arxiv.org/abs/2605.08050",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Xinyan Ye",
+        "Jiankang Deng",
+        "Abbas Edalat"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Imperial College London"
+      ],
+      "filter_reason": "Proposes novel architectural components (Adaptive Multi-Condition Router for dynamic condition fusion, Mouth-Augmented Shading Mesh for decoupled attribute modeling) that address a fundamental challenge in multi-conditional generation with principled design choices beyond standard diffusion applications.",
+      "stars": 2,
+      "rating_total": 0.55,
+      "rating_rationale": "MoCoTalk makes solid contributions to video generation (primary interest) with novel multi-condition fusion and decoupled attribute modeling, but authors are from active researchers at a respected institution (Imperial College London) rather than top-tier labs, no code/demo mentioned yet, and while technically sound this is an incremental advance in talking-head synthesis rather than a paradigm shift.",
+      "description": "Introduces a multi-conditional video diffusion framework that unifies four control signals—reference image, facial keypoints, 3DMM-rendered shading meshes, and speech audio—for controllable talking head generation.",
+      "contribution": "The key novelty is the Adaptive Multi-Condition Router, which computes channel-wise, timestep-aware gating over heterogeneous condition streams to resolve destructive interference during fusion, adapting the fusion strategy to both feature subspace and noise level. Additionally, the Mouth-Augmented Shading Mesh is a new 3DMM-based representation that explicitly decouples head motion, mouth motion, expression, and lighting, enabling flexible attribute recombination at inference. A lip consistency loss is also introduced to tighten audio-visual alignment beyond what prior fixed-weight or heuristic fusion methods achieve.",
+      "limitations": "The approach assumes the availability of four distinct control signals at inference time, which may not always be practical, and relies on 3DMM fitting quality for the shading mesh representation, potentially inheriting its reconstruction limitations.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
+      "id": "2605.08029",
+      "title": "STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multimodal Generation",
+      "abstract": "Deep generative models have advanced rapidly across text and vision, motivating unified multimodal systems that can understand, reason over, and generate interleaved text-image sequences. Most existing approaches combine autoregressive language modeling with diffusion-based image generators, inheriting a structural mismatch between causal text generation and iterative visual denoising. We observe that autoregressive normalizing flows are autoregressive Transformers--sharing the same causal mask, KV-cache mechanism, and left-to-right structure as LLMs--making them the most natural paradigm for true unified multimodal generation. We present STARFlow2, built on the Pretzel architecture that vertically interleaves a pretrained VLM stream with a TarFlow stream via residual skip connections, both operating under the same causal mask. Combined with a deep-shallow flow design and a unified FAE latent space, STARFlow2 enables cache-friendly interleaved generation where both text and visual outputs directly enter the KV-cache without re-encoding. Experiments demonstrate strong performance across image generation and multimodal understanding benchmarks, validating autoregressive flows as a viable foundation for unified multimodal modeling.",
+      "url": "https://arxiv.org/abs/2605.08029",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Ying Shen",
+        "Tianrong Chen",
+        "Yuan Gao",
+        "Yizhe Zhang",
+        "Yuyang Wang"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Apple",
+        "UIUC"
+      ],
+      "filter_reason": "Proposes a novel architectural unification of LLMs and normalizing flows for truly integrated multimodal generation, addressing a fundamental structural mismatch between autoregressive text and iterative image generation paradigms.",
+      "stars": 2,
+      "rating_total": 0.55,
+      "rating_rationale": "STARFlow2 presents a meaningful architectural contribution unifying LLMs and normalizing flows for multimodal generation with strong alignment to world models/video generation interests, but lacks tier-1 industry lab affiliation, paradigm-shift novelty claim, or released code; estimated total impact ~0.65 placing it at the boundary of 2–3 stars.",
+      "description": "Introduces STARFlow2, a unified multimodal generation system that bridges pretrained vision-language models with autoregressive normalizing flows to enable interleaved text and image generation under a shared causal Transformer architecture.",
+      "contribution": "The key insight is that autoregressive normalizing flows share the same causal mask, KV-cache, and left-to-right structure as language models, making them structurally compatible for true unified multimodal generation without the mismatch introduced by diffusion-based decoders. STARFlow2 instantiates this via the Pretzel architecture, which vertically interleaves a pretrained VLM stream with a TarFlow stream through residual skip connections, combined with a deep-shallow flow design and a unified FAE latent space that allows both text tokens and visual outputs to enter the KV-cache directly without re-encoding.",
+      "limitations": "The approach relies on a pretrained VLM backbone and inherits its constraints, and the vertical interleaving design may limit flexibility in independently scaling the language and flow components.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
+      "id": "2605.08078",
+      "title": "Normalizing Trajectory Models",
+      "abstract": "Diffusion-based models decompose sampling into many small Gaussian denoising steps -- an assumption that breaks down when generation is compressed to a few coarse transitions. Existing few-step methods address this through distillation, consistency training, or adversarial objectives, but sacrifice the likelihood framework in the process. We introduce Normalizing Trajectory Models (NTM), which models each reverse step as an expressive conditional normalizing flow with exact likelihood training. Architecturally, NTM combines shallow invertible blocks within each step with a deep parallel predictor across the trajectory, forming an end-to-end network trainable from scratch or initializable from pretrained flow-matching models. Its exact trajectory likelihood further enables self-distillation: a lightweight denoiser trained on the model's own score produces high-quality samples in four steps. On text-to-image benchmarks, NTM matches or outperforms strong image generation baselines in just four sampling steps while uniquely retaining exact likelihood over the generative trajectory.",
+      "url": "https://arxiv.org/abs/2605.08078",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Jiatao Gu",
+        "Tianrong Chen",
+        "Ying Shen",
+        "David Berthelot",
+        "Shuangfei Zhai"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Apple",
+        "UIUC"
+      ],
+      "filter_reason": "Proposes a novel architectural combination (normalizing flows for each reverse step + deep parallel predictor) with a new training objective (exact likelihood in few-step generation) that achieves both fast sampling and tractable likelihood—a qualitatively different capability from existing diffusion acceleration methods.",
+      "stars": 2,
+      "rating_total": 0.5,
+      "rating_rationale": "",
+      "description": "Introduces Normalizing Trajectory Models (NTM), which models each reverse diffusion step as an expressive conditional normalizing flow to enable exact likelihood training in few-step image generation.",
+      "contribution": "NTM uniquely preserves an exact likelihood framework in the few-step generation regime by parameterizing each reverse step with invertible normalizing flows, avoiding the distillation or adversarial objectives that sacrifice likelihood in prior work. The architecture combines shallow invertible blocks per step with a deep parallel predictor across the full trajectory, enabling end-to-end training from scratch or initialization from pretrained flow-matching models. The exact trajectory likelihood further enables a self-distillation scheme where a lightweight denoiser trained on the model's own score produces high-quality samples in four steps.",
+      "limitations": "The use of normalizing flows per step introduces architectural complexity and potentially higher memory or computational costs compared to standard diffusion models. The method's performance is demonstrated primarily in the four-step regime, and its scalability to single-step or very high-step generation is not fully explored.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
+      "id": "2605.08064",
+      "title": "Proxy3D: Efficient 3D Representations for Vision-Language Models via Semantic Clustering and Alignment",
+      "abstract": "Spatial intelligence in vision-language models (VLMs) attracts research interest with the practical demand to reason in the 3D world.Despite promising results, most existing methods follow the conventional 2D pipeline in VLMs and use pixel-aligned representations for the vision modality. However, correspondence-based models with implicit 3D scene understanding often fail to achieve spatial consistency, and representation-based models with 3D geometric priors lack efficiency in vision sequence serialization. To address this, we propose a Proxy3D method with compact yet comprehensive 3D proxy representations for the vision modality. Given only video frames as input, we employ semantic and geometric encoders to extract scene features and then perform their semantic-aware clustering to obtain a set of proxies in the 3D space. For representation alignment, we further curate the SpaceSpan dataset and apply multi-stage training to adopt the proposed 3D proxy representations with the VLM. When using shorter sequences for vision information, our method achieves competitive or state-of-the-art performance in 3D visual question answering, visual grounding and general spatial intelligence benchmarks.",
+      "url": "https://arxiv.org/abs/2605.08064",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Jerry Jiang",
+        "Haowen Sun",
+        "Denis Gudovskiy",
+        "Yohei Nakata",
+        "Tomoyuki Okuno"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Tsinghua University",
+        "Panasonic AI Lab",
+        "Panasonic DX-CPS",
+        "UC Berkeley"
+      ],
+      "filter_reason": "Proposes a novel 3D proxy representation method that bridges vision-language models with spatial reasoning through semantic clustering, addressing a gap between correspondence-based and representation-based 3D approaches with a new architectural component for efficient spatial understanding.",
+      "stars": 1,
+      "rating_total": 0.5,
+      "rating_rationale": "Strong alignment with world models/3D scene understanding (primary interest), meaningful semantic clustering innovation in 3D proxies for VLMs, but from active researchers at mid-tier industry (Sony AI) rather than top-tier labs, with no released code/demo and niche appeal outside core 3D+VLM community.",
+      "description": "Introduces compact 3D proxy representations for vision-language models by performing semantic-aware clustering of scene features extracted from video frames into a set of 3D proxies.",
+      "contribution": "The key insight is replacing pixel-aligned 2D vision sequences with semantically clustered 3D proxy representations that jointly encode geometric and semantic information, enabling spatial consistency while reducing sequence length. Unlike prior correspondence-based methods (which lack explicit 3D understanding) or representation-based methods (which are inefficient), Proxy3D achieves both spatial coherence and efficiency by clustering features into a compact set of 3D proxies. The work also introduces multi-stage alignment training to bridge these 3D proxy representations with a VLM.",
+      "limitations": "The method requires both semantic and geometric encoders operating on video frames, which may limit applicability when depth or geometric information is unavailable or unreliable. The approach assumes that semantic clustering adequately captures scene structure, which may fail in highly complex or cluttered environments.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
+      "id": "2605.07969",
+      "title": "When Diffusion Model Can Ignore Dimension: An Entropy-Based Theory",
+      "abstract": "Diffusion models perform remarkably well on high-dimensional data such as images, often using only a modest number of reverse-time steps. Despite this practical success, existing convergence theory does not fully explain why such samplers remain efficient in high dimensions. Many prior KL guarantees bound the discretization error in terms of the ambient dimension, while other improved results replace this dependence using intrinsic-dimensional or geometric structure assumptions. In this work, we develop an alternative information-theoretic perspective on diffusion sampler convergence. We prove that, for Gaussian mixture targets, the discretization error is controlled by the Shannon entropy of the latent mixture component rather than by the ambient dimension. Consequently, the leading step complexity scales linearly with latent entropy and depends only logarithmically on the second moment of the data. Our analysis also extends to discrete target distributions, where the relevant complexity is the entropy of the target rather than the dimension of the embedding space. These results suggest that diffusion sampling can remain efficient in high-dimensional spaces when the data distribution admits a compact latent representation, as is widely believed to be the case for natural images.",
+      "url": "https://arxiv.org/abs/2605.07969",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Ahmad Aghapour",
+        "Erhan Bayraktar"
+      ],
+      "source": "arxiv",
+      "affiliations": [],
+      "filter_reason": "Provides a novel information-theoretic perspective on diffusion model convergence that explains efficiency in high dimensions through entropy rather than ambient dimension, offering theoretical insight relevant to understanding why diffusion models scale well for image/video generation.",
+      "stars": 1,
+      "rating_total": 0.5,
+      "rating_rationale": "Theory paper from unknown authors at non-elite institution (University of Michigan) providing meaningful but incremental theoretical insight into diffusion model efficiency; directly relevant to video generation and world models but lacks author prestige, likely no code release, and limited viral potential despite solid contribution to understanding why diffusion scales in high dimensions.",
+      "description": "Proves that diffusion model discretization error is controlled by the Shannon entropy of the latent mixture component rather than the ambient dimension.",
+      "contribution": "This work introduces an information-theoretic framework showing that for Gaussian mixture targets, step complexity scales linearly with latent entropy and only logarithmically with the second moment of the data, replacing prior dimension-dependent bounds. The key insight is that when data admits a compact latent representation, diffusion sampling complexity is governed by the entropy of that latent structure rather than the high-dimensional embedding space. The framework also extends to discrete target distributions, where target entropy replaces embedding dimension as the relevant complexity measure.",
+      "limitations": "The theoretical guarantees are established specifically for Gaussian mixture targets and discrete distributions, and may not directly generalize to arbitrary continuous distributions without additional assumptions about latent structure.",
+      "links": [],
+      "date": "2026-05-08"
+    }
   ]
 }
