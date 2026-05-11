@@ -658,6 +658,34 @@ const DIGESTS = {
   ],
   "2026-W20": [
     {
+      "id": "2605.08078",
+      "title": "Normalizing Trajectory Models",
+      "abstract": "Diffusion-based models decompose sampling into many small Gaussian denoising steps -- an assumption that breaks down when generation is compressed to a few coarse transitions. Existing few-step methods address this through distillation, consistency training, or adversarial objectives, but sacrifice the likelihood framework in the process. We introduce Normalizing Trajectory Models (NTM), which models each reverse step as an expressive conditional normalizing flow with exact likelihood training. Architecturally, NTM combines shallow invertible blocks within each step with a deep parallel predictor across the trajectory, forming an end-to-end network trainable from scratch or initializable from pretrained flow-matching models. Its exact trajectory likelihood further enables self-distillation: a lightweight denoiser trained on the model's own score produces high-quality samples in four steps. On text-to-image benchmarks, NTM matches or outperforms strong image generation baselines in just four sampling steps while uniquely retaining exact likelihood over the generative trajectory.",
+      "url": "https://arxiv.org/abs/2605.08078",
+      "submitted_date": "2026-05-08",
+      "authors": [
+        "Jiatao Gu",
+        "Tianrong Chen",
+        "Ying Shen",
+        "David Berthelot",
+        "Shuangfei Zhai"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Apple",
+        "UIUC"
+      ],
+      "filter_reason": "Proposes a novel architectural combination (normalizing flows as reverse steps) with a new training objective (exact likelihood in few-step generation) that enables both fast sampling and tractable likelihood computation, addressing a fundamental limitation of diffusion models.",
+      "stars": 2,
+      "rating_total": 0.625,
+      "rating_rationale": "Google affiliation triggers pedigree=3; normalizing flows for few-step generation is a meaningful contribution (novelty=2) with solid impact on image generation and potential multimodal applications (breadth=2, topic=2), but lacks the paradigm-shift quality for higher novelty, and no code/demo release mentioned limits practical impact.",
+      "description": "Introduces Normalizing Trajectory Models (NTM), which models each reverse diffusion step as an expressive conditional normalizing flow enabling exact likelihood training for high-quality few-step image generation.",
+      "contribution": "NTM uniquely combines shallow invertible blocks within each denoising step with a deep parallel predictor across the full trajectory, preserving exact likelihood throughout the generative process — something prior few-step methods (distillation, consistency training, adversarial objectives) sacrifice. This exact trajectory likelihood enables a self-distillation scheme where a lightweight denoiser trained on the model's own score produces high-quality samples in four steps without external teacher signals. The architecture can be trained from scratch or initialized from pretrained flow-matching models, bridging normalizing flows and diffusion-based generation.",
+      "limitations": "The method relies on invertible architectures that may constrain representational capacity compared to unconstrained networks used in standard diffusion models. The approach is evaluated primarily in the few-step (four-step) regime, and it is unclear how it scales or compares in full many-step generation settings.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
       "id": "2605.08050",
       "title": "MoCoTalk: Multi-Conditional Diffusion with Adaptive Router for Controllable Talking Head Generation",
       "abstract": "Talking-head generation requires joint modeling of identity, head pose, facial expression, and mouth dynamics. Existing methods typically address only a subset of these factors, and rely on fixed-weight or heuristic fusion when multiple conditions are involved. We present MoCoTalk, a multi-conditional video diffusion framework that unifies four complementary control signals: a reference image, facial keypoints, 3DMM-rendered shading meshes, and the corresponding speech audio. To resolve destructive interference among heterogeneous conditions, we introduce an Adaptive Multi-Condition Router that computes channel-wise, timestep-aware gating over the four condition streams, allowing the fusion strategy to vary with both feature subspace and noise level. To better capture speech-related facial dynamics, we design a Mouth-Augmented Shading Mesh, a 3DMM-based representation that decouples head motion, mouth motion, expression, and lighting. This design provides a temporally consistent geometric prior and allows flexible recombination of these attributes at inference. We further introduce a lip consistency loss to tighten audio-visual alignment. Extensive experiments show that MoCoTalk achieves state-of-the-art performance on the majority of structural, motion, and perceptual metrics, while offering attribute-level controllability that single-condition methods do not provide.",
@@ -672,72 +700,13 @@ const DIGESTS = {
       "affiliations": [
         "Imperial College London"
       ],
-      "filter_reason": "Proposes novel architectural components (Adaptive Multi-Condition Router for dynamic condition fusion, Mouth-Augmented Shading Mesh for decoupled attribute modeling) that address a fundamental challenge in multi-conditional generation with principled design choices beyond standard diffusion applications.",
+      "filter_reason": "The paper introduces novel architectural components (Adaptive Multi-Condition Router with channel-wise timestep-aware gating, Mouth-Augmented Shading Mesh) that address a non-trivial technical problem of destructive interference in multi-conditional diffusion, demonstrating architectural insight beyond standard technique application.",
       "stars": 2,
       "rating_total": 0.55,
-      "rating_rationale": "MoCoTalk makes solid contributions to video generation (primary interest) with novel multi-condition fusion and decoupled attribute modeling, but authors are from active researchers at a respected institution (Imperial College London) rather than top-tier labs, no code/demo mentioned yet, and while technically sound this is an incremental advance in talking-head synthesis rather than a paradigm shift.",
+      "rating_rationale": "MoCoTalk demonstrates solid technical contributions (adaptive routing, mouth-augmented mesh) to multi-conditional video diffusion with strong experimental results, directly aligned with primary research interests in video generation; however, the authors lack tier-1 industry lab affiliation or world-renowned names, the novelty is meaningful but not paradigm-shifting (incremental advances in existing diffusion frameworks), and no code/demo release is mentioned, yielding a mid-tier assessment of 2 stars.",
       "description": "Introduces a multi-conditional video diffusion framework that unifies four control signals—reference image, facial keypoints, 3DMM-rendered shading meshes, and speech audio—for controllable talking head generation.",
-      "contribution": "The key novelty is the Adaptive Multi-Condition Router, which computes channel-wise, timestep-aware gating over heterogeneous condition streams to resolve destructive interference during fusion, adapting the fusion strategy to both feature subspace and noise level. Additionally, the Mouth-Augmented Shading Mesh is a new 3DMM-based representation that explicitly decouples head motion, mouth motion, expression, and lighting, enabling flexible attribute recombination at inference. A lip consistency loss is also introduced to tighten audio-visual alignment beyond what prior fixed-weight or heuristic fusion methods achieve.",
-      "limitations": "The approach assumes the availability of four distinct control signals at inference time, which may not always be practical, and relies on 3DMM fitting quality for the shading mesh representation, potentially inheriting its reconstruction limitations.",
-      "links": [],
-      "date": "2026-05-08"
-    },
-    {
-      "id": "2605.08029",
-      "title": "STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multimodal Generation",
-      "abstract": "Deep generative models have advanced rapidly across text and vision, motivating unified multimodal systems that can understand, reason over, and generate interleaved text-image sequences. Most existing approaches combine autoregressive language modeling with diffusion-based image generators, inheriting a structural mismatch between causal text generation and iterative visual denoising. We observe that autoregressive normalizing flows are autoregressive Transformers--sharing the same causal mask, KV-cache mechanism, and left-to-right structure as LLMs--making them the most natural paradigm for true unified multimodal generation. We present STARFlow2, built on the Pretzel architecture that vertically interleaves a pretrained VLM stream with a TarFlow stream via residual skip connections, both operating under the same causal mask. Combined with a deep-shallow flow design and a unified FAE latent space, STARFlow2 enables cache-friendly interleaved generation where both text and visual outputs directly enter the KV-cache without re-encoding. Experiments demonstrate strong performance across image generation and multimodal understanding benchmarks, validating autoregressive flows as a viable foundation for unified multimodal modeling.",
-      "url": "https://arxiv.org/abs/2605.08029",
-      "submitted_date": "2026-05-08",
-      "authors": [
-        "Ying Shen",
-        "Tianrong Chen",
-        "Yuan Gao",
-        "Yizhe Zhang",
-        "Yuyang Wang"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "Apple",
-        "UIUC"
-      ],
-      "filter_reason": "Proposes a novel architectural unification of LLMs and normalizing flows for truly integrated multimodal generation, addressing a fundamental structural mismatch between autoregressive text and iterative image generation paradigms.",
-      "stars": 2,
-      "rating_total": 0.55,
-      "rating_rationale": "STARFlow2 presents a meaningful architectural contribution unifying LLMs and normalizing flows for multimodal generation with strong alignment to world models/video generation interests, but lacks tier-1 industry lab affiliation, paradigm-shift novelty claim, or released code; estimated total impact ~0.65 placing it at the boundary of 2–3 stars.",
-      "description": "Introduces STARFlow2, a unified multimodal generation system that bridges pretrained vision-language models with autoregressive normalizing flows to enable interleaved text and image generation under a shared causal Transformer architecture.",
-      "contribution": "The key insight is that autoregressive normalizing flows share the same causal mask, KV-cache, and left-to-right structure as language models, making them structurally compatible for true unified multimodal generation without the mismatch introduced by diffusion-based decoders. STARFlow2 instantiates this via the Pretzel architecture, which vertically interleaves a pretrained VLM stream with a TarFlow stream through residual skip connections, combined with a deep-shallow flow design and a unified FAE latent space that allows both text tokens and visual outputs to enter the KV-cache directly without re-encoding.",
-      "limitations": "The approach relies on a pretrained VLM backbone and inherits its constraints, and the vertical interleaving design may limit flexibility in independently scaling the language and flow components.",
-      "links": [],
-      "date": "2026-05-08"
-    },
-    {
-      "id": "2605.07931",
-      "title": "One Token Per Frame: Reconsidering Visual Bandwidth in World Models for VLA Policy",
-      "abstract": "Vision-language-action (VLA) models increasingly rely on auxiliary world modules to plan over long horizons, yet how such modules should be parameterized on top of a pretrained VLA remains an open design question. Existing world-model-augmented VLAs typically pass the per-frame visual stream into the world module at high visual bandwidth and treat its rollout as a side product of action prediction; under a constrained adaptation budget on a frozen backbone, this leaves both the per-frame representation and the latent action coupling under-examined. We introduce OneWM-VLA, which compresses each view into a single semantic token per frame through an Adaptive Attention Pooling, and produces the resulting latent stream and the action trajectory under a single flow-matching objective rather than connecting them through a separate decoder. Empirically, we find that per-frame visual bandwidth can be reduced to a single token without compromising long-horizon performance under our setup. Trained with 14.71M LoRA parameters on a $π_0$ (2B) backbone, OneWM-VLA improves the average success rate from 47.9% to 61.3% on MetaWorld~MT50, reaches 95.6% on LIBERO-Long (vs.85.2% for $π_0$), and reaches 60.0% on the long-horizon deformable task Fold Cloth on a real Piper arm (vs.20.0% for $π_0$).",
-      "url": "https://arxiv.org/abs/2605.07931",
-      "submitted_date": "2026-05-08",
-      "authors": [
-        "Zuojin Tang",
-        "Shengchao Yuan",
-        "Xiaoxin Bai",
-        "Zhiyuan Jin",
-        "De Ma"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "Zhejiang University",
-        "Central South University",
-        "Harbin Institute of Technology",
-        "Embodied Intelligence General Platform Laboratory, Chery Auto",
-        "E-surfing Digital Life Technology Co., Ltd., China Telecom"
-      ],
-      "filter_reason": "Proposes a novel architectural design (Adaptive Attention Pooling for single-token-per-frame compression) combined with a unified flow-matching objective that bridges world modeling and VLA policy learning, with substantial empirical improvements on long-horizon tasks suggesting a new insight about visual bandwidth efficiency in world models.",
-      "stars": 2,
-      "rating_total": 0.55,
-      "rating_rationale": "Strong alignment with world models & VLA research (topic=3) and meaningful architectural novelty (single-token compression + unified flow-matching) with solid empirical gains on long-horizon tasks, but from lesser-known authors at non-tier-1 institutions, no released code, and incremental rather than paradigm-shifting contribution. Total score: 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×1.0 = 0.55 → 2 stars.",
-      "description": "Introduces OneWM-VLA, a world-model-augmented VLA that compresses each visual frame into a single semantic token and jointly generates latent rollouts and action trajectories via a unified flow-matching objective.",
-      "contribution": "The key insight is that per-frame visual bandwidth in world models can be reduced to a single token through Adaptive Attention Pooling without sacrificing long-horizon planning performance. Unlike prior approaches that treat world model rollouts as a side product of action prediction through separate decoders, OneWM-VLA unifies latent world state generation and action trajectory prediction under a single flow-matching objective, enabling tighter latent-action coupling under a constrained adaptation budget on a frozen backbone.",
-      "limitations": "The approach is evaluated only with LoRA adaptation on a frozen π₀ backbone, leaving open whether the findings generalize to other backbone architectures or full fine-tuning regimes. The reduction to a single token per frame may not hold for tasks requiring fine-grained spatial reasoning beyond what semantic compression preserves.",
+      "contribution": "The key novelty is an Adaptive Multi-Condition Router that computes channel-wise, timestep-aware gating over heterogeneous condition streams, allowing fusion strategy to adapt to both feature subspace and diffusion noise level rather than using fixed-weight or heuristic fusion. Additionally, the Mouth-Augmented Shading Mesh is a new 3DMM-based representation that explicitly decouples head motion, mouth motion, expression, and lighting into independently recombineable attributes. A lip consistency loss is further introduced to tighten audio-visual alignment during training.",
+      "limitations": "The method relies on 3DMM fitting quality, which may introduce errors for extreme poses or occlusions. The framework's complexity from four simultaneous condition streams may increase computational cost compared to single-condition approaches.",
       "links": [],
       "date": "2026-05-08"
     },
@@ -764,41 +733,70 @@ const DIGESTS = {
         "Nankai University",
         "Shanghai AI Laboratory"
       ],
-      "filter_reason": "The paper provides novel theoretical framing (latent manifold properties for diffusion) with explicit training objectives (Prior-Aligned AutoEncoder) that achieve state-of-the-art results and demonstrate that reconstruction fidelity is decoupled from generation quality—a non-obvious finding that advances understanding of tokenizer design for latent diffusion.",
+      "filter_reason": "The paper provides novel theoretical framing of latent space properties for diffusion models and proposes Prior-Aligned AutoEncoders with new training objectives (VFM-derived priors + perturbation-based regularization) that empirically outperform existing tokenizers with significant efficiency gains.",
       "stars": 2,
       "rating_total": 0.55,
-      "rating_rationale": "Solid theoretical contribution to latent diffusion tokenizer design with SOTA ImageNet results and strong alignment with primary research interest (image generation→video generation pipeline), but unknown authors from non-tier-1 institutions, no released code, and findings are meaningful but not paradigm-shifting.",
-      "description": "Introduces Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold for diffusion-friendly properties using vision foundation model priors and perturbation-based regularization.",
-      "contribution": "The paper identifies three key properties of a diffusion-friendly latent manifold—coherent spatial structure, local manifold continuity, and global manifold semantics—and shows these matter more than reconstruction fidelity for generative quality. PAE operationalizes these properties as explicit training objectives by leveraging refined priors from Vision Foundation Models (VFMs) and perturbation-based regularization, rather than letting favorable manifold structure emerge indirectly from reconstruction or pretrained inheritance.",
-      "limitations": "The approach relies on the quality and availability of Vision Foundation Model priors to guide manifold shaping, which may limit its generalizability to domains where such pretrained models are unavailable. The study is primarily evaluated on ImageNet at 256x256 resolution, leaving open questions about scalability to other resolutions or data domains.",
+      "rating_rationale": "Strong paper on latent diffusion tokenizers with solid institutional backing and clear novelty in latent manifold analysis, directly addressing video generation infrastructure; achieves SOTA results but lacks tier-1 industry pedigree and code/demo release, yet high topic relevance to world models/video gen frontier research elevates overall impact.",
+      "description": "Introduces Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold of tokenizers to be more suitable for latent diffusion models by enforcing coherent spatial structure, local continuity, and global semantics.",
+      "contribution": "This work identifies three specific properties—coherent spatial structure, local manifold continuity, and global manifold semantics—that make a latent space friendly for diffusion-based generative modeling, independent of reconstruction fidelity. Unlike prior tokenizers that optimize for reconstruction or inherit pretrained representations, PAE directly engineers these properties using refined priors from Vision Foundation Models (VFMs) and perturbation-based regularization as explicit training objectives. This explicit manifold shaping leads to significantly faster convergence and improved generation quality compared to existing approaches.",
+      "limitations": "The approach relies on priors derived from Vision Foundation Models (VFMs), which may introduce biases or limitations tied to the quality and scope of those pretrained models. The study primarily focuses on image generation on ImageNet 256x256, leaving generalization to other modalities or resolutions less established.",
       "links": [],
       "date": "2026-05-08"
     },
     {
-      "id": "2605.08078",
-      "title": "Normalizing Trajectory Models",
-      "abstract": "Diffusion-based models decompose sampling into many small Gaussian denoising steps -- an assumption that breaks down when generation is compressed to a few coarse transitions. Existing few-step methods address this through distillation, consistency training, or adversarial objectives, but sacrifice the likelihood framework in the process. We introduce Normalizing Trajectory Models (NTM), which models each reverse step as an expressive conditional normalizing flow with exact likelihood training. Architecturally, NTM combines shallow invertible blocks within each step with a deep parallel predictor across the trajectory, forming an end-to-end network trainable from scratch or initializable from pretrained flow-matching models. Its exact trajectory likelihood further enables self-distillation: a lightweight denoiser trained on the model's own score produces high-quality samples in four steps. On text-to-image benchmarks, NTM matches or outperforms strong image generation baselines in just four sampling steps while uniquely retaining exact likelihood over the generative trajectory.",
-      "url": "https://arxiv.org/abs/2605.08078",
+      "id": "2605.07897",
+      "title": "Semantic-Aware Adaptive Visual Memory for Streaming Video Understanding",
+      "abstract": "Online streaming video understanding requires models to process continuous visual inputs and respond to user queries in real time, where the unbounded stream and unpredictable query timing turn memory management into a central challenge. Existing methods typically compress visual tokens via visual similarity heuristics, or augment compression with KV-cache-level retrieval. However, compression decisions rarely incorporate semantic signals, and retrieval is often added after compression is finalized, making the two stages hard to coordinate. We present SAVEMem, a training-free dual-stage framework that brings semantic awareness into memory generation and lets the retrieval scope adapt per query. In Stage~1, SAVEMem builds a three-tier streaming memory online under a constant memory budget. A fixed pseudo-question bank provides a lightweight semantic prior, so that long-term retention is shaped by semantic salience rather than visual similarity alone. In Stage~2, SAVEMem performs query-aware retrieval over this memory. An anchor-conditioned recency gate adapts the retrieval scope from short-term to mid- and long-term memory based on whether the query targets the present or the distant past. Within this scope, late interaction between query and memory tokens selects candidate frames for answering. Applied to Qwen2.5-VL without training, SAVEMem improves the OVO-Bench overall score from 52.27 to 62.69 and yields consistent gains on StreamingBench and ODV-Bench, while reducing peak GPU memory by 48\\% at 128 frames over the backbone.",
+      "url": "https://arxiv.org/abs/2605.07897",
       "submitted_date": "2026-05-08",
       "authors": [
-        "Jiatao Gu",
-        "Tianrong Chen",
+        "Hang Wu",
+        "Sherin Mary Mathews",
+        "Yujun Cai",
+        "Ming-Hsuan Yang",
+        "Yiwei Wang"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "University of California, Merced",
+        "US Bank",
+        "University of Queensland"
+      ],
+      "filter_reason": "Proposes a novel dual-stage memory management framework with semantic-aware compression and query-adaptive retrieval that addresses a new capability frontier (real-time streaming video understanding with unbounded inputs), achieving substantial improvements on multiple benchmarks while reducing memory by 48%.",
+      "stars": 2,
+      "rating_total": 0.55,
+      "rating_rationale": "Strong fit for video understanding (primary interest) with meaningful dual-stage memory innovation and solid institutional backing (UC Merced, Google Research), but incremental rather than paradigm-shifting; no code release mentioned limits reproducibility.",
+      "description": "Introduces a training-free dual-stage framework that builds semantically-aware streaming video memory and performs query-adaptive retrieval for online video understanding.",
+      "contribution": "SAVEMem uniquely integrates semantic signals directly into the memory compression stage using a fixed pseudo-question bank as a lightweight semantic prior, so that long-term retention reflects semantic salience rather than visual similarity alone. Unlike prior work that adds retrieval after compression is finalized, SAVEMem coordinates both stages through an anchor-conditioned recency gate that dynamically adapts the retrieval scope based on whether a query targets recent or distant past events. This joint design enables coherent memory generation and retrieval without any additional training.",
+      "limitations": "The framework relies on a fixed pseudo-question bank as a semantic prior, which may not capture all query types or domains encountered at inference time. The approach is evaluated only when applied on top of a specific backbone (Qwen2.5-VL) without training, potentially limiting its generalizability across different architectures.",
+      "links": [],
+      "date": "2026-05-08"
+    },
+    {
+      "id": "2605.08029",
+      "title": "STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multimodal Generation",
+      "abstract": "Deep generative models have advanced rapidly across text and vision, motivating unified multimodal systems that can understand, reason over, and generate interleaved text-image sequences. Most existing approaches combine autoregressive language modeling with diffusion-based image generators, inheriting a structural mismatch between causal text generation and iterative visual denoising. We observe that autoregressive normalizing flows are autoregressive Transformers--sharing the same causal mask, KV-cache mechanism, and left-to-right structure as LLMs--making them the most natural paradigm for true unified multimodal generation. We present STARFlow2, built on the Pretzel architecture that vertically interleaves a pretrained VLM stream with a TarFlow stream via residual skip connections, both operating under the same causal mask. Combined with a deep-shallow flow design and a unified FAE latent space, STARFlow2 enables cache-friendly interleaved generation where both text and visual outputs directly enter the KV-cache without re-encoding. Experiments demonstrate strong performance across image generation and multimodal understanding benchmarks, validating autoregressive flows as a viable foundation for unified multimodal modeling.",
+      "url": "https://arxiv.org/abs/2605.08029",
+      "submitted_date": "2026-05-08",
+      "authors": [
         "Ying Shen",
-        "David Berthelot",
-        "Shuangfei Zhai"
+        "Tianrong Chen",
+        "Yuan Gao",
+        "Yizhe Zhang",
+        "Yuyang Wang"
       ],
       "source": "arxiv",
       "affiliations": [
         "Apple",
         "UIUC"
       ],
-      "filter_reason": "Proposes a novel architectural combination (normalizing flows for each reverse step + deep parallel predictor) with a new training objective (exact likelihood in few-step generation) that achieves both fast sampling and tractable likelihood—a qualitatively different capability from existing diffusion acceleration methods.",
+      "filter_reason": "Proposes a novel architectural approach (autoregressive normalizing flows) that unifies text and image generation under a single causal framework with shared KV-cache mechanisms, bridging language models and flow-based generation in a non-obvious way that addresses a fundamental structural mismatch in existing multimodal systems.",
       "stars": 2,
       "rating_total": 0.5,
       "rating_rationale": "",
-      "description": "Introduces Normalizing Trajectory Models (NTM), which models each reverse diffusion step as an expressive conditional normalizing flow to enable exact likelihood training in few-step image generation.",
-      "contribution": "NTM uniquely preserves an exact likelihood framework in the few-step generation regime by parameterizing each reverse step with invertible normalizing flows, avoiding the distillation or adversarial objectives that sacrifice likelihood in prior work. The architecture combines shallow invertible blocks per step with a deep parallel predictor across the full trajectory, enabling end-to-end training from scratch or initialization from pretrained flow-matching models. The exact trajectory likelihood further enables a self-distillation scheme where a lightweight denoiser trained on the model's own score produces high-quality samples in four steps.",
-      "limitations": "The use of normalizing flows per step introduces architectural complexity and potentially higher memory or computational costs compared to standard diffusion models. The method's performance is demonstrated primarily in the four-step regime, and its scalability to single-step or very high-step generation is not fully explored.",
+      "description": "Introduces STARFlow2, a unified multimodal generation system that bridges pretrained vision-language models with autoregressive normalizing flows to enable interleaved text-image generation under a shared causal Transformer architecture.",
+      "contribution": "The key insight is that autoregressive normalizing flows share the same causal mask, KV-cache, and left-to-right structure as language models, making them a structurally compatible alternative to diffusion models for unified multimodal generation. STARFlow2 introduces the Pretzel architecture, which vertically interleaves a pretrained VLM stream with a TarFlow stream via residual skip connections, and combines this with a deep-shallow flow design and a unified FAE latent space. This enables cache-friendly interleaved generation where both text and image tokens directly enter the KV-cache without re-encoding, eliminating the structural mismatch inherent in autoregressive-plus-diffusion approaches.",
+      "limitations": "The approach relies on a pretrained VLM as a fixed or semi-fixed backbone, which may constrain flexibility in jointly optimizing language and vision capabilities. The system's performance is also dependent on the quality of the FAE latent space and the assumptions of the autoregressive flow framework.",
       "links": [],
       "date": "2026-05-08"
     }
