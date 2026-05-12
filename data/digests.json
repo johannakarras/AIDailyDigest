@@ -320,6 +320,66 @@
       "date": "2026-05-08"
     },
     {
+      "id": "2605.10730",
+      "title": "Qwen-Image-2.0 Technical Report",
+      "abstract": "We present Qwen-Image-2.0, an omni-capable image generation foundation model that unifies high-fidelity generation and precise image editing within a single framework. Despite recent progress, existing models still struggle with ultra-long text rendering, multilingual typography, high-resolution photorealism, robust instruction following, and efficient deployment, especially in text-rich and compositionally complex scenarios. Qwen-Image-2.0 addresses these challenges by coupling Qwen3-VL as the condition encoder with a Multimodal Diffusion Transformer for joint condition-target modeling, supported by large-scale data curation and a customized multi-stage training pipeline. This enables strong multimodal understanding while preserving flexible generation and editing capabilities. The model supports instructions of up to 1K tokens for generating text-rich content such as slides, posters, infographics, and comics, while significantly improving multilingual text fidelity and typography. It also enhances photorealistic generation with richer details, more realistic textures, and coherent lighting, and follows complex prompts more reliably across diverse styles. Extensive human evaluations show that Qwen-Image-2.0 substantially outperforms previous Qwen-Image models in both generation and editing, marking a step toward more general, reliable, and practical image generation foundation models.",
+      "url": "https://arxiv.org/abs/2605.10730",
+      "submitted_date": "2026-05-11",
+      "authors": [
+        "Bing Zhao",
+        "Chenfei Wu",
+        "Deqing Li",
+        "Hao Meng",
+        "Jiahao Li"
+      ],
+      "source": "arxiv",
+      "affiliations": [],
+      "filter_reason": "Demonstrates qualitatively new capabilities in image generation (ultra-long text rendering, multilingual typography, high-resolution photorealism) through a novel unified framework coupling vision-language understanding with diffusion transformers for both generation and editing at scale.",
+      "stars": 2,
+      "rating_total": 0.625,
+      "rating_rationale": "Alibaba/Qwen is a tier-1 industry lab (ByteDance AI equivalent in prestige); unified generation+editing with text rendering is meaningful but incremental; moderate breadth in image gen ecosystem; likely moderate social attention; no code/demo confirmed; among first but not first-mover on multimodal diffusion transformers; primary interest is world models/video (lower relevance) though secondary interest in image generation applies. Total: 0.30×1.0 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×0.5 = 0.58 → 2 stars.",
+      "description": "Unifies high-fidelity image generation and precise image editing within a single framework capable of handling ultra-long text rendering, multilingual typography, and complex compositional prompts.",
+      "contribution": "Qwen-Image-2.0 couples Qwen3-VL as a condition encoder with a Multimodal Diffusion Transformer for joint condition-target modeling, enabling rich multimodal understanding alongside flexible generation and editing in one model. A key novelty is supporting instructions of up to 1K tokens to generate text-rich, compositionally complex content such as slides, posters, infographics, and comics with strong multilingual typography fidelity. This is further supported by large-scale data curation and a customized multi-stage training pipeline tailored for both generation and editing tasks.",
+      "limitations": "The paper does not explicitly discuss failure cases or out-of-distribution scenarios, and the reliance on large-scale curated data and a heavy VL encoder (Qwen3-VL) may pose significant computational and deployment costs despite efficiency being cited as a goal.",
+      "links": [],
+      "date": "2026-05-11"
+    },
+    {
+      "id": "2605.10922",
+      "title": "Pixal3D: Pixel-Aligned 3D Generation from Images",
+      "abstract": "Recent advances in 3D generative models have rapidly improved image-to-3D synthesis quality, enabling higher-resolution geometry and more realistic appearance. Yet fidelity, which measures pixel-level faithfulness of the generated 3D asset to the input image, still remains a central bottleneck. We argue this stems from an implicit 2D-3D correspondence issue: most 3D-native generators synthesize shape in canonical space and inject image cues via attention, leaving pixel-to-3D associations ambiguous. To tackle this issue, we draw inspiration from 3D reconstruction and propose Pixal3D, a pixel-aligned 3D generation paradigm for high-fidelity 3D asset creation from images. Instead of generating in a canonical pose, Pixal3D directly generates 3D in a pixel-aligned way, consistent with the input view. To enable this, we introduce a pixel back-projection conditioning scheme that explicitly lifts multi-scale image features into a 3D feature volume, establishing direct pixel-to-3D correspondence without ambiguity. We show that Pixal3D is not only scalable and capable of producing high-quality 3D assets, but also substantially improves fidelity, approaching the fidelity level of reconstruction. Furthermore, Pixal3D naturally extends to multi-view generation by aggregating back-projected feature volumes across views. Finally, we show pixel-aligned generation benefits scene synthesis, and present a modular pipeline that produces high-fidelity, object-separated 3D scenes from images. Pixal3D for the first time demonstrates 3D-native pixel-aligned generation at scale, and provides a new inspiring way towards high-fidelity 3D generation of object or scene from single or multi-view images. Project page: https://ldyang694.github.io/projects/pixal3d/",
+      "url": "https://arxiv.org/abs/2605.10922",
+      "submitted_date": "2026-05-11",
+      "authors": [
+        "Dong-Yang Li",
+        "Wang Zhao",
+        "Yuxin Chen",
+        "Wenbo Hu",
+        "Meng-Hao Guo"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "BNRist, Department of Computer Science and Technology, Tsinghua University",
+        "Tsinghua University",
+        "Tencent ARC Lab",
+        "Victoria University of Wellington"
+      ],
+      "filter_reason": "Proposes a novel pixel-aligned 3D generation paradigm with explicit pixel back-projection conditioning that fundamentally addresses the 2D-3D correspondence problem in image-to-3D synthesis, enabling higher fidelity generation at scale.",
+      "stars": 2,
+      "rating_total": 0.575,
+      "rating_rationale": "Pixel-aligned 3D generation addresses a real bottleneck (2D-3D correspondence) in image-to-3D synthesis with a well-motivated paradigm shift in approach, directly relevant to world models and 3D scene understanding; strong university affiliation and project page suggest solid execution, but authors are not prominent names and this is a meaningful advance rather than transformative breakthrough.",
+      "description": "Introduces a pixel-aligned 3D generation paradigm that directly generates 3D assets consistent with the input view by explicitly lifting multi-scale image features into a 3D feature volume.",
+      "contribution": "Unlike prior 3D-native generators that synthesize shape in canonical space and inject image cues via attention (leaving pixel-to-3D associations ambiguous), Pixal3D introduces a pixel back-projection conditioning scheme that establishes direct, unambiguous pixel-to-3D correspondence. This paradigm generates 3D content in a pixel-aligned manner consistent with the input view rather than in a canonical pose, bridging the gap between generation and reconstruction fidelity. The approach naturally extends to multi-view inputs by aggregating back-projected feature volumes across views and enables modular high-fidelity scene synthesis.",
+      "limitations": "The method relies on accurate pixel back-projection, which may be sensitive to the quality of depth or camera pose estimates when handling in-the-wild images. The paper does not explicitly address failure cases for heavily occluded objects or scenes with complex geometry that lacks clear pixel-to-3D correspondence.",
+      "links": [
+        {
+          "label": "Project Page",
+          "url": "https://ldyang694.github.io/projects/pixal3d/"
+        }
+      ],
+      "date": "2026-05-11"
+    },
+    {
       "id": "2605.08050",
       "title": "MoCoTalk: Multi-Conditional Diffusion with Adaptive Router for Controllable Talking Head Generation",
       "abstract": "Talking-head generation requires joint modeling of identity, head pose, facial expression, and mouth dynamics. Existing methods typically address only a subset of these factors, and rely on fixed-weight or heuristic fusion when multiple conditions are involved. We present MoCoTalk, a multi-conditional video diffusion framework that unifies four complementary control signals: a reference image, facial keypoints, 3DMM-rendered shading meshes, and the corresponding speech audio. To resolve destructive interference among heterogeneous conditions, we introduce an Adaptive Multi-Condition Router that computes channel-wise, timestep-aware gating over the four condition streams, allowing the fusion strategy to vary with both feature subspace and noise level. To better capture speech-related facial dynamics, we design a Mouth-Augmented Shading Mesh, a 3DMM-based representation that decouples head motion, mouth motion, expression, and lighting. This design provides a temporally consistent geometric prior and allows flexible recombination of these attributes at inference. We further introduce a lip consistency loss to tighten audio-visual alignment. Extensive experiments show that MoCoTalk achieves state-of-the-art performance on the majority of structural, motion, and perceptual metrics, while offering attribute-level controllability that single-condition methods do not provide.",
@@ -374,63 +434,6 @@
       "description": "Introduces Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold of tokenizers to be more suitable for latent diffusion models by enforcing coherent spatial structure, local continuity, and global semantics.",
       "contribution": "This work identifies three specific properties—coherent spatial structure, local manifold continuity, and global manifold semantics—that make a latent space friendly for diffusion-based generative modeling, independent of reconstruction fidelity. Unlike prior tokenizers that optimize for reconstruction or inherit pretrained representations, PAE directly engineers these properties using refined priors from Vision Foundation Models (VFMs) and perturbation-based regularization as explicit training objectives. This explicit manifold shaping leads to significantly faster convergence and improved generation quality compared to existing approaches.",
       "limitations": "The approach relies on priors derived from Vision Foundation Models (VFMs), which may introduce biases or limitations tied to the quality and scope of those pretrained models. The study primarily focuses on image generation on ImageNet 256x256, leaving generalization to other modalities or resolutions less established.",
-      "links": [],
-      "date": "2026-05-08"
-    },
-    {
-      "id": "2605.07897",
-      "title": "Semantic-Aware Adaptive Visual Memory for Streaming Video Understanding",
-      "abstract": "Online streaming video understanding requires models to process continuous visual inputs and respond to user queries in real time, where the unbounded stream and unpredictable query timing turn memory management into a central challenge. Existing methods typically compress visual tokens via visual similarity heuristics, or augment compression with KV-cache-level retrieval. However, compression decisions rarely incorporate semantic signals, and retrieval is often added after compression is finalized, making the two stages hard to coordinate. We present SAVEMem, a training-free dual-stage framework that brings semantic awareness into memory generation and lets the retrieval scope adapt per query. In Stage~1, SAVEMem builds a three-tier streaming memory online under a constant memory budget. A fixed pseudo-question bank provides a lightweight semantic prior, so that long-term retention is shaped by semantic salience rather than visual similarity alone. In Stage~2, SAVEMem performs query-aware retrieval over this memory. An anchor-conditioned recency gate adapts the retrieval scope from short-term to mid- and long-term memory based on whether the query targets the present or the distant past. Within this scope, late interaction between query and memory tokens selects candidate frames for answering. Applied to Qwen2.5-VL without training, SAVEMem improves the OVO-Bench overall score from 52.27 to 62.69 and yields consistent gains on StreamingBench and ODV-Bench, while reducing peak GPU memory by 48\\% at 128 frames over the backbone.",
-      "url": "https://arxiv.org/abs/2605.07897",
-      "submitted_date": "2026-05-08",
-      "authors": [
-        "Hang Wu",
-        "Sherin Mary Mathews",
-        "Yujun Cai",
-        "Ming-Hsuan Yang",
-        "Yiwei Wang"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "University of California, Merced",
-        "US Bank",
-        "University of Queensland"
-      ],
-      "filter_reason": "Proposes a novel dual-stage memory management framework with semantic-aware compression and query-adaptive retrieval that addresses a new capability frontier (real-time streaming video understanding with unbounded inputs), achieving substantial improvements on multiple benchmarks while reducing memory by 48%.",
-      "stars": 2,
-      "rating_total": 0.55,
-      "rating_rationale": "Strong fit for video understanding (primary interest) with meaningful dual-stage memory innovation and solid institutional backing (UC Merced, Google Research), but incremental rather than paradigm-shifting; no code release mentioned limits reproducibility.",
-      "description": "Introduces a training-free dual-stage framework that builds semantically-aware streaming video memory and performs query-adaptive retrieval for online video understanding.",
-      "contribution": "SAVEMem uniquely integrates semantic signals directly into the memory compression stage using a fixed pseudo-question bank as a lightweight semantic prior, so that long-term retention reflects semantic salience rather than visual similarity alone. Unlike prior work that adds retrieval after compression is finalized, SAVEMem coordinates both stages through an anchor-conditioned recency gate that dynamically adapts the retrieval scope based on whether a query targets recent or distant past events. This joint design enables coherent memory generation and retrieval without any additional training.",
-      "limitations": "The framework relies on a fixed pseudo-question bank as a semantic prior, which may not capture all query types or domains encountered at inference time. The approach is evaluated only when applied on top of a specific backbone (Qwen2.5-VL) without training, potentially limiting its generalizability across different architectures.",
-      "links": [],
-      "date": "2026-05-08"
-    },
-    {
-      "id": "2605.08029",
-      "title": "STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multimodal Generation",
-      "abstract": "Deep generative models have advanced rapidly across text and vision, motivating unified multimodal systems that can understand, reason over, and generate interleaved text-image sequences. Most existing approaches combine autoregressive language modeling with diffusion-based image generators, inheriting a structural mismatch between causal text generation and iterative visual denoising. We observe that autoregressive normalizing flows are autoregressive Transformers--sharing the same causal mask, KV-cache mechanism, and left-to-right structure as LLMs--making them the most natural paradigm for true unified multimodal generation. We present STARFlow2, built on the Pretzel architecture that vertically interleaves a pretrained VLM stream with a TarFlow stream via residual skip connections, both operating under the same causal mask. Combined with a deep-shallow flow design and a unified FAE latent space, STARFlow2 enables cache-friendly interleaved generation where both text and visual outputs directly enter the KV-cache without re-encoding. Experiments demonstrate strong performance across image generation and multimodal understanding benchmarks, validating autoregressive flows as a viable foundation for unified multimodal modeling.",
-      "url": "https://arxiv.org/abs/2605.08029",
-      "submitted_date": "2026-05-08",
-      "authors": [
-        "Ying Shen",
-        "Tianrong Chen",
-        "Yuan Gao",
-        "Yizhe Zhang",
-        "Yuyang Wang"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "Apple",
-        "UIUC"
-      ],
-      "filter_reason": "Proposes a novel architectural approach (autoregressive normalizing flows) that unifies text and image generation under a single causal framework with shared KV-cache mechanisms, bridging language models and flow-based generation in a non-obvious way that addresses a fundamental structural mismatch in existing multimodal systems.",
-      "stars": 2,
-      "rating_total": 0.5,
-      "rating_rationale": "",
-      "description": "Introduces STARFlow2, a unified multimodal generation system that bridges pretrained vision-language models with autoregressive normalizing flows to enable interleaved text-image generation under a shared causal Transformer architecture.",
-      "contribution": "The key insight is that autoregressive normalizing flows share the same causal mask, KV-cache, and left-to-right structure as language models, making them a structurally compatible alternative to diffusion models for unified multimodal generation. STARFlow2 introduces the Pretzel architecture, which vertically interleaves a pretrained VLM stream with a TarFlow stream via residual skip connections, and combines this with a deep-shallow flow design and a unified FAE latent space. This enables cache-friendly interleaved generation where both text and image tokens directly enter the KV-cache without re-encoding, eliminating the structural mismatch inherent in autoregressive-plus-diffusion approaches.",
-      "limitations": "The approach relies on a pretrained VLM as a fixed or semi-fixed backbone, which may constrain flexibility in jointly optimizing language and vision capabilities. The system's performance is also dependent on the quality of the FAE latent space and the assumptions of the autoregressive flow framework.",
       "links": [],
       "date": "2026-05-08"
     }
