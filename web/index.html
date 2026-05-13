@@ -746,62 +746,63 @@ const DIGESTS = {
       "date": "2026-05-11"
     },
     {
-      "id": "2605.08050",
-      "title": "MoCoTalk: Multi-Conditional Diffusion with Adaptive Router for Controllable Talking Head Generation",
-      "abstract": "Talking-head generation requires joint modeling of identity, head pose, facial expression, and mouth dynamics. Existing methods typically address only a subset of these factors, and rely on fixed-weight or heuristic fusion when multiple conditions are involved. We present MoCoTalk, a multi-conditional video diffusion framework that unifies four complementary control signals: a reference image, facial keypoints, 3DMM-rendered shading meshes, and the corresponding speech audio. To resolve destructive interference among heterogeneous conditions, we introduce an Adaptive Multi-Condition Router that computes channel-wise, timestep-aware gating over the four condition streams, allowing the fusion strategy to vary with both feature subspace and noise level. To better capture speech-related facial dynamics, we design a Mouth-Augmented Shading Mesh, a 3DMM-based representation that decouples head motion, mouth motion, expression, and lighting. This design provides a temporally consistent geometric prior and allows flexible recombination of these attributes at inference. We further introduce a lip consistency loss to tighten audio-visual alignment. Extensive experiments show that MoCoTalk achieves state-of-the-art performance on the majority of structural, motion, and perceptual metrics, while offering attribute-level controllability that single-condition methods do not provide.",
-      "url": "https://arxiv.org/abs/2605.08050",
-      "submitted_date": "2026-05-08",
+      "id": "2605.12500",
+      "title": "SenseNova-U1: Unifying Multimodal Understanding and Generation with NEO-unify Architecture",
+      "abstract": "Recent large vision-language models (VLMs) remain fundamentally constrained by a persistent dichotomy: understanding and generation are treated as distinct problems, leading to fragmented architectures, cascaded pipelines, and misaligned representation spaces. We argue that this divide is not merely an engineering artifact, but a structural limitation that hinders the emergence of native multimodal intelligence. Hence, we introduce SenseNova-U1, a native unified multimodal paradigm built upon NEO-unify, in which understanding and generation evolve as synergistic views of a single underlying process. We launch two native unified variants, SenseNova-U1-8B-MoT and SenseNova-U1-A3B-MoT, built on dense (8B) and mixture-of-experts (30B-A3B) understanding baselines, respectively. Designed from first principles, they rival top-tier understanding-only VLMs across text understanding, vision-language perception, knowledge reasoning, agentic decision-making, and spatial intelligence. Meanwhile, they deliver strong semantic consistency and visual fidelity, excelling in conventional or knowledge-intensive any-to-image (X2I) synthesis, complex text-rich infographic generation, and interleaved vision-language generation, with or without think patterns. Beyond performance, we show detailed model design, data preprocessing, pre-/post-training, and inference strategies to support community research. Last but not least, preliminary evidence demonstrates that our models extend beyond perception and generation, performing strongly in vision-language-action (VLA) and world model (WM) scenarios. This points toward a broader roadmap where models do not translate between modalities, but think and act across them in a native manner. Multimodal AI is no longer about connecting separate systems, but about building a unified one and trusting the necessary capabilities to emerge from within.",
+      "url": "https://arxiv.org/abs/2605.12500",
+      "submitted_date": "2026-05-12",
       "authors": [
-        "Xinyan Ye",
-        "Jiankang Deng",
-        "Abbas Edalat"
+        "Haiwen Diao",
+        "Penghao Wu",
+        "Hanming Deng",
+        "Jiahao Wang",
+        "Shihao Bai"
       ],
       "source": "arxiv",
-      "affiliations": [
-        "Imperial College London"
-      ],
-      "filter_reason": "The paper introduces novel architectural components (Adaptive Multi-Condition Router with channel-wise timestep-aware gating, Mouth-Augmented Shading Mesh) that address a non-trivial technical problem of destructive interference in multi-conditional diffusion, demonstrating architectural insight beyond standard technique application.",
+      "affiliations": [],
+      "filter_reason": "The paper proposes NEO-unify, a novel architectural framework that unifies multimodal understanding and generation as synergistic views of a single process, bridging the traditionally separate understanding-only and generation-focused VLM subfields with demonstrated capabilities in both domains plus emerging VLA and world model competencies.",
       "stars": 2,
-      "rating_total": 0.55,
-      "rating_rationale": "MoCoTalk demonstrates solid technical contributions (adaptive routing, mouth-augmented mesh) to multi-conditional video diffusion with strong experimental results, directly aligned with primary research interests in video generation; however, the authors lack tier-1 industry lab affiliation or world-renowned names, the novelty is meaningful but not paradigm-shifting (incremental advances in existing diffusion frameworks), and no code/demo release is mentioned, yielding a mid-tier assessment of 2 stars.",
-      "description": "Introduces a multi-conditional video diffusion framework that unifies four control signals—reference image, facial keypoints, 3DMM-rendered shading meshes, and speech audio—for controllable talking head generation.",
-      "contribution": "The key novelty is an Adaptive Multi-Condition Router that computes channel-wise, timestep-aware gating over heterogeneous condition streams, allowing fusion strategy to adapt to both feature subspace and diffusion noise level rather than using fixed-weight or heuristic fusion. Additionally, the Mouth-Augmented Shading Mesh is a new 3DMM-based representation that explicitly decouples head motion, mouth motion, expression, and lighting into independently recombineable attributes. A lip consistency loss is further introduced to tighten audio-visual alignment during training.",
-      "limitations": "The method relies on 3DMM fitting quality, which may introduce errors for extreme poses or occlusions. The framework's complexity from four simultaneous condition streams may increase computational cost compared to single-condition approaches.",
+      "rating_total": 0.575,
+      "rating_rationale": "SenseNova-U1 presents a meaningful unified architecture bridging understanding and generation with emerging world model capabilities (highly relevant to primary interests), authored by active researchers at a respected institution; the NEO-unify framework passes novelty filter but represents incremental rather than paradigm-shifting progress, with code/demo mentioned but status unclear and mid-tier industry positioning.",
+      "description": "Introduces SenseNova-U1, a unified multimodal architecture that treats image understanding and generation as synergistic views of a single underlying process rather than separate tasks.",
+      "contribution": "The core novel insight is the NEO-unify architecture, which rejects the traditional dichotomy between understanding and generation by unifying both into a single native paradigm with shared representation spaces. This eliminates fragmented architectures and cascaded pipelines, allowing understanding and generation capabilities to mutually reinforce each other rather than being independently optimized. The approach extends naturally to vision-language-action and world model scenarios, suggesting that unified representations enable emergent cross-modal reasoning and acting.",
+      "limitations": "The paper does not explicitly discuss failure modes or boundary conditions of the unified architecture. The preliminary nature of the VLA and world model results suggests these capabilities are not yet fully validated or characterized.",
       "links": [],
-      "date": "2026-05-08"
+      "date": "2026-05-12"
     },
     {
-      "id": "2605.07915",
-      "title": "What Matters for Diffusion-Friendly Latent Manifold? Prior-Aligned Autoencoders for Latent Diffusion",
-      "abstract": "Tokenizers are a crucial component of latent diffusion models, as they define the latent space in which diffusion models operate. However, existing tokenizers are primarily designed to improve reconstruction fidelity or inherit pretrained representations, leaving unclear what kind of latent space is truly friendly for generative modeling. In this paper, we study this question from the perspective of latent manifold organization. By constructing controlled tokenizer variants, we identify three key properties of a diffusion-friendly latent manifold: coherent spatial structure, local manifold continuity, and global manifold semantics. We find that these properties are more consistent with downstream generation quality than reconstruction fidelity. Motivated by this finding, we propose the Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold instead of leaving diffusion-friendly manifold to emerge indirectly from reconstruction or inheritance. Specifically, PAE leverages refined priors derived from VFMs and perturbation-based regularization to turn spatial structure, local continuity, and global semantics into explicit training objectives. On ImageNet 256x256, PAE improves both training efficiency and generation quality over existing tokenizers, reaching performance comparable to RAE with up to 13x faster convergence under the same training setup and achieving a new state-of-the-art gFID of 1.03. These results highlight the importance of organizing the latent manifold for latent diffusion models.",
-      "url": "https://arxiv.org/abs/2605.07915",
-      "submitted_date": "2026-05-08",
+      "id": "2605.12496",
+      "title": "CausalCine: Real-Time Autoregressive Generation for Multi-Shot Video Narratives",
+      "abstract": "Autoregressive video generation aims at real-time, open-ended synthesis. Yet, cinematic storytelling is not merely the endless extension of a single scene; it requires progressing through evolving events, viewpoint shifts, and discrete shot boundaries. Existing autoregressive models often struggle in this setting. Trained primarily for short-horizon continuation, they treat long sequences as extended single shots, inevitably suffering from motion stagnation and semantic drift during long rollouts. To bridge this gap, we introduce CausalCine, an interactive autoregressive framework that transforms multi-shot video generation into an online directing process. CausalCine generates causally across shot changes, accepts dynamic prompts on the fly, and reuses context without regenerating previous shots. To achieve this, we first train a causal base model on native multi-shot sequences to learn complex shot transitions prior to acceleration. We then propose Content-Aware Memory Routing (CAMR), which dynamically retrieves historical KV entries according to attention-based relevance scores rather than temporal proximity, preserving cross-shot coherence under bounded active memory. Finally, we distill the causal base model into a few-step generator for real-time interactive generation. Extensive experiments demonstrate that CausalCine significantly outperforms autoregressive baselines and approaches the capability of bidirectional models while unlocking the streaming interactivity of causal generation. Demo available at https://yihao-meng.github.io/CausalCine/",
+      "url": "https://arxiv.org/abs/2605.12496",
+      "submitted_date": "2026-05-12",
       "authors": [
-        "Zhengrong Yue",
-        "Taihang Hu",
-        "Mengting Chen",
-        "Haiyu Zhang",
-        "Zihao Pan"
+        "Yihao Meng",
+        "Zichen Liu",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Ka Leong Cheng"
       ],
       "source": "arxiv",
       "affiliations": [
-        "Shanghai Jiao Tong University",
-        "Alibaba Group",
-        "Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences",
-        "Beihang University",
-        "Sun Yat-sen University",
-        "Nankai University",
-        "Shanghai AI Laboratory"
+        "HKUST",
+        "AntGroup",
+        "SJTU"
       ],
-      "filter_reason": "The paper provides novel theoretical framing of latent space properties for diffusion models and proposes Prior-Aligned AutoEncoders with new training objectives (VFM-derived priors + perturbation-based regularization) that empirically outperform existing tokenizers with significant efficiency gains.",
+      "filter_reason": "The paper proposes a novel architectural contribution (Content-Aware Memory Routing) and demonstrates a qualitatively new capability—real-time interactive multi-shot video generation with causal constraints—that extends autoregressive models beyond single-shot limitations through a non-obvious combination of causal training, attention-based memory routing, and distillation.",
       "stars": 2,
-      "rating_total": 0.55,
-      "rating_rationale": "Strong paper on latent diffusion tokenizers with solid institutional backing and clear novelty in latent manifold analysis, directly addressing video generation infrastructure; achieves SOTA results but lacks tier-1 industry pedigree and code/demo release, yet high topic relevance to world models/video gen frontier research elevates overall impact.",
-      "description": "Introduces Prior-Aligned AutoEncoder (PAE), which explicitly shapes the latent manifold of tokenizers to be more suitable for latent diffusion models by enforcing coherent spatial structure, local continuity, and global semantics.",
-      "contribution": "This work identifies three specific properties—coherent spatial structure, local manifold continuity, and global manifold semantics—that make a latent space friendly for diffusion-based generative modeling, independent of reconstruction fidelity. Unlike prior tokenizers that optimize for reconstruction or inherit pretrained representations, PAE directly engineers these properties using refined priors from Vision Foundation Models (VFMs) and perturbation-based regularization as explicit training objectives. This explicit manifold shaping leads to significantly faster convergence and improved generation quality compared to existing approaches.",
-      "limitations": "The approach relies on priors derived from Vision Foundation Models (VFMs), which may introduce biases or limitations tied to the quality and scope of those pretrained models. The study primarily focuses on image generation on ImageNet 256x256, leaving generalization to other modalities or resolutions less established.",
-      "links": [],
-      "date": "2026-05-08"
+      "rating_total": 0.575,
+      "rating_rationale": "CausalCine addresses a primary research interest (video generation with world-model-adjacent multi-shot narrative coherence) with meaningful novelty (Content-Aware Memory Routing and causal multi-shot generation), from active researchers at a respected institution, with a live demo and strong fit to frontier video generation priorities, but from non-flagship authors/labs and without paradigm-shift-level impact.",
+      "description": "Introduces an interactive autoregressive framework for real-time multi-shot video generation that handles shot transitions, dynamic prompts, and efficient context reuse.",
+      "contribution": "CausalCine addresses the failure of existing autoregressive models on long multi-shot video by training a causal base model on native multi-shot sequences to learn shot transition priors. It proposes Content-Aware Memory Routing (CAMR), which retrieves historical key-value entries based on attention-based relevance rather than temporal proximity, enabling cross-shot coherence under bounded memory. The causal base model is then distilled into a few-step generator to enable real-time interactive generation without regenerating previous shots.",
+      "limitations": "The approach relies on bounded active memory, which may still lose fine-grained details from distant shots not retrieved by CAMR. The distillation into a few-step generator may introduce quality trade-offs compared to the full causal base model.",
+      "links": [
+        {
+          "label": "Demo / Project Page",
+          "url": "https://yihao-meng.github.io/CausalCine/"
+        }
+      ],
+      "date": "2026-05-12"
     }
   ],
   "2026-W19": [
