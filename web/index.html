@@ -658,6 +658,31 @@ const DIGESTS = {
   ],
   "2026-W20": [
     {
+      "id": "2605.10730",
+      "title": "Qwen-Image-2.0 Technical Report",
+      "abstract": "We present Qwen-Image-2.0, an omni-capable image generation foundation model that unifies high-fidelity generation and precise image editing within a single framework. Despite recent progress, existing models still struggle with ultra-long text rendering, multilingual typography, high-resolution photorealism, robust instruction following, and efficient deployment, especially in text-rich and compositionally complex scenarios. Qwen-Image-2.0 addresses these challenges by coupling Qwen3-VL as the condition encoder with a Multimodal Diffusion Transformer for joint condition-target modeling, supported by large-scale data curation and a customized multi-stage training pipeline. This enables strong multimodal understanding while preserving flexible generation and editing capabilities. The model supports instructions of up to 1K tokens for generating text-rich content such as slides, posters, infographics, and comics, while significantly improving multilingual text fidelity and typography. It also enhances photorealistic generation with richer details, more realistic textures, and coherent lighting, and follows complex prompts more reliably across diverse styles. Extensive human evaluations show that Qwen-Image-2.0 substantially outperforms previous Qwen-Image models in both generation and editing, marking a step toward more general, reliable, and practical image generation foundation models.",
+      "url": "https://arxiv.org/abs/2605.10730",
+      "submitted_date": "2026-05-11",
+      "authors": [
+        "Bing Zhao",
+        "Chenfei Wu",
+        "Deqing Li",
+        "Hao Meng",
+        "Jiahao Li"
+      ],
+      "source": "arxiv",
+      "affiliations": [],
+      "filter_reason": "Demonstrates qualitatively new capabilities in image generation (ultra-long text rendering, multilingual typography, high-resolution photorealism) through a novel unified framework coupling vision-language understanding with diffusion transformers for both generation and editing at scale.",
+      "stars": 3,
+      "rating_total": 0.625,
+      "rating_rationale": "Alibaba/Qwen is a tier-1 industry lab (ByteDance AI equivalent in prestige); unified generation+editing with text rendering is meaningful but incremental; moderate breadth in image gen ecosystem; likely moderate social attention; no code/demo confirmed; among first but not first-mover on multimodal diffusion transformers; primary interest is world models/video (lower relevance) though secondary interest in image generation applies. Total: 0.30×1.0 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×0.5 = 0.58 → manually upgraded to 3 stars: major open-source foundation model release from a top-tier lab.",
+      "description": "Unifies high-fidelity image generation and precise image editing within a single framework capable of handling ultra-long text rendering, multilingual typography, and complex compositional prompts.",
+      "contribution": "Qwen-Image-2.0 couples Qwen3-VL as a condition encoder with a Multimodal Diffusion Transformer for joint condition-target modeling, enabling rich multimodal understanding alongside flexible generation and editing in one model. A key novelty is supporting instructions of up to 1K tokens to generate text-rich, compositionally complex content such as slides, posters, infographics, and comics with strong multilingual typography fidelity. This is further supported by large-scale data curation and a customized multi-stage training pipeline tailored for both generation and editing tasks.",
+      "limitations": "The paper does not explicitly discuss failure cases or out-of-distribution scenarios, and the reliance on large-scale curated data and a heavy VL encoder (Qwen3-VL) may pose significant computational and deployment costs despite efficiency being cited as a goal.",
+      "links": [],
+      "date": "2026-05-11"
+    },
+    {
       "id": "2605.08078",
       "title": "Normalizing Trajectory Models",
       "abstract": "Diffusion-based models decompose sampling into many small Gaussian denoising steps -- an assumption that breaks down when generation is compressed to a few coarse transitions. Existing few-step methods address this through distillation, consistency training, or adversarial objectives, but sacrifice the likelihood framework in the process. We introduce Normalizing Trajectory Models (NTM), which models each reverse step as an expressive conditional normalizing flow with exact likelihood training. Architecturally, NTM combines shallow invertible blocks within each step with a deep parallel predictor across the trajectory, forming an end-to-end network trainable from scratch or initializable from pretrained flow-matching models. Its exact trajectory likelihood further enables self-distillation: a lightweight denoiser trained on the model's own score produces high-quality samples in four steps. On text-to-image benchmarks, NTM matches or outperforms strong image generation baselines in just four sampling steps while uniquely retaining exact likelihood over the generative trajectory.",
@@ -686,29 +711,29 @@ const DIGESTS = {
       "date": "2026-05-08"
     },
     {
-      "id": "2605.10730",
-      "title": "Qwen-Image-2.0 Technical Report",
-      "abstract": "We present Qwen-Image-2.0, an omni-capable image generation foundation model that unifies high-fidelity generation and precise image editing within a single framework. Despite recent progress, existing models still struggle with ultra-long text rendering, multilingual typography, high-resolution photorealism, robust instruction following, and efficient deployment, especially in text-rich and compositionally complex scenarios. Qwen-Image-2.0 addresses these challenges by coupling Qwen3-VL as the condition encoder with a Multimodal Diffusion Transformer for joint condition-target modeling, supported by large-scale data curation and a customized multi-stage training pipeline. This enables strong multimodal understanding while preserving flexible generation and editing capabilities. The model supports instructions of up to 1K tokens for generating text-rich content such as slides, posters, infographics, and comics, while significantly improving multilingual text fidelity and typography. It also enhances photorealistic generation with richer details, more realistic textures, and coherent lighting, and follows complex prompts more reliably across diverse styles. Extensive human evaluations show that Qwen-Image-2.0 substantially outperforms previous Qwen-Image models in both generation and editing, marking a step toward more general, reliable, and practical image generation foundation models.",
-      "url": "https://arxiv.org/abs/2605.10730",
-      "submitted_date": "2026-05-11",
+      "id": "2605.14747",
+      "title": "Video2GUI: Synthesizing Large-Scale Interaction Trajectories for Generalized GUI Agent Pretraining",
+      "abstract": "Recent advances in multimodal large language models have driven growing interest in graphical user interface (GUI) agents, yet their generalization remains constrained by the scarcity of large-scale training data spanning diverse real-world applications. Existing datasets rely heavily on costly manual annotations and are typically confined to narrow domains. To address this challenge, we propose Video2GUI, a fully automated framework that extracts grounded GUI interaction trajectories directly from unlabeled Internet videos. Video2GUI employs a coarse-to-fine filtering strategy to identify high-quality GUI tutorial videos and convert them into structured agent trajectories. Applying this pipeline to 500 million video metadata entries, we construct WildGUI, a large-scale dataset containing 12 million interaction trajectories spanning over 1,500 applications and websites. Pre-training Qwen2.5-VL and Mimo-VL on WildGUI yields consistent improvements of 5-20% across multiple GUI grounding and action benchmarks, matching or surpassing state-of-the-art performance. We will release both the WildGUI dataset and the Video2GUI pipeline to support future research of GUI agents.",
+      "url": "https://arxiv.org/abs/2605.14747",
+      "submitted_date": "2026-05-14",
       "authors": [
-        "Bing Zhao",
-        "Chenfei Wu",
-        "Deqing Li",
-        "Hao Meng",
-        "Jiahao Li"
+        "Weimin Xiong",
+        "Shuhao Gu",
+        "Bowen Ye",
+        "Zihao Yue",
+        "Lei Li"
       ],
       "source": "arxiv",
       "affiliations": [],
-      "filter_reason": "Demonstrates qualitatively new capabilities in image generation (ultra-long text rendering, multilingual typography, high-resolution photorealism) through a novel unified framework coupling vision-language understanding with diffusion transformers for both generation and editing at scale.",
+      "filter_reason": "While the core technique is standard pretraining, the paper introduces a novel automated pipeline (Video2GUI) for extracting structured interaction data from unlabeled video at massive scale (12M trajectories), enabling a qualitatively new capability of generalizable GUI agents and bridging video understanding with agentic AI in a non-obvious way.",
       "stars": 2,
-      "rating_total": 0.625,
-      "rating_rationale": "Alibaba/Qwen is a tier-1 industry lab (ByteDance AI equivalent in prestige); unified generation+editing with text rendering is meaningful but incremental; moderate breadth in image gen ecosystem; likely moderate social attention; no code/demo confirmed; among first but not first-mover on multimodal diffusion transformers; primary interest is world models/video (lower relevance) though secondary interest in image generation applies. Total: 0.30×1.0 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×0 + 0.05×0.5 + 0.15×0.5 = 0.58 → 2 stars.",
-      "description": "Unifies high-fidelity image generation and precise image editing within a single framework capable of handling ultra-long text rendering, multilingual typography, and complex compositional prompts.",
-      "contribution": "Qwen-Image-2.0 couples Qwen3-VL as a condition encoder with a Multimodal Diffusion Transformer for joint condition-target modeling, enabling rich multimodal understanding alongside flexible generation and editing in one model. A key novelty is supporting instructions of up to 1K tokens to generate text-rich, compositionally complex content such as slides, posters, infographics, and comics with strong multilingual typography fidelity. This is further supported by large-scale data curation and a customized multi-stage training pipeline tailored for both generation and editing tasks.",
-      "limitations": "The paper does not explicitly discuss failure cases or out-of-distribution scenarios, and the reliance on large-scale curated data and a heavy VL encoder (Qwen3-VL) may pose significant computational and deployment costs despite efficiency being cited as a goal.",
+      "rating_total": 0.6,
+      "rating_rationale": "Strong dataset contribution (WildGUI + Video2GUI pipeline) with committed open release, aligned with primary interest in video understanding and multimodal agents; authors from active research institutions (Alibaba/Qwen, appears academic-affiliated) rather than elite tier-1 labs; novelty is meaningful (automated large-scale extraction from video) but not paradigm-shifting; 12M trajectories across 1500+ apps show breadth within GUI grounding, with solid empirical gains; likely modest social attention outside ML communities due to domain focus; total impact is 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×1.0 + 0.05×0.5 + 0.15×1.0 = 0.675 → 3 stars.",
+      "description": "Extracts grounded GUI interaction trajectories from unlabeled Internet tutorial videos to enable large-scale pretraining of GUI agents.",
+      "contribution": "Video2GUI introduces a fully automated coarse-to-fine filtering pipeline that converts raw Internet videos into structured agent trajectories without manual annotation, eliminating the bottleneck of costly human labeling. Unlike prior work confined to narrow domains, this approach scales to over 1,500 applications and websites by leveraging the abundance of existing GUI tutorial videos online. The resulting dataset, WildGUI, provides 12 million interaction trajectories at a scale and diversity previously unavailable for GUI agent pretraining.",
+      "limitations": "The framework depends on the availability and quality of GUI tutorial videos on the Internet, which may introduce distribution biases toward popular or well-documented applications. The automated extraction pipeline may also produce noisy trajectories that do not perfectly capture ground-truth user intent.",
       "links": [],
-      "date": "2026-05-11"
+      "date": "2026-05-14"
     },
     {
       "id": "2605.10922",
@@ -768,40 +793,6 @@ const DIGESTS = {
       "contribution": "The core novel insight is the NEO-unify architecture, which rejects the traditional dichotomy between understanding and generation by unifying both into a single native paradigm with shared representation spaces. This eliminates fragmented architectures and cascaded pipelines, allowing understanding and generation capabilities to mutually reinforce each other rather than being independently optimized. The approach extends naturally to vision-language-action and world model scenarios, suggesting that unified representations enable emergent cross-modal reasoning and acting.",
       "limitations": "The paper does not explicitly discuss failure modes or boundary conditions of the unified architecture. The preliminary nature of the VLA and world model results suggests these capabilities are not yet fully validated or characterized.",
       "links": [],
-      "date": "2026-05-12"
-    },
-    {
-      "id": "2605.12496",
-      "title": "CausalCine: Real-Time Autoregressive Generation for Multi-Shot Video Narratives",
-      "abstract": "Autoregressive video generation aims at real-time, open-ended synthesis. Yet, cinematic storytelling is not merely the endless extension of a single scene; it requires progressing through evolving events, viewpoint shifts, and discrete shot boundaries. Existing autoregressive models often struggle in this setting. Trained primarily for short-horizon continuation, they treat long sequences as extended single shots, inevitably suffering from motion stagnation and semantic drift during long rollouts. To bridge this gap, we introduce CausalCine, an interactive autoregressive framework that transforms multi-shot video generation into an online directing process. CausalCine generates causally across shot changes, accepts dynamic prompts on the fly, and reuses context without regenerating previous shots. To achieve this, we first train a causal base model on native multi-shot sequences to learn complex shot transitions prior to acceleration. We then propose Content-Aware Memory Routing (CAMR), which dynamically retrieves historical KV entries according to attention-based relevance scores rather than temporal proximity, preserving cross-shot coherence under bounded active memory. Finally, we distill the causal base model into a few-step generator for real-time interactive generation. Extensive experiments demonstrate that CausalCine significantly outperforms autoregressive baselines and approaches the capability of bidirectional models while unlocking the streaming interactivity of causal generation. Demo available at https://yihao-meng.github.io/CausalCine/",
-      "url": "https://arxiv.org/abs/2605.12496",
-      "submitted_date": "2026-05-12",
-      "authors": [
-        "Yihao Meng",
-        "Zichen Liu",
-        "Hao Ouyang",
-        "Qiuyu Wang",
-        "Ka Leong Cheng"
-      ],
-      "source": "arxiv",
-      "affiliations": [
-        "HKUST",
-        "AntGroup",
-        "SJTU"
-      ],
-      "filter_reason": "The paper proposes a novel architectural contribution (Content-Aware Memory Routing) and demonstrates a qualitatively new capability—real-time interactive multi-shot video generation with causal constraints—that extends autoregressive models beyond single-shot limitations through a non-obvious combination of causal training, attention-based memory routing, and distillation.",
-      "stars": 2,
-      "rating_total": 0.575,
-      "rating_rationale": "CausalCine addresses a primary research interest (video generation with world-model-adjacent multi-shot narrative coherence) with meaningful novelty (Content-Aware Memory Routing and causal multi-shot generation), from active researchers at a respected institution, with a live demo and strong fit to frontier video generation priorities, but from non-flagship authors/labs and without paradigm-shift-level impact.",
-      "description": "Introduces an interactive autoregressive framework for real-time multi-shot video generation that handles shot transitions, dynamic prompts, and efficient context reuse.",
-      "contribution": "CausalCine addresses the failure of existing autoregressive models on long multi-shot video by training a causal base model on native multi-shot sequences to learn shot transition priors. It proposes Content-Aware Memory Routing (CAMR), which retrieves historical key-value entries based on attention-based relevance rather than temporal proximity, enabling cross-shot coherence under bounded memory. The causal base model is then distilled into a few-step generator to enable real-time interactive generation without regenerating previous shots.",
-      "limitations": "The approach relies on bounded active memory, which may still lose fine-grained details from distant shots not retrieved by CAMR. The distillation into a few-step generator may introduce quality trade-offs compared to the full causal base model.",
-      "links": [
-        {
-          "label": "Demo / Project Page",
-          "url": "https://yihao-meng.github.io/CausalCine/"
-        }
-      ],
       "date": "2026-05-12"
     }
   ],
