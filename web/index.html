@@ -736,64 +736,69 @@ const DIGESTS = {
       "date": "2026-05-14"
     },
     {
-      "id": "2605.10922",
-      "title": "Pixal3D: Pixel-Aligned 3D Generation from Images",
-      "abstract": "Recent advances in 3D generative models have rapidly improved image-to-3D synthesis quality, enabling higher-resolution geometry and more realistic appearance. Yet fidelity, which measures pixel-level faithfulness of the generated 3D asset to the input image, still remains a central bottleneck. We argue this stems from an implicit 2D-3D correspondence issue: most 3D-native generators synthesize shape in canonical space and inject image cues via attention, leaving pixel-to-3D associations ambiguous. To tackle this issue, we draw inspiration from 3D reconstruction and propose Pixal3D, a pixel-aligned 3D generation paradigm for high-fidelity 3D asset creation from images. Instead of generating in a canonical pose, Pixal3D directly generates 3D in a pixel-aligned way, consistent with the input view. To enable this, we introduce a pixel back-projection conditioning scheme that explicitly lifts multi-scale image features into a 3D feature volume, establishing direct pixel-to-3D correspondence without ambiguity. We show that Pixal3D is not only scalable and capable of producing high-quality 3D assets, but also substantially improves fidelity, approaching the fidelity level of reconstruction. Furthermore, Pixal3D naturally extends to multi-view generation by aggregating back-projected feature volumes across views. Finally, we show pixel-aligned generation benefits scene synthesis, and present a modular pipeline that produces high-fidelity, object-separated 3D scenes from images. Pixal3D for the first time demonstrates 3D-native pixel-aligned generation at scale, and provides a new inspiring way towards high-fidelity 3D generation of object or scene from single or multi-view images. Project page: https://ldyang694.github.io/projects/pixal3d/",
-      "url": "https://arxiv.org/abs/2605.10922",
-      "submitted_date": "2026-05-11",
+      "id": "2605.15178",
+      "title": "SANA-WM: Efficient Minute-Scale World Modeling with Hybrid Linear Diffusion Transformer",
+      "abstract": "We introduce SANA-WM, an efficient 2.6B-parameter open-source world model natively trained for one-minute generation, synthesizing high-fidelity, 720p, minute-scale videos with precise camera control. SANA-WM achieves visual quality comparable to large-scale industrial baselines such as LingBot-World and HY-WorldPlay, while significantly improving efficiency. Four core designs drive our architecture: (1) Hybrid Linear Attention combines frame-wise Gated DeltaNet (GDN) with softmax attention for memory-efficient long-context modeling. (2) Dual-Branch Camera Control ensures precise 6-DoF trajectory adherence. (3) Two-Stage Generation Pipeline applies a long-video refiner to stage-1 outputs, improving quality and consistency across sequences. (4) Robust Annotation Pipeline extracts accurate metric-scale 6-DoF camera poses from public videos to yield high-quality, spatiotemporally consistent action labels. Driven by these designs, SANA-WMdemonstrates remarkable efficiency across data, training compute, and inference hardware: it uses only $\\sim$213K public video clips with metric-scale pose supervision, completes training in 15 days on 64 H100s, and generates each 60s clip on a single GPU; its distilled variant can be deployed on a single RTX 5090 with NVFP4 quantization to denoise a 60s 720p clip in 34s. On our one-minute world-model benchmark, SANA-WM demonstrates stronger action-following accuracy than prior open-source baselines and achieves comparable visual quality at $36\\times$ higher throughput for scalable world modeling.",
+      "url": "https://arxiv.org/abs/2605.15178",
+      "submitted_date": "2026-05-14",
       "authors": [
-        "Dong-Yang Li",
-        "Wang Zhao",
-        "Yuxin Chen",
-        "Wenbo Hu",
-        "Meng-Hao Guo"
+        "Haoyi Zhu",
+        "Haozhe Liu",
+        "Yuyang Zhao",
+        "Tian Ye",
+        "Junsong Chen"
       ],
       "source": "arxiv",
       "affiliations": [
-        "BNRist, Department of Computer Science and Technology, Tsinghua University",
-        "Tsinghua University",
-        "Tencent ARC Lab",
-        "Victoria University of Wellington"
+        "NVIDIA"
       ],
-      "filter_reason": "Proposes a novel pixel-aligned 3D generation paradigm with explicit pixel back-projection conditioning that fundamentally addresses the 2D-3D correspondence problem in image-to-3D synthesis, enabling higher fidelity generation at scale.",
+      "filter_reason": "Proposes novel architectural innovations (Hybrid Linear Attention combining GDN with softmax, Dual-Branch Camera Control, Two-Stage Generation) that achieve a qualitatively new capability of efficient minute-scale 720p video generation with precise 6-DoF control, directly advancing frontier world modeling research.",
       "stars": 2,
-      "rating_total": 0.575,
-      "rating_rationale": "Pixel-aligned 3D generation addresses a real bottleneck (2D-3D correspondence) in image-to-3D synthesis with a well-motivated paradigm shift in approach, directly relevant to world models and 3D scene understanding; strong university affiliation and project page suggest solid execution, but authors are not prominent names and this is a meaningful advance rather than transformative breakthrough.",
-      "description": "Introduces a pixel-aligned 3D generation paradigm that directly generates 3D assets consistent with the input view by explicitly lifting multi-scale image features into a 3D feature volume.",
-      "contribution": "Unlike prior 3D-native generators that synthesize shape in canonical space and inject image cues via attention (leaving pixel-to-3D associations ambiguous), Pixal3D introduces a pixel back-projection conditioning scheme that establishes direct, unambiguous pixel-to-3D correspondence. This paradigm generates 3D content in a pixel-aligned manner consistent with the input view rather than in a canonical pose, bridging the gap between generation and reconstruction fidelity. The approach naturally extends to multi-view inputs by aggregating back-projected feature volumes across views and enables modular high-fidelity scene synthesis.",
-      "limitations": "The method relies on accurate pixel back-projection, which may be sensitive to the quality of depth or camera pose estimates when handling in-the-wild images. The paper does not explicitly address failure cases for heavily occluded objects or scenes with complex geometry that lacks clear pixel-to-3D correspondence.",
+      "rating_total": 0.6,
+      "rating_rationale": "SANA-WM is a well-executed open-source world model from active researchers (likely Alibaba/Qwen context given SANA branding) that advances minute-scale 720p video generation with precise camera control through novel architectural components (Hybrid Linear Attention, Dual-Branch Camera Control); it achieves frontier-level efficiency and has released code, directly addressing primary research interest in world models and video generation, warranting 2★ overall (score: 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×1.0 + 0.05×0.5 + 0.15×1.0 = 0.625 → 2 stars, bridging toward 3★ due to code release and direct topic alignment but held back by incremental architectural novelty rather than paradigm-shift capability).",
+      "description": "Introduces an efficient 2.6B-parameter world model that generates minute-scale, 720p videos with precise 6-DoF camera control using a hybrid linear diffusion transformer architecture.",
+      "contribution": "The key architectural innovation is a Hybrid Linear Attention mechanism that combines frame-wise Gated DeltaNet with softmax attention, enabling memory-efficient long-context modeling for minute-scale video generation. Additionally, a Dual-Branch Camera Control module and a robust metric-scale 6-DoF pose annotation pipeline from public videos together enable precise camera trajectory adherence without requiring expensive proprietary datasets. A two-stage generation pipeline with a long-video refiner further improves temporal consistency across extended sequences.",
+      "limitations": "The model relies on only ~213K public video clips with metric-scale pose supervision, which may limit scene diversity and generalization. The approach also assumes accurate metric-scale camera pose extraction is achievable from public videos, which may fail for challenging or dynamic scenes.",
+      "links": [],
+      "date": "2026-05-14"
+    },
+    {
+      "id": "2605.15141",
+      "title": "Causal Forcing++: Scalable Few-Step Autoregressive Diffusion Distillation for Real-Time Interactive Video Generation",
+      "abstract": "Real-time interactive video generation requires low-latency, streaming, and controllable rollout. Existing autoregressive (AR) diffusion distillation methods have achieved strong results in the chunk-wise 4-step regime by distilling bidirectional base models into few-step AR students, but they remain limited by coarse response granularity and non-negligible sampling latency. In this paper, we study a more aggressive setting: frame-wise autoregression with only 1--2 sampling steps. In this regime, we identify the initialization of a few-step AR student as the key bottleneck: existing strategies are either target-misaligned, incapable of few-step generation, or too costly to scale. We propose \\textbf{Causal Forcing++}, a principled and scalable pipeline that uses \\emph{causal consistency distillation} (causal CD) for few-step AR initialization. The core idea is that causal CD learns the same AR-conditional flow map as causal ODE distillation, but obtains supervision from a single online teacher ODE step between adjacent timesteps, avoiding the need to precompute and store full PF-ODE trajectories. This makes the initialization both more efficient and easier to optimize. The resulting pipeline, \\ours, surpasses the SOTA 4-step chunk-wise Causal Forcing under the \\textit{\\textbf{frame-wise 2-step setting}} by 0.1 in VBench Total, 0.3 in VBench Quality, and 0.335 in VisionReward, while reducing first-frame latency by 50\\% and Stage 2 training cost by $\\sim$$4\\times$. We further extend the pipeline to action-conditioned world model generation in the spirit of Genie3. Project Page: https://github.com/thu-ml/Causal-Forcing and https://github.com/shengshu-ai/minWM .",
+      "url": "https://arxiv.org/abs/2605.15141",
+      "submitted_date": "2026-05-14",
+      "authors": [
+        "Min Zhao",
+        "Hongzhou Zhu",
+        "Kaiwen Zheng",
+        "Zihan Zhou",
+        "Bokai Yan"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Tsinghua University",
+        "ShengShu",
+        "Renmin University of China"
+      ],
+      "filter_reason": "Proposes causal consistency distillation, a novel training objective that enables efficient few-step (1-2 step) frame-wise autoregressive video generation by learning from online teacher steps rather than precomputed trajectories, achieving both architectural innovation and significant practical improvements in latency and training efficiency.",
+      "stars": 2,
+      "rating_total": 0.6,
+      "rating_rationale": "Tsinghua is a respected top-tier university (score 2), causal consistency distillation is a meaningful methodological contribution that passes novelty filter but not paradigm-shifting (score 2), advances video generation specifically with practical latency/efficiency gains affecting real-time generation systems (score 2), has solid technical merit but moderate viral potential (score 2), includes released code + project pages (score 3), enters a competitive space but with clear 1-2 step frame-wise improvements over prior 4-step work (score 2), and directly addresses primary interest in video generation and world models (score 3). Total: 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×1.0 + 0.05×0.5 + 0.15×1.0 = 0.60 → 2 stars.",
+      "description": "Introduces Causal Forcing++, a scalable distillation pipeline for real-time interactive video generation using frame-wise autoregressive diffusion with only 1-2 sampling steps.",
+      "contribution": "The key novelty is causal consistency distillation (causal CD), which learns the same AR-conditional flow map as causal ODE distillation but obtains supervision from a single online teacher ODE step between adjacent timesteps, eliminating the need to precompute and store full PF-ODE trajectories. This approach resolves the initialization bottleneck in few-step autoregressive diffusion students by being simultaneously target-aligned, few-step capable, and computationally efficient. The method enables frame-wise 2-step generation that surpasses prior chunk-wise 4-step methods while reducing latency and training cost.",
+      "limitations": "The method is evaluated primarily in the aggressive 1-2 step regime which may sacrifice generation quality compared to more standard multi-step diffusion. The approach inherits assumptions from consistency distillation frameworks, which can be sensitive to the quality of the teacher ODE and may not generalize trivially to all video generation architectures.",
       "links": [
         {
           "label": "Project Page",
-          "url": "https://ldyang694.github.io/projects/pixal3d/"
+          "url": "https://github.com/thu-ml/Causal-Forcing"
+        },
+        {
+          "label": "GitHub (minWM)",
+          "url": "https://github.com/shengshu-ai/minWM"
         }
       ],
-      "date": "2026-05-11"
-    },
-    {
-      "id": "2605.12500",
-      "title": "SenseNova-U1: Unifying Multimodal Understanding and Generation with NEO-unify Architecture",
-      "abstract": "Recent large vision-language models (VLMs) remain fundamentally constrained by a persistent dichotomy: understanding and generation are treated as distinct problems, leading to fragmented architectures, cascaded pipelines, and misaligned representation spaces. We argue that this divide is not merely an engineering artifact, but a structural limitation that hinders the emergence of native multimodal intelligence. Hence, we introduce SenseNova-U1, a native unified multimodal paradigm built upon NEO-unify, in which understanding and generation evolve as synergistic views of a single underlying process. We launch two native unified variants, SenseNova-U1-8B-MoT and SenseNova-U1-A3B-MoT, built on dense (8B) and mixture-of-experts (30B-A3B) understanding baselines, respectively. Designed from first principles, they rival top-tier understanding-only VLMs across text understanding, vision-language perception, knowledge reasoning, agentic decision-making, and spatial intelligence. Meanwhile, they deliver strong semantic consistency and visual fidelity, excelling in conventional or knowledge-intensive any-to-image (X2I) synthesis, complex text-rich infographic generation, and interleaved vision-language generation, with or without think patterns. Beyond performance, we show detailed model design, data preprocessing, pre-/post-training, and inference strategies to support community research. Last but not least, preliminary evidence demonstrates that our models extend beyond perception and generation, performing strongly in vision-language-action (VLA) and world model (WM) scenarios. This points toward a broader roadmap where models do not translate between modalities, but think and act across them in a native manner. Multimodal AI is no longer about connecting separate systems, but about building a unified one and trusting the necessary capabilities to emerge from within.",
-      "url": "https://arxiv.org/abs/2605.12500",
-      "submitted_date": "2026-05-12",
-      "authors": [
-        "Haiwen Diao",
-        "Penghao Wu",
-        "Hanming Deng",
-        "Jiahao Wang",
-        "Shihao Bai"
-      ],
-      "source": "arxiv",
-      "affiliations": [],
-      "filter_reason": "The paper proposes NEO-unify, a novel architectural framework that unifies multimodal understanding and generation as synergistic views of a single process, bridging the traditionally separate understanding-only and generation-focused VLM subfields with demonstrated capabilities in both domains plus emerging VLA and world model competencies.",
-      "stars": 2,
-      "rating_total": 0.575,
-      "rating_rationale": "SenseNova-U1 presents a meaningful unified architecture bridging understanding and generation with emerging world model capabilities (highly relevant to primary interests), authored by active researchers at a respected institution; the NEO-unify framework passes novelty filter but represents incremental rather than paradigm-shifting progress, with code/demo mentioned but status unclear and mid-tier industry positioning.",
-      "description": "Introduces SenseNova-U1, a unified multimodal architecture that treats image understanding and generation as synergistic views of a single underlying process rather than separate tasks.",
-      "contribution": "The core novel insight is the NEO-unify architecture, which rejects the traditional dichotomy between understanding and generation by unifying both into a single native paradigm with shared representation spaces. This eliminates fragmented architectures and cascaded pipelines, allowing understanding and generation capabilities to mutually reinforce each other rather than being independently optimized. The approach extends naturally to vision-language-action and world model scenarios, suggesting that unified representations enable emergent cross-modal reasoning and acting.",
-      "limitations": "The paper does not explicitly discuss failure modes or boundary conditions of the unified architecture. The preliminary nature of the VLA and world model results suggests these capabilities are not yet fully validated or characterized.",
-      "links": [],
-      "date": "2026-05-12"
+      "date": "2026-05-14"
     }
   ],
   "2026-W19": [
