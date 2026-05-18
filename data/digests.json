@@ -588,5 +588,163 @@
       "links": [],
       "date": "2026-05-08"
     }
+  ],
+  "2026-W21": [
+    {
+      "id": "2605.16003",
+      "title": "Echo-Forcing: A Scene Memory Framework for Interactive Long Video Generation",
+      "abstract": "Autoregressive video diffusion models enable open-ended generation through local attention and KV caching. However, existing training-free long-video optimization methods mainly focus on stable extension under a single prompt, making them difficult to handle interactive scenarios involving prompt switching, old scene forgetting, and historical scene recall. We identify the core bottleneck as the functional entanglement of historical KV states: stable anchors and recent dynamics are handled by the same cache policy, leading to outdated background contamination, delayed response to new prompts, and loss of long-range memory. To address this issue, we propose Echo-Forcing, a training-free scene memory framework specifically designed for interactive long video generation with three core mechanisms: (1) Hierarchical Temporal Memory, which decouples stable anchors, compressed history, and recent windows under relative RoPE; (2) Scene Recall Frames, which compresses historical scenes into spatially structured KV representations to support long-term recall; and (3) Difference-aware Memory Decay, which adaptively forgets conflicting tokens according to the discrepancy between old and new scenes. Based on these designs, Echo-Forcing uniformly supports smooth transitions, hard cuts, and long-range scene recall under a bounded cache budget. Extensive evaluations on VBench-Long further demonstrate that Echo-Forcing achieves the best overall performance in both long-video generation and interactive video generation settings. Our code is released in https://github.com/mingqiangWu/Echo-Forcing",
+      "url": "https://arxiv.org/abs/2605.16003",
+      "submitted_date": "2026-05-15",
+      "authors": [
+        "Mingqiang Wu",
+        "Weilun Feng",
+        "Zhefeng Zhang",
+        "Haotong Qin",
+        "Yuqi Li"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "State Key Laboratory of AI Safety, Institute of Computing Technology, Chinese Academy of Sciences",
+        "University of Chinese Academy of Sciences",
+        "China University of Mining & Technology",
+        "ETH Zürich",
+        "City College of New York, City University of New York",
+        "Xiamen Institute of Data Intelligence"
+      ],
+      "filter_reason": "Proposes a novel training-free framework with three architectural mechanisms (Hierarchical Temporal Memory, Scene Recall Frames, Difference-aware Memory Decay) that address fundamental limitations in interactive long video generation by decoupling and managing KV cache states differently than existing approaches.",
+      "stars": 2,
+      "rating_total": 0.6,
+      "rating_rationale": "Echo-Forcing addresses a genuine technical bottleneck in interactive long video generation with well-motivated training-free mechanisms (hierarchical memory, scene recall, adaptive decay), directly aligned with primary research interest; authors are active researchers but from less-prominent institutions (no Tier-1 lab affiliation); released code boosts credibility; novel approach within video generation but not paradigm-shifting; moderate expected impact on the video generation subfield.",
+      "description": "Introduces a training-free scene memory framework for interactive long video generation that manages historical KV states through hierarchical temporal memory, scene recall frames, and difference-aware memory decay.",
+      "contribution": "The key insight is that existing KV cache policies entangle stable background anchors with recent dynamic content, causing outdated contamination, delayed prompt response, and loss of long-range memory. Echo-Forcing decouples these concerns by separating stable anchors, compressed history, and recent windows under relative RoPE, and introduces Scene Recall Frames that compress historical scenes into spatially structured KV representations for long-term recall. Difference-aware Memory Decay adaptively forgets conflicting tokens based on discrepancy between old and new scenes, enabling smooth transitions, hard cuts, and long-range recall within a bounded cache budget.",
+      "limitations": "The framework is training-free and thus constrained by the capabilities of the underlying pretrained autoregressive video diffusion model. The approach assumes that scene content can be meaningfully compressed into spatially structured KV representations, which may not generalize well to highly complex or rapidly changing scenes.",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/mingqiangWu/Echo-Forcing"
+        }
+      ],
+      "date": "2026-05-15"
+    },
+    {
+      "id": "2605.15964",
+      "title": "WorldVLN: Autoregressive World Action Model for Aerial Vision-Language Navigation",
+      "abstract": "Aerial vision-language navigation (VLN) requires agents to follow natural-language instructions through closed-loop perception and action in 3D environments. We argue that aerial VLN can be formulated as a prediction-driven world-action problem: the agent should anticipate latent world evolution and act according to the predicted consequences. To this end, we propose WorldVLN, the first autoregressive world action model for aerial VLN. Unlike full-sequence video-generation world models that generate an entire visual clip, WorldVLN adapts a latent autoregressive video backbone to predict short-horizon world-state transitions and directly decodes them into executable waypoint actions. After each action segment is executed, newly received observations are encoded back into the autoregressive context, enabling closed-loop world-action prediction. We further introduce a two-stage training framework that first grounds the video prior in instruction-conditioned navigation dynamics and then develops Action-aware GRPO, the first reinforcement learning method tailored to autoregressive WAMs, to optimize waypoint decisions through their downstream rollout consequences. On public outdoor and indoor benchmarks, WorldVLN consistently outperforms existing Vision-Language-Action baselines with 12\\%+ success-rate gains and larger advantages on challenging cases. It further transfers zero-shot to real drone deployment, suggesting that the proposed WorldVLN offers a promising route for spatial action tasks. Demos and code are available at https://embodiedcity.github.io/WorldVLN/.",
+      "url": "https://arxiv.org/abs/2605.15964",
+      "submitted_date": "2026-05-15",
+      "authors": [
+        "Baining Zhao",
+        "Jiacheng Xu",
+        "Weicheng Feng",
+        "Xin Zhang",
+        "Zhaolu Wang"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Tsinghua University",
+        "Shandong University",
+        "Manifold AI",
+        "Beijing Institute of Technology",
+        "Northeastern University"
+      ],
+      "filter_reason": "Proposes a novel architectural approach (autoregressive world-action model for VLN) and introduces Action-aware GRPO, a new RL method tailored to WAMs, with significant empirical gains and real-world transfer, bridging world models and embodied AI in a non-obvious way.",
+      "stars": 2,
+      "rating_total": 0.6,
+      "rating_rationale": "WorldVLN makes a solid methodological contribution (autoregressive world-action models + Action-aware GRPO) to embodied AI with strong empirical results and real-world transfer, from active researchers at a respected institution; it directly targets world models and video generation with code/demo released, but the scope is narrower than foundational—primarily advancing aerial VLN rather than opening a new paradigm. Total: 0.30×0.5 + 0.20×0.5 + 0.15×0.5 + 0.10×0.5 + 0.05×1.0 + 0.05×0.5 + 0.15×1.0 = 0.675 → 3 stars.",
+      "description": "Introduces an autoregressive world action model for aerial vision-language navigation that predicts short-horizon world-state transitions and decodes them into executable waypoint actions in a closed-loop manner.",
+      "contribution": "WorldVLN is the first autoregressive world action model for aerial VLN, adapting a latent autoregressive video backbone to predict world-state transitions rather than generating full visual sequences, enabling direct waypoint decoding from predicted consequences. The paper introduces Action-aware GRPO, the first reinforcement learning method tailored to autoregressive world action models, which optimizes waypoint decisions based on downstream rollout consequences. A two-stage training framework grounds video priors in instruction-conditioned navigation dynamics before applying the RL stage.",
+      "limitations": "The approach relies on short-horizon world-state predictions, which may limit its ability to plan over long sequences or handle highly complex navigation scenarios. The method assumes that latent video representations sufficiently capture the relevant world dynamics for navigation without explicit 3D scene modeling.",
+      "links": [
+        {
+          "label": "Project Page / Code",
+          "url": "https://embodiedcity.github.io/WorldVLN/"
+        }
+      ],
+      "date": "2026-05-15"
+    },
+    {
+      "id": "2605.16165",
+      "title": "Second-Order Multi-Level Variance Correction for Modality Competition in Multimodal Models",
+      "abstract": "Autoregressive next-token training offers a unified formulation for image generation and text understanding, but it also creates strong modality competition that destabilizes optimization and limits large-batch scaling. We show that first-order optimizers such as AdamW are vulnerable to cross-modality gradient heterogeneity, while second-order preconditioning, particularly SOAP, provides a more stable basis for multimodal alignment. Building on this insight, we propose \\emph{ML-FOP-SOAP}, a second-order optimization framework with Multi-Level Variance Correction. Our Fisher-Orthogonal Projection suppresses variance-induced modality conflicts, reducing the trade-off between visual generation and textual understanding. To make this practical under large gradient accumulation, we introduce a hierarchical folding strategy that captures fine-grained variance with low micro-step overhead. Experiments on Janus and Emu3 show consistent gains across both modalities and stable training at batch size 8192. Compared with AdamW, our method improves sample efficiency by up to $1.4\\times$ and accelerates wall-clock training by up to $1.5\\times$, offering a robust optimizer for scaling multimodal foundation models.",
+      "url": "https://arxiv.org/abs/2605.16165",
+      "submitted_date": "2026-05-15",
+      "authors": [
+        "Yishun Lu",
+        "Wes Armour"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "University of Oxford"
+      ],
+      "filter_reason": "Proposes a novel second-order optimization framework (ML-FOP-SOAP) with theoretical insights into modality competition in multimodal models, providing both architectural innovation and significant practical improvements for scaling foundation models.",
+      "stars": 2,
+      "rating_total": 0.5,
+      "rating_rationale": "",
+      "description": "Introduces a second-order optimization framework with Multi-Level Variance Correction to address modality competition in unified image generation and text understanding models.",
+      "contribution": "The key insight is that first-order optimizers like AdamW are inherently vulnerable to cross-modality gradient heterogeneity in autoregressive multimodal training, whereas second-order preconditioning (SOAP) provides a more stable basis. The proposed ML-FOP-SOAP framework adds a Fisher-Orthogonal Projection to suppress variance-induced modality conflicts and a hierarchical folding strategy that captures fine-grained gradient variance with low overhead under large gradient accumulation, making second-order optimization practical at scale.",
+      "limitations": "The method is evaluated specifically on autoregressive next-token prediction frameworks for multimodal models, and its applicability to other training paradigms or modality combinations beyond image generation and text understanding is not established. The hierarchical folding strategy introduces additional complexity that may require careful tuning of micro-step configurations.",
+      "links": [],
+      "date": "2026-05-15"
+    },
+    {
+      "id": "2605.16079",
+      "title": "VideoSeeker: Incentivizing Instance-level Video Understanding via Native Agentic Tool Invocation",
+      "abstract": "Large Vision-Language Models (LVLMs) have shown significant progress in video understanding, yet they face substantial challenges in tasks requiring precise spatiotemporal localization at the instance level. Existing methods primarily rely on text prompts for human-model interaction, but these prompts struggle to provide precise spatial and temporal references, resulting in poor user experience. Furthermore, current approaches typically decouple visual perception from language reasoning, centering reasoning around language rather than visual content, which limits the model's ability to proactively perceive fine-grained visual evidence. To address these challenges, we propose VideoSeeker, a novel paradigm for instance-level video understanding through visual prompts. VideoSeeker seamlessly integrates agentic reasoning with instance-level video understanding tasks, enabling the model to proactively perceive and retrieve relevant video segments on demand. We construct a four-stage fully automated data synthesis pipeline to efficiently generate large-scale, high-quality instance-level video data. We internalize tool-calling and proactive perception capabilities into the model via cold-start supervision and RL training, building a powerful video understanding model. Experiments demonstrate that our model achieves an average improvement of +13.7% over baselines on instance-level video understanding tasks, surpassing powerful closed-source models such as GPT-4o and Gemini-2.5-Pro, while also showing effective transferability on general video understanding benchmarks. The relevant datasets and code will be released publicly.",
+      "url": "https://arxiv.org/abs/2605.16079",
+      "submitted_date": "2026-05-15",
+      "authors": [
+        "Yiming Zhao",
+        "Yu Zeng",
+        "Wenxuan Huang",
+        "Zhen Fang",
+        "Qing Miao"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "University of Science and Technology of China",
+        "Xiaohongshu Inc.",
+        "East China Normal University",
+        "Xi'an Jiaotong University"
+      ],
+      "filter_reason": "The paper proposes a novel paradigm combining agentic reasoning with visual prompts for instance-level video understanding, introduces a four-stage automated data synthesis pipeline, and demonstrates a qualitatively new capability of proactive visual perception and retrieval—bridging agentic tool-use with fine-grained spatiotemporal video understanding in a non-obvious way.",
+      "stars": 2,
+      "rating_total": 0.5,
+      "rating_rationale": "",
+      "description": "Introduces VideoSeeker, a paradigm that enables large vision-language models to perform instance-level video understanding by integrating agentic reasoning with native tool invocation for proactive visual perception.",
+      "contribution": "VideoSeeker shifts the interaction modality from text prompts to visual prompts, allowing models to proactively retrieve and perceive fine-grained spatiotemporal evidence rather than relying on language-centric reasoning. The key insight is internalizing tool-calling and proactive perception capabilities directly into the model through a combination of cold-start supervision and reinforcement learning training. A four-stage automated data synthesis pipeline is proposed to generate large-scale, high-quality instance-level video training data at scale.",
+      "limitations": "The approach depends on a fully automated data synthesis pipeline whose quality and coverage may introduce biases or noise into training. The method focuses on instance-level spatiotemporal localization, which may not generalize equally well to all forms of abstract or semantic video reasoning.",
+      "links": [],
+      "date": "2026-05-15"
+    },
+    {
+      "id": "2605.15980",
+      "title": "Flash-GRPO: Efficient Alignment for Video Diffusion via One-Step Policy Optimization",
+      "abstract": "Group Relative Policy Optimization has emerged as essential for aligning video diffusion models with human preferences, but faces a critical computational bottleneck: training a 14B parametered model typically demands hundreds of GPU days per experiment. Existing efficiency methods reduce costs through sliding window subsampling training timesteps, but fundamentally compromise optimization, exhibiting severe instability and failing to reach full trajectory performance. We present Flash-GRPO, a single-step training framework that outperforms full trajectory training in alignment quality under low computational budgets while substantially improving training efficiency. Flash-GRPO addresses two critical challenges: iso-temporal grouping eliminates timestep-confounded variance by enforcing prompt-wise temporal consistency, decoupling policy performance from timestep difficulty; temporal gradient rectification neutralizes the time-dependent scaling factor that causes vastly inconsistent gradient magnitudes across timesteps. Experiments on 1.3B to 14B parameter models validate Flash-GRPO's effectiveness, demonstrating substantial training acceleration with consistent stability and state-of-the-art alignment quality.",
+      "url": "https://arxiv.org/abs/2605.15980",
+      "submitted_date": "2026-05-15",
+      "authors": [
+        "Xiaoxuan He",
+        "Siming Fu",
+        "Zeyue Xue",
+        "Weijie Wang",
+        "Ruizhe He"
+      ],
+      "source": "arxiv",
+      "affiliations": [
+        "Zhejiang University",
+        "JoyFuture Academy",
+        "Tsinghua University"
+      ],
+      "filter_reason": "Proposes novel technical solutions (iso-temporal grouping and temporal gradient rectification) that enable single-step policy optimization for video diffusion, achieving better alignment quality with dramatically reduced computational cost—a non-trivial algorithmic contribution to an important frontier area.",
+      "stars": 2,
+      "rating_total": 0.5,
+      "rating_rationale": "",
+      "description": "Introduces a single-step policy optimization framework for aligning video diffusion models that achieves better alignment quality than full trajectory training at lower computational cost.",
+      "contribution": "Flash-GRPO addresses two novel technical challenges in applying GRPO to video diffusion: iso-temporal grouping enforces prompt-wise temporal consistency to eliminate timestep-confounded variance, and temporal gradient rectification neutralizes time-dependent scaling factors that cause inconsistent gradient magnitudes across timesteps. Together, these innovations enable single-step training that outperforms multi-step sliding window approaches while being substantially more efficient.",
+      "limitations": "The method is evaluated under low computational budgets, and it is unclear how it performs relative to full trajectory training given equivalent compute. The paper also focuses on a specific policy optimization method (GRPO), leaving open whether the insights generalize to other RL-based alignment approaches.",
+      "links": [],
+      "date": "2026-05-15"
+    }
   ]
 }
