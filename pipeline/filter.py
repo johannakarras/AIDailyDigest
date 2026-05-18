@@ -1,25 +1,10 @@
 import json
+import os as _os
 import time
 
-NOVELTY_PROMPT = """You are evaluating whether a research paper is worth highlighting for someone
-tracking frontier ML research in: LLMs, image/video generation, and world models.
-
-Paper title: {title}
-Abstract: {abstract}
-
-REJECT if the paper is primarily:
-- A standard technique applied to a new dataset (e.g., fine-tuning ViT on medical images)
-- A known combo with minor variation (diffusion + LoRA, transformer + adapter)
-- An incremental benchmark improvement without architectural insight
-- A survey or review paper
-
-PASS if the paper:
-- Proposes a new architectural component or training objective
-- Demonstrates a qualitatively new capability
-- Provides a new theoretical framing or surprising empirical finding
-- Bridges two previously separate subfields in a non-obvious way
-
-Respond with JSON: {{"pass": true/false, "reason": "one sentence"}}"""
+_SKILL_PATH = _os.path.join(_os.path.dirname(__file__), "..", "skills", "paper_evaluator.md")
+with open(_SKILL_PATH) as _f:
+    NOVELTY_PROMPT = _f.read()
 
 
 def filter_for_novelty(papers: list[dict], client) -> tuple[list[dict], list[dict]]:

@@ -1,8 +1,8 @@
-# Johanna's AI Daily Digest
+# Customizable AI Paper Daily Digest
 
-An agentic pipeline that fetches recent ML papers from arxiv, filters them for novelty, rates them by impact and personal relevance, and publishes a weekly digest as a static webpage — updated automatically every time the script runs.
+An agentic pipeline that fetches recent ML papers from arxiv, filters them for novelty, rates them by impact and personal relevance, summarizes their main contributions, and publishes a weekly digest as a static webpage — updated automatically every time the script runs.
 
-**Live site:** https://johannakarras.github.io/AIDailyDigest/
+**Example:** https://johannakarras.github.io/AIDailyDigest/
 
 ---
 
@@ -77,16 +77,6 @@ Your digest will be live at `https://<your-username>.github.io/AIDailyDigest/`.
 
 ## Customizing
 
-### Arxiv categories
-
-Edit `sources/arxiv_source.py` to change which arxiv categories are fetched:
-
-```python
-query = "cat:cs.CV OR cat:cs.LG OR cat:cs.AI"
-```
-
-Common additions: `cs.RO` (robotics), `cs.CL` (NLP), `cs.NE` (neural/evolutionary computation), `eess.IV` (image processing).
-
 ### Novelty filter
 
 Edit `NOVELTY_PROMPT` in `pipeline/filter.py` to change what counts as novel. The current filter passes papers that propose new architectures, new capabilities, new theoretical framings, or surprising empirical findings — and rejects surveys, fine-tuning on new datasets, and incremental benchmarking.
@@ -120,6 +110,16 @@ total < 0.55  →  ⭐
 ```
 Topic relevance  15%   Score 1: pure LLM/NLP   Score 2: video/image gen   Score 3: robotics/embodied AI
 ```
+
+### Arxiv categories
+
+Edit `sources/arxiv_source.py` to change which arxiv categories are fetched:
+
+```python
+query = "cat:cs.CV OR cat:cs.LG OR cat:cs.AI"
+```
+
+Common additions: `cs.RO` (robotics), `cs.CL` (NLP), `cs.NE` (neural/evolutionary computation), `eess.IV` (image processing).
 
 ### Number of papers per week
 

@@ -70,6 +70,10 @@ def _get_missing_weeks(digests: dict, today, max_backfill: int = 8) -> list[str]
 
 def _backfill_week(week_key: str, client, digests: dict, dry_run: bool = False) -> None:
     """Run the full digest pipeline for a single past week and save results."""
+    if digests.get(week_key):
+        print(f"[backfill] {week_key} already has data — skipping to avoid overwrite.")
+        return
+
     monday = _week_key_to_monday(week_key)
     sunday = monday + timedelta(days=6)
     print(f"\n[backfill] Processing {week_key} ({monday} to {sunday})...")

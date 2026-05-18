@@ -19,7 +19,12 @@ def fetch_arxiv_papers(days_back: int = 7, max_results: int = 100,
     else:
         cutoff = datetime.now(timezone.utc) - timedelta(days=days_back)
 
-    query = "cat:cs.CV OR cat:cs.LG OR cat:cs.AI"
+    if after is not None and before is not None:
+        after_str = after.strftime("%Y%m%d") + "0000"
+        before_str = before.strftime("%Y%m%d") + "2359"
+        query = f"(cat:cs.CV OR cat:cs.LG OR cat:cs.AI) AND submittedDate:[{after_str} TO {before_str}]"
+    else:
+        query = "cat:cs.CV OR cat:cs.LG OR cat:cs.AI"
 
     client = arxiv.Client()
     search = arxiv.Search(

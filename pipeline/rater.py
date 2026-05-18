@@ -1,96 +1,34 @@
 import json
+import os as _os
 import time
 
-RATING_PROMPT = """You are assessing the impact and importance of a research paper for someone
-tracking frontier ML research — with primary interest in world models and video generation,
-secondary interest in image generation and multimodal systems, and lower interest in pure LLM /
-NLP / agent papers.
+_SKILL_PATH = _os.path.join(_os.path.dirname(__file__), "..", "skills", "paper_rater.md")
+with open(_SKILL_PATH) as _f:
+    RATING_PROMPT = _f.read()
 
-Paper title: {title}
-Authors: {authors}
-Affiliations: {affiliations}
-Abstract: {abstract}
-Novelty reason (why it passed the novelty filter): {filter_reason}
+_OVERRIDES_PATH = _os.path.join(_os.path.dirname(__file__), "..", "data", "rating_overrides.json")
 
-Score the paper 1–3 on each dimension below.
 
-─────────────────────────────────────────────────────────────────────────────
-DIMENSION               WEIGHT   SCORE 1          SCORE 2          SCORE 3
-─────────────────────────────────────────────────────────────────────────────
-Pedigree                  30 %   Unknown authors  Active           Well-known
-(author reputation              AND unknown /    researchers      author(s) in ML
- + institutional                small            OR a respected   (Yann LeCun,
- prestige combined)             institution      university       Fei-Fei Li,
-                                                 (MIT, Stanford,  Jitendra Malik,
-                                                 Berkeley, CMU,   Gordon Wetzstein,
-                                                 UW, NYU,         Angjoo Kanazawa,
-                                                 Princeton,       Pieter Abbeel…)
-                                                 Oxford, ETH,     AND / OR a
-                                                 Tsinghua, etc.)  tier-1 industry
-                                                 OR mid-tier      lab: Google
-                                                 industry lab     DeepMind, OpenAI,
-                                                                  Meta AI Research,
-                                                                  Nvidia Research,
-                                                                  Apple ML,
-                                                                  ByteDance AI,
-                                                                  Microsoft Research
-
-Novelty & insight         20 %   Incremental —    Meaningful new   Paradigm-shift
-                                 passes the bar   idea or          or highly
-                                 but expected     capability       surprising
-                                                                   finding that
-                                                                   opens a new
-                                                                   research direction
-
-Breadth of impact         15 %   Narrow task      Advances one     Foundational —
-                                 improvement      subfield (e.g.   enables or
-                                                  video gen,       affects many
-                                                  3D recon)        downstream uses
-                                                                   or subfields
-
-Social-media hype         10 %   Niche academic   Broader ML       Likely to trend:
-                                 interest only    community        flashy demo,
-                                                  would notice     AI media picks
-                                                                   up, goes viral
-
-Code / demo release        5 %   No code or       Code or demo     Full released
-                                 demo mentioned   mentioned but    code + live
-                                                  not yet live     demo
-
-First-mover / timing       5 %   Clear follow-up  Among the        First to
-                                 or nth paper     first few on     demonstrate a
-                                 on this topic    this topic       qualitatively
-                                                                   new capability
-
-Topic relevance           15 %   Pure LLM / NLP / Multimodal,      World models,
-                                 speech / agents  image            video generation,
-                                 / RAG / other    generation,      3D scene
-                                 ML               vision-language  understanding,
-                                                  understanding    neural rendering
-─────────────────────────────────────────────────────────────────────────────
-
-Scoring rules:
-  • PEDIGREE RULE: If the paper comes from an institution explicitly listed in the Score 3 column
-    (Google DeepMind, OpenAI, Meta AI Research, Nvidia Research, Apple ML, ByteDance AI,
-    Microsoft Research) → pedigree MUST be 3.  A good university (MIT, Stanford, UW…) is
-    pedigree=2, not 3, unless a famous named author (listed above) co-authored.
-  • NOVELTY RULE: Passing the novelty filter sets the bar for novelty=2.  Novelty=3 requires a
-    true paradigm-shift — an entirely new capability or finding that opens a new research
-    direction.  Most filtered papers are novelty=2.
-
-Worked examples (verify your arithmetic matches using total = Σ weight×(score−1)/2):
-  • P2 N2 B2 H2 C1 T2 topic=1  → 0.30×0.5+0.20×0.5+0.15×0.5+0.10×0.5+0.05×0+0.05×0.5+0.15×0 = 0.40  → 1 star
-  • P2 N2 B2 H2 C1 T2 topic=3  → same + 0.15×1.0 = 0.55  → 2 stars ★
-  • P3 N2 B2 H2 C1 T2 topic=1  → 0.30×1.0+0.20×0.5+0.15×0.5+0.10×0.5+0.05×0+0.05×0.5+0.15×0 = 0.55  → 2 stars ★
-  • P3 N2 B2 H2 C1 T2 topic=3  → 0.55 + 0.15×1.0 = 0.70  → 3 stars ★
-  • P1 N2 B2 H2 C1 T2 topic=3  → 0.20×0.5+0.15×0.5+0.10×0.5+0.05×0+0.05×0.5+0.15×1.0 = 0.40  → 1 star
-
-  total > 0.65  →  3 stars
-  total < 0.55  →  1 star
-  otherwise     →  2 stars
-
-Respond with JSON only — output each dimension score, then a one-sentence rationale:
-{{"pedigree": 1|2|3, "novelty": 1|2|3, "breadth": 1|2|3, "hype": 1|2|3, "code": 1|2|3, "timing": 1|2|3, "topic": 1|2|3, "rationale": "..."}}"""
+def _load_examples_section() -> str:
+    if not _os.path.exists(_OVERRIDES_PATH):
+        return ""
+    with open(_OVERRIDES_PATH) as f:
+        overrides = json.load(f)
+    if not overrides:
+        return ""
+    lines = [
+        "Past manual corrections — calibrate against these if you are unsure:",
+        "",
+    ]
+    for o in overrides:
+        stars_before = "★" * o["auto_stars"] + "☆" * (3 - o["auto_stars"])
+        stars_after  = "★" * o["manual_stars"] + "☆" * (3 - o["manual_stars"])
+        affs = ", ".join(o.get("affiliations") or [])
+        lines.append(f'• "{o["title"]}"' + (f" ({affs})" if affs else ""))
+        lines.append(f'  Auto-rated {stars_before} → manually corrected to {stars_after}')
+        lines.append(f'  Lesson: {o["reason"]}')
+        lines.append("")
+    return "\n".join(lines)
 
 _WEIGHTS = {
     "pedigree": 0.30,
@@ -133,6 +71,7 @@ def _rate_paper(paper: dict, client) -> tuple[int, float, str]:
         affiliations=", ".join(paper.get("affiliations") or []),
         abstract=paper.get("abstract", ""),
         filter_reason=paper.get("filter_reason", ""),
+        examples_section=_load_examples_section(),
     )
 
     for attempt in range(2):
